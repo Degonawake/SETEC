@@ -1,0 +1,41 @@
+﻿@model IEnumerable<SETEC.Data.Entities.Codgestion>
+
+@{
+    ViewData["Title"] = "Indexgestioncodes";
+}
+
+<h1>Creacion de codigos de gestion</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-primary">Crear nuevo codigo de gestion</a>
+</p>
+<table class="table table-bordered table-striped table">
+    <thead class="table-dark">
+        <tr class="text-center text-capitalize">
+            <th>
+                @Html.DisplayNameFor(model => model.idgestion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescGestion)
+            </th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idgestion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescGestion)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-outline-primary btn-outline-primary">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-outline-secondary btn-outline-primary">Detailles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-outline-danger btn-outline-primary">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

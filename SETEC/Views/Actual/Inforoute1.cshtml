@@ -1,0 +1,288 @@
+﻿@model SETEC.Data.Entities.ActualViewModel
+@inject IJsonHelper Json;
+@using Newtonsoft.Json;
+
+@{
+    var numcontratos = 0;
+    numcontratos=Model.ActualClientesList.Count();
+    var hoy = 0;
+} 
+
+<head>
+    <script>
+        var contador = 0;
+        var NumContratos = @numcontratos;
+        var modelo = @Html.Raw(JsonConvert.SerializeObject(Model.ActualClientesList));
+        var modeloGestion = @Html.Raw(JsonConvert.SerializeObject(Model.Mastergestion));
+        </script>    
+
+       <script>
+           document.addEventListener("DOMContentLoaded", function () {
+               let SearchList = document.getElementById("search");
+               let SearchNombre = document.getElementById("floatnombre");
+               let SearchContrato = document.getElementById("floatContrato");
+               var BuscarValor = document.getElementById("NewGestion");
+               var IdentidadValue = document.getElementById("IdeIngreso");
+               var NombreValue = document.getElementById("IdeName");
+               var contratoValue = document.getElementById("IdeContrato");
+               var NextValue = document.getElementById("NextContrato");
+               var BackValue = document.getElementById("BackContrato");
+               var NombRead = document.getElementById("floatnombre");
+               var ContRead = document.getElementById("floatContrato");
+               var AntRead = document.getElementById("floatAntiguedad"); 
+               var CanalRead = document.getElementById("floatCanal"); 
+               var ArtiRead = document.getElementById("floatArticulos"); 
+               var CartRead = document.getElementById("floatCartera"); 
+               var AtrRead = document.getElementById("floatAtraso"); 
+               var FactRead = document.getElementById("floatFactura"); 
+               var CreRead = document.getElementById("floatCredito"); 
+               var MorRead = document.getElementById("floatMora"); 
+               var DesRead = document.getElementById("floatDescuento"); 
+               var PagRead = document.getElementById("floatPagoDescuento"); 
+               var FacVRead = document.getElementById("floatVfactura");
+               var codigoGestionSelect = document.getElementById("SelectCod");
+               var codigoGestionInput = document.getElementById("SelectDes");
+                        
+
+
+               codigoGestionSelect.addEventListener("change", function () {
+                        
+                        console.log("Entro Funcion")
+                        var selectedOption = codigoGestionSelect.options[codigoGestionSelect.selectedIndex];
+                        var index = codigoGestionSelect.selectedIndex;       
+                        console.log("El indice de la lista es: ",index)
+                        var selectedText = selectedOption.text;
+
+                        codigoGestionInput.value = modeloGestion[index].DescGestion;
+                });
+
+               BuscarValor.addEventListener("click", function () {
+                    event.preventDefault();
+                    IdentidadValue.value = SearchList.value;
+                    NombreValue.value = SearchNombre.value;
+                    contratoValue.value = SearchContrato.value;
+                });
+
+               NextValue.addEventListener("click", function () {
+                  
+                   console.log("La cantidad de contratos es: ", NumContratos);
+                   console.log(modelo[0]);
+                   console.log(modeloGestion[0]);
+
+                   if (contador < NumContratos - 1) 
+                   {
+                        
+                       contador++;
+                       console.log("contador:", contador);
+                       console.log("Cantidad de Contratos",modelo[contador].Contrato);
+                       console.log("Antiguedad",modelo[contador].Antiguedad);
+                       console.log("Nombre",modelo[contador].Nombre);
+                       NombRead.value = modelo[contador].Nombre;
+                       ContRead.value = modelo[contador].Contrato;
+                       AntRead.value = modelo[contador].Antiguedad;
+                       CanalRead.value = modelo[contador].Canal_de_venta;
+                       ArtiRead.value = modelo[contador].Articulos;
+                       CartRead.value = modelo[contador].Tipo_de_cartera;
+                       AtrRead.value = modelo[contador].Dias_de_atraso;
+                       FactRead.value = modelo[contador].Vencimiento_factura;
+                       CreRead.value = modelo[contador].Saldo_total_credito;
+                       MorRead.value = modelo[contador].Saldo_en_Mora;
+                       DesRead.value = modelo[contador].Descuento;
+                       PagRead.value = modelo[contador].Pago_con_descuento;
+                       FacVRead.value = modelo[contador].Vencimiento_factura;
+                   }
+                   else 
+                   {
+                    alert("No hay mas contratos para el cliente")
+                   }
+                });
+            
+                BackValue.addEventListener("click", function () {
+                   //var NombRead = document.getElementById("floatNombre");
+                  
+                   console.log("La cantidad de contratos es: ", NumContratos);
+                   console.log(modelo[0]);
+
+
+                   if (contador > 0) 
+                   {
+                        
+                       contador--;
+                       console.log("contador:", contador);
+                       console.log("Cantidad de Contratos",modelo[contador].Contrato);
+                       console.log("Antiguedad",modelo[contador].Antiguedad);
+                       console.log("Nombre",modelo[contador].Nombre);
+
+                       NombRead.value = modelo[contador].Nombre;
+                       ContRead.value = modelo[contador].Contrato;
+                       AntRead.value = modelo[contador].Antiguedad;
+                       CanalRead.value = modelo[contador].Canal_de_venta;
+                       ArtiRead.value = modelo[contador].Articulos;
+                       CartRead.value = modelo[contador].Tipo_de_cartera;
+                       AtrRead.value = modelo[contador].Dias_de_atraso;
+                       FactRead.value = modelo[contador].Vencimiento_factura;
+                       CreRead.value = modelo[contador].Saldo_total_credito;
+                       MorRead.value = modelo[contador].Saldo_en_Mora;
+                       DesRead.value = modelo[contador].Descuento;
+                       PagRead.value = modelo[contador].Pago_con_descuento;
+                       FacVRead.value = modelo[contador].Vencimiento_factura;
+                   }
+                   else 
+                   {
+                    alert("No hay mas contratos para el cliente")
+                   }
+                    
+                   
+                    
+                    
+                    
+          
+
+
+                });
+     
+        });
+
+
+    </script>
+    <script>  
+           
+    </script>
+</head>
+<p><br/></p>
+<div class="col-md-6 offset-md-3" >
+    <div class="container-fluid text-center bg-dark text-light rounded "> 
+        <h1 >
+        ACTUALIDAD DE CLIENTES
+        </h1>
+    </div>
+    <form asp-controller="Actual" asp-action="Inforoute1" method="get" class="form-floating">
+        @Html.DropDownList("search",new SelectList(Model.milista),
+        "Selecciones el numero de identificacion del cliente",
+        new {@class = "form-control", @name="buscar"})
+        <input form-floating id="buscar" type="submit" value="buscar" class="btn btn-primary" name="busqueda" />
+        <label for="buscar" class="text-primary text fw-bold">IDENTIFICACION DEL CLIENTE</label>
+        
+        <p>Cantidad de Contratos @numcontratos</p>
+         @if(numcontratos>1)
+          { 
+        <div class="form-floating"> 
+            <button id="BackContrato" type="button"  class=btn-outline-primary>Anterior</button>
+            <button id="NextContrato" type="button"  class=btn-outline-primary>Siguiente</button>
+            <button type="submit" asp-controller="Actual" asp-action="Actualidad" name="buscaridentidad" value="@Model.ActualClientesList.First().Identidad"  class=btn-outline-primary>Ver todos</Button>   
+        </div>
+        }
+        <div class="form-floating">
+            <input id="floatnombre" value="@Model.ActualClientesList.First().Nombre" class="form-control form-floating" readonly/>
+            <label for="floatnombre" class="text-primary text fw-bold">NOMBRE DEL CLIENTE:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Contrato" class="form-control form-floating" id="floatContrato" readonly>
+            <label for="floatContrato" class="text-primary text fw-bold">NUMERO DE CONTRATO:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Antiguedad" class="form-control form-floating" id="floatAntiguedad" readonly>
+            <label for="floatAntiguedad" class="text-primary text fw-bold">ANTIGUEDAD:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Canal_de_venta" class="form-control form-floating" id="floatCanal" readonly>
+            <label for="floatCanal" class="text-primary text fw-bold">CANAL DE VENTA:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Articulos" class="form-control form-floating" id="floatArticulos" readonly>
+            <label for="floatArticulos" class="text-primary text fw-bold">ARTICULOS:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Tipo_de_cartera" class="form-control form-floating" id="floatCartera" readonly>
+            <label for="floatCartera" class="text-primary text fw-bold">TIPO DE CARTERA:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Dias_de_atraso" class="form-control form-floating" id="floatAtraso" readonly>
+            <label for="floatAtraso" class="text-primary text fw-bold">DIAS DE ATRASO:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Monto_mensual_Factura" class="form-control form-floating" id="floatFactura" readonly>
+            <label for="floatFactura" class="text-primary text fw-bold">MONTO MENSUAL FACTURA:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Saldo_total_credito" class="form-control form-floating" id="floatCredito" readonly>
+            <label for="floatCredito" class="text-primary text fw-bold">SALDO TOTAL CREDITO:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Saldo_en_Mora" class="form-control form-floating" id="floatMora" readonly>
+            <label for="floatMora" class="text-primary text fw-bold">SALDO EN MORA:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Descuento" class="form-control form-floating" id="floatDescuento" readonly>
+            <label for="floatDescuento" class="text-primary text fw-bold">DESCUENTO:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Pago_con_descuento" class="form-control form-floating" id="floatPagoDescuento" readonly>
+            <label for="floatPagoDescuento" class="text-primary text fw-bold">PAGO CON DESCUENTO:</label>
+        </div>
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Vencimiento_factura" class="form-control form-floating" id="floatVfactura" readonly>
+            <label for="floatVfactura" class="text-primary text fw-bold">VENCIMIENTO FACTURA:</label>
+        </div> 
+    </form>
+    
+    <div class="container-fluid text-center bg-dark text-light rounded ">
+        <h1 >
+        INGRESO DE GESTIONES
+        </h1>
+        <button id="NewGestion" class=btn-light>CREAR NUEVA GESTION</Button>
+    </div>
+    <form asp-controller="Historico" asp-action="Create" method="post" class="form-control">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Fechagestion" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Fechagestion" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" readonly/>
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Fechagestion" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Identidad" class="control-label" ></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Identidad" class="form-control" id="IdeIngreso" readonly />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Identidad" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Nombre" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Nombre" class="form-control" id="IdeName" readonly />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Contrato" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Contrato" class="form-control" id="IdeContrato" readonly />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Contrato" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Codigo_Gestion" class="control-label"></label>
+            <select asp-for="@Model.HistoricoClientesContrato.Codigo_Gestion" class="form-control" id="SelectCod">
+                @foreach(var item in Model.Mastergestion)
+                {
+                    <option value="@item.idgestion">@item.idgestion</option>
+                }
+
+            </select>
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Codigo_Gestion" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="form-control form-floating"  id="SelectDes" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Desc_gestion" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Monto_promesa" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Monto_promesa" class="form-control form-floating" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Monto_promesa" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label  asp-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="form-control form-floating" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Grabar gestion" class="btn btn-primary form-control" />
+        </div>
+    </form>
+    
+</div>

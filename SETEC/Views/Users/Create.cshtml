@@ -1,0 +1,53 @@
+﻿@model SETEC.Data.Entities.User
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Crear nuevo usuario</h1>
+
+<h4>Favor llebar cada uno de los campos solicitados (No dejar vacios)</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="usuario" class="control-label" class="text-black"></label>
+                <input asp-for="usuario" class="form-control" />
+                <span asp-validation-for="usuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="password" class="control-label"></label>
+                <input asp-for="password" class="form-control" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="empresa" class="control-label"></label>
+                <input asp-for="empresa" class="form-control" />
+                <span asp-validation-for="empresa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="rol" class="control-label"></label>
+                <input asp-for="rol" class="form-control" />
+                <span asp-validation-for="rol" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="fecha" class="control-label"></label>
+                <input asp-for="fecha" class="form-control" />
+                <span asp-validation-for="fecha" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear Usuario" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Regresar a la lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

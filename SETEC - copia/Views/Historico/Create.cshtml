@@ -1,0 +1,68 @@
+﻿@model SETEC.Data.Entities.HistoricoClientesContrato
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>HistoricoClientesContrato</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Fechagestion" class="control-label"></label>
+                <input asp-for="Fechagestion" class="form-control" />
+                <span asp-validation-for="Fechagestion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Identidad" class="control-label"></label>
+                <input asp-for="Identidad" class="form-control" />
+                <span asp-validation-for="Identidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contrato" class="control-label"></label>
+                <input asp-for="Contrato" class="form-control" />
+                <span asp-validation-for="Contrato" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Codigo_Gestion" class="control-label"></label>
+                <input asp-for="Codigo_Gestion" class="form-control" />
+                <span asp-validation-for="Codigo_Gestion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Desc_gestion" class="control-label"></label>
+                <input asp-for="Desc_gestion" class="form-control" />
+                <span asp-validation-for="Desc_gestion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Monto_promesa" class="control-label"></label>
+                <input asp-for="Monto_promesa" class="form-control" />
+                <span asp-validation-for="Monto_promesa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fecha_Promesa" class="control-label"></label>
+                <input asp-for="Fecha_Promesa" class="form-control" />
+                <span asp-validation-for="Fecha_Promesa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Inforoute1" asp-controller="Actual">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

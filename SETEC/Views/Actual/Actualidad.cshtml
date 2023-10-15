@@ -1,0 +1,125 @@
+﻿@model IEnumerable<SETEC.Data.Entities.ActualidadCliente>
+
+@{
+    ViewData["Title"] = "Actualidad";
+}
+
+<h1>Actualidad</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Gestor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Identidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Numero_telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contrato)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Antiguedad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Canal_de_venta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Articulos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo_de_cartera)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dias_de_atraso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Monto_mensual_Factura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Saldo_total_credito)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Saldo_en_Mora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descuento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pago_con_descuento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vencimiento_factura)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gestor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Identidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Numero_telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contrato)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Antiguedad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Canal_de_venta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Articulos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo_de_cartera)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dias_de_atraso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto_mensual_Factura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Saldo_total_credito)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Saldo_en_Mora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pago_con_descuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vencimiento_factura)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
