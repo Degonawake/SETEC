@@ -72,10 +72,6 @@
     <br />
     <h6>Informacion del archivo cargado: </h6>
     <div class="table-container">
-        <form method="post" action="/Actual/SubirATabla">
-            <input type="hidden" name="datos" id="datos" />
-            <button type="submit" class="btn btn-primary">Guardar en la base de datos</button>
-        </form>
        
         @using (Html.BeginForm("InsertarDatos","Actual", FormMethod.Post))
         {
