@@ -1,6 +1,8 @@
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SETEC.Data.Entities; 
+using Microsoft.Extensions.DependencyInjection;
+using SETEC.Data.Entities;
 namespace SETEC
 {
     public class Program
@@ -11,15 +13,14 @@ namespace SETEC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
-
+         
             builder.Services.AddDbContext<Appdbcontext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("conexion")));
 
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);//para especificar que se utilizaran campos de fecha
 
             var app = builder.Build();
-           
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -28,12 +29,11 @@ namespace SETEC
                 app.UseHsts();
                 app.UseDeveloperExceptionPage();//Se agregó para pode ver el detalle completo de errores
             }
-            
+
             app.UseHttpsRedirection(); //PAra redigirir a HTTPS Y EVITAR ERROR DE CONEXION NO ES PRIVADA
             app.UseStaticFiles(); //Para poder usar archivos directos de la raiz
 
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.MapControllerRoute(
@@ -44,6 +44,6 @@ namespace SETEC
         }
     }
 
- 
+
 
 }

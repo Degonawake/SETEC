@@ -10,6 +10,7 @@
     <a asp-action="Create">Crear Nuevo Registro</a>
    
 </p>
+<div class="table-container">
 <table class="table table-bordered table-striped table" ">
     <thead class="table-dark">
         <tr class="text-center text-capitalize">
@@ -36,6 +37,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Fecha_Promesa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitud)
             </th>
             <th></th>
         </tr>
@@ -69,13 +73,22 @@
                 @Html.DisplayFor(modelItem => item.Fecha_Promesa)
             </td>
             <td>
-                |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                @Html.DisplayFor(modelItem => item.Latitud)
+            </td>
+             <td>
+              <div>
+              <a href="https://www.google.com/maps?q= @Html.DisplayFor(modelItem => item.Latitud)" target="_blank">Abrir en Google Maps</a>
+             </div>
+             </td>
+            <td>
+
+                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a>
                 <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
                 
             </td>
-            
+           
         </tr>
         }
     </tbody>
 </table>
+</div>

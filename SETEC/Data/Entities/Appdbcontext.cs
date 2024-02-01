@@ -8,12 +8,11 @@ using System.Text;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 using SETEC.Data.Entities;
 using SETEC;
-
-
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace SETEC.Data.Entities
 {
-   public class Appdbcontext : DbContext
+   public class Appdbcontext : IdentityDbContext<Users>
 
     {
         public Appdbcontext()

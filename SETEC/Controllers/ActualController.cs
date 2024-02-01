@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,32 +18,36 @@ namespace SETEC.Controllers
     {
 
         private readonly Appdbcontext _context;
-        
+
         public ActualController(Appdbcontext context)
         {
             _context = context;
         }
 
-
+       
         // GET: ActualController
         public async Task<ActionResult> Inforoute1(string search)
-            {
-                var viewModel = new ActualViewModel();
-                var allactual = from ActualidadCliente in _context.ActualidadClientes select ActualidadCliente;
-                var dropdownItems = from ActualidadCliente in _context.ActualidadClientes select ActualidadCliente.Identidad;
-                var listado = _context.ActualidadClientes.Select(u => u.Identidad).ToList();
-                var milista = _context.ActualidadClientes.Select(u => u.Identidad).ToList();
-                var codgestion = from Codgestion in _context.Mastergestion select Codgestion;
+        {
+            var viewModel = new ActualViewModel();
+            var allactual = from ActualidadCliente in _context.ActualidadClientes select ActualidadCliente;
+            var allactualDropDown = from ActualidadCliente in _context.ActualidadClientes select ActualidadCliente;
+            var dropdownItems = from ActualidadCliente in _context.ActualidadClientes select ActualidadCliente.Identidad;
+            var listado = _context.ActualidadClientes.Select(u => u.Identidad).ToList();
+            var milista = _context.ActualidadClientes.Select(u => u.Identidad).ToList();
+            var milista2 = _context.ActualidadClientes.Select(u => new { u.Identidad, u.Nombre
+        }).ToList();
+            var codgestion = from Codgestion in _context.Mastergestion select Codgestion;
 
             if (!String.IsNullOrEmpty(search))
-             {
+            {
                 allactual = allactual.Where(s => s.Identidad!.Contains(search));
                 dropdownItems = dropdownItems.Where(Identidad => Identidad!.Contains(search));
 
-             
+
             }
             var codGestionList = await codgestion.ToListAsync();
             var actualClientesList = await allactual.ToListAsync();
+            var actualClientesDropDown = await allactualDropDown.ToListAsync();
             var dropdownItemsUnique = await dropdownItems
             .Distinct()
             .Select(Identidad => new SelectListItem
@@ -51,24 +56,28 @@ namespace SETEC.Controllers
                 Text = Identidad
             }).ToListAsync();
 
-            
+
 
             viewModel = new ActualViewModel
             {
                 ActualClientesList = actualClientesList,
-                DropdownItems = dropdownItemsUnique,
+                ActualClientesListDropDown = actualClientesDropDown,
+                DropdownItems = dropdownItemsUnique,  
                 milista = milista,
+                
                 Mastergestion = codGestionList,
                 HistoricoClientesContrato = new HistoricoClientesContrato(),
             };
-                return View(viewModel);
+            return View(viewModel);
         }
 
 
         public IActionResult UploadActual()
         {
-           
-            return View();
+            var modelo = new ActualidadCliente(); // Crea una instancia del modelo
+            return View(modelo);
+
+            //return View();
         }
 
 
@@ -85,26 +94,36 @@ namespace SETEC.Controllers
             return View(await allactual.ToListAsync());
         }
 
-        public IActionResult Error()
-        {
-            var model = new ErrorViewModel
-            {
-                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-            };
-            return View(model);
-        }
 
 
         [HttpPost]
-        public IActionResult SubirATabla(string datos)
+        public IActionResult InsertarDatos(string datos)
         {
-            _context.ActualidadClientes.AddRange(data);
-            _context.SaveChanges();
 
-            return View("UploadActual");
+            if (datos != null)
+            {
 
+
+                List<ActualidadCliente> actualidadClientes = JsonConvert.DeserializeObject<List<ActualidadCliente>>(datos);
+                Console.WriteLine(actualidadClientes);
+                _context.ActualidadClientes.AddRange(actualidadClientes);
+                _context.SaveChanges();
+
+                // Redirige a una vista de éxito o cualquier otra acción que desees
+                return RedirectToAction("UploadActual");
+
+            }
+
+            // Datos es nulo, puedes manejarlo de acuerdo a tus requerimientos
+            return RedirectToAction("Error");
         }
 
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 
 }

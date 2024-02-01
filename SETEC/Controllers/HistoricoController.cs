@@ -68,7 +68,7 @@ namespace SETEC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fechagestion,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Fecha_Promesa")] HistoricoClientesContrato historicoClientesContrato)
+        public async Task<IActionResult> Create([Bind("Id,Fechagestion,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Fecha_Promesa,Latitud")] HistoricoClientesContrato historicoClientesContrato)
         {
             if (ModelState.IsValid)
             {

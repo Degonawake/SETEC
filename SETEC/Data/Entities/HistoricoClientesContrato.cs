@@ -14,7 +14,7 @@ namespace SETEC.Data.Entities
         public string Desc_gestion { get; set; }
         public double Monto_promesa { get; set; }
         public DateTime Fecha_Promesa { get; set; }
-
-
+        public string? Latitud { get; set; }
+     
     }
 }

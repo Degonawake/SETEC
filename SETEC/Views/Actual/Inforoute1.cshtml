@@ -9,12 +9,18 @@
 } 
 
 <head>
+ 
     <script>
         var contador = 0;
         var NumContratos = @numcontratos;
         var modelo = @Html.Raw(JsonConvert.SerializeObject(Model.ActualClientesList));
         var modeloGestion = @Html.Raw(JsonConvert.SerializeObject(Model.Mastergestion));
-        </script>    
+ </script>    
+
+ <!--
+        <script>
+            
+         </script>
 
        <script>
            document.addEventListener("DOMContentLoaded", function () {
@@ -42,7 +48,35 @@
                var FacVRead = document.getElementById("floatVfactura");
                var codigoGestionSelect = document.getElementById("SelectCod");
                var codigoGestionInput = document.getElementById("SelectDes");
-                        
+               var Coordlat = document.getElementById("lat");         
+               var Coordlon = document.getElementById("lon");
+
+
+               function GetCoord() 
+                { 
+                   const options = {
+                       enableHighAccuracy: true,
+                       timeout: 5000,
+                       maximumAge: 0,
+                   };
+                    if(navigator.geolocation)
+                    {
+
+                        var success = function(position)
+                        {
+                            var latitud = position.coords.latitude,
+                                longitud = position.coords.longitude;
+                            console.log(latitud);
+                            console.log(longitud);
+                            Coordlat.value = latitud+", "+longitud;
+                            
+                        }
+                        navigator.geolocation.getCurrentPosition(success, function(msg)
+                        {
+                            console.error( msg );
+                        },options);
+                    }
+                }
 
 
                codigoGestionSelect.addEventListener("change", function () {
@@ -58,9 +92,12 @@
 
                BuscarValor.addEventListener("click", function () {
                     event.preventDefault();
-                    IdentidadValue.value = SearchList.value;
+                   IdentidadValue.value = SearchList.value;
                     NombreValue.value = SearchNombre.value;
+                    
                     contratoValue.value = SearchContrato.value;
+                    contratoValue.value = SearchContrato.value;
+                    GetCoord();
                 });
 
                NextValue.addEventListener("click", function () {
@@ -146,8 +183,9 @@
 
     </script>
     <script>  
-           
+       
     </script>
+       --> 
 </head>
 <p><br/></p>
 <div class="col-md-6 offset-md-3" >
@@ -157,8 +195,12 @@
         </h1>
     </div>
     <form asp-controller="Actual" asp-action="Inforoute1" method="get" class="form-floating">
-        @Html.DropDownList("search",new SelectList(Model.milista),
-        "Selecciones el numero de identificacion del cliente",
+        @Html.DropDownList("search",new SelectList(Model.ActualClientesListDropDown.Select (u => new SelectListItem            
+            {
+                Value= u.Identidad,
+                Text=  u.Identidad + " - " + u.Nombre 
+            }).GroupBy(item => item.Value).Select(group => group.First()),"Value", "Text"),
+            "Selecciones el numero de identificacion del cliente",
         new {@class = "form-control", @name="buscar"})
         <input form-floating id="buscar" type="submit" value="buscar" class="btn btn-primary" name="busqueda" />
         <label for="buscar" class="text-primary text fw-bold">IDENTIFICACION DEL CLIENTE</label>
@@ -280,9 +322,14 @@
             <input asp-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="form-control form-floating" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
             <span asp-validation-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="text-danger"></span>
         </div>
+         <div class="form-group">
+            <label  asp-for="@Model.HistoricoClientesContrato.Latitud" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Latitud" class="form-control form-floating" id="lat"/>
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Latitud" class="text-danger"></span>
+        </div>
+        
         <div class="form-group">
             <input type="submit" value="Grabar gestion" class="btn btn-primary form-control" />
         </div>
     </form>
-    
 </div>

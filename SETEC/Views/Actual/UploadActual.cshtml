@@ -9,46 +9,71 @@
 }
 
  <head>
-        <script 
-            
-            src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js">
-            
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+        <script src="https://git.sheetjs.com/sheetjs/sheetjs.git"></script>
         
-        </script>
+        
      
         <script>
 
             document.addEventListener("DOMContentLoaded", function () {
 
-               
-               
                 var AddressVar = document.getElementById("FileAddress")
                 const dataTableBody = document.getElementById("data-table").getElementsByTagName('tbody')[0];
                 AddressVar.addEventListener("change", function () {                    
                     const selectedFiles = AddressVar.files;
-                    const file = selectedFiles[0];   
-                    const reader = new FileReader();
-                Papa.parse(file, {
-                    header: true,   
-                    delimiter: ";", 
-                    dynamicTyping: true, 
-                    complete: function (results) {
-                        const data = results.data;
+                    const file = selectedFiles[0];
+                    if (file.name.endsWith('.csv')) {
+                        const reader = new FileReader();
+                        Papa.parse(file, {
+                            header: true,
+                            delimiter: ";",
+                            dynamicTyping: true,
+                            encoding: "UTF-8",
+                            complete: function (results) {
+                                const data = results.data;
+                                dataTableBody.innerHTML = "";
+                                data.forEach(function (row) {
+                                    const newRow = dataTableBody.insertRow();
+                                    for (const key in row) {
+                                        const cell = newRow.insertCell();
+                                        cell.textContent = row[key];
+
+                                    }
+                                });
+                                const jsonData = JSON.stringify(data);
+                                document.getElementById("datos").value = jsonData;
+                                console.log(jsonData)
+                            },
+                        });
+                } else if (file.name.endsWith('.xlsx')) {
+                    // Si es un archivo de Excel, utiliza SheetJS (XLSX) para leerlo
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = e.target.result;
+                        var workbook = XLSX.read(data, { type: "array" });
+
+                        // Lee la primera hoja del archivo de Excel
+                        var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        var data = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+                        // Procesa los datos de Excel como desees
                         dataTableBody.innerHTML = "";
                         data.forEach(function (row) {
                             const newRow = dataTableBody.insertRow();
-                            for (const key in row) {
+                            row.forEach(function (cellData) {
                                 const cell = newRow.insertCell();
-                                cell.textContent = row[key];
-                               
-                            }
+                                cell.textContent = cellData;
+                            });
                         });
-                        const jsonData = JSON.stringify(data);
-                        document.getElementById("datos").value = jsonData;
-                        console.log(jsonData)
-                    },
+                    };
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    // El archivo no es compatible con CSV ni con Excel, maneja el caso según tus necesidades
+                    alert("Formato de archivo no admitido");
+                    }
+
                 });
-            });
             
         });
         </script>
@@ -64,17 +89,22 @@
     <h6>Antes de cargar el archivo asegurese que la informacion sea la correcta: </h6>
     <form class="form-control">
         <input type="file" class="form-control" id="FileAddress" readonly>
-        <button class="btn btn-primary">Cargar Archivos</button></>
+        
     </form>
 
+    <form method="post" class="form-control" action="InsertarDatos">
+        <input type="text" id="datos" name="datos">
+        <button class="btn btn-primary">Cargar Archivos</button>
+    </form>
     <br/>
     <br />
     <br />
     <h6>Informacion del archivo cargado: </h6>
     <div class="table-container">
-       
+
         @using (Html.BeginForm("InsertarDatos","Actual", FormMethod.Post))
         {
+        <input type="submit" value="Insertar Datos" />
         <table class="table table-striped table-bordered table-sm" cellspacing="0" width="20%" id="data-table">
             <thead class="table-dark">
                 <tr>
@@ -99,28 +129,12 @@
             </thead>
             <tbody> 
                 <tr>
-                    <td>@Html.HiddenFor(model => model.id)</td>
-                    <td>@Html.HiddenFor(model => model.Gestor)</td>
-                    <td>@Html.HiddenFor(model => model.Nombre)</td>
-                    <td>@Html.HiddenFor(model => model.Antiguedad)</td>
-                    <td>@Html.HiddenFor(model => model.Canal_de_venta)</td>
-                    <td>@Html.HiddenFor(model => model.Articulos)</td>
-                    <td>@Html.HiddenFor(model => model.Tipo_de_cartera)</td>
-                    <td>@Html.HiddenFor(model => model.Dias_de_atraso)</td>
-                    <td>@Html.HiddenFor(model => model.Monto_mensual_Factura)</td>
-                    <td>@Html.HiddenFor(model => model.Saldo_total_credito)</td>
-                    <td>@Html.HiddenFor(model => model.Saldo_en_Mora)</td>
-                    <td>@Html.HiddenFor(model => model.Descuento)</td>
-                    <td>@Html.HiddenFor(model => model.Pago_con_descuento)</td>
-                    <td>@Html.HiddenFor(model => model.Vencimiento_factura)</td>
-                    <td>@Html.HiddenFor(model => model.Contrato)</td>
-                    <td>@Html.HiddenFor(model => model.Numero_telefono)</td>
-                    <td>@Html.HiddenFor(model => model.Identidad)</td>
+                       
 
                 </tr>
                 </tbody>
         </table>
-    <input type="submit" value="Insertar Datos" />
+    
     }
     </div>
 
