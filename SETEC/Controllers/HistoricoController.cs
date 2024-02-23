@@ -20,23 +20,14 @@ namespace SETEC.Controllers
 
         // GET: Historico
         public async Task<IActionResult> Index(string buscaridentidad)
-        {
-           
+        {  
             var identidad = from HistoricoClientesContrato in _context.HistoricoClientes select HistoricoClientesContrato;
-
-
             if (!String.IsNullOrEmpty(buscaridentidad))
             {
                 identidad = identidad.Where(s => s.Identidad!.Contains(buscaridentidad));
             }
-         
-
             Console.WriteLine("Buscar Identidad: " + buscaridentidad);
-
-            return View(await identidad.ToListAsync());
-
-
-            
+            return View(await identidad.ToListAsync());  
         }
 
         // GET: Historico/Details/5
@@ -68,13 +59,14 @@ namespace SETEC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fechagestion,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Fecha_Promesa,Latitud")] HistoricoClientesContrato historicoClientesContrato)
+        public async Task<IActionResult> Create([Bind("Id,Fechagestion,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Fecha_Promesa,Fecha_NuevaVisita,Comentario,Latitud,Fecha_Agenda")] HistoricoClientesContrato historicoClientesContrato)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(historicoClientesContrato);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "AgendaClientes");
+                //return RedirectToAction(nameof(Index));
             }
             return View(historicoClientesContrato);
         }

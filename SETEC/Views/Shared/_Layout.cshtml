@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SETEC.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   
 </head>
 <body class="bg-dark">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid" >
+            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Setec</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -23,15 +25,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-                       
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Actual" asp-action="Inforoute1">Ruta</a>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle text-black " data-bs-toggle="dropdown">Operaciones</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Actual" asp-action="Inforoute1">Visita de Cobro</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="AgendaClientes" asp-action="Index">Llamadas de Cobro</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Historico" asp-action="Index">Historico</a>
-                        </li>
-                      
-                    
+
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle text-black " data-bs-toggle="dropdown">Administracion</a>
                             <ul class="dropdown-menu">
@@ -41,36 +46,41 @@
                                 <li>
                                     <a class="nav-link text-dark dropdown-item " asp-area="" asp-controller="Codgestions" asp-action="Indexgestioncodes">Codigos Gestión</a>
                                 </li>
+
                                 <li>
-                                    <a class="nav-link text-dark dropdown-item " asp-area="" asp-controller="Actual" asp-action="UploadActual">Subir carteras</a>
+                                    <a class="nav-link text-dark dropdown-item " asp-area="" asp-controller="Actual" asp-action="UploadActual">Cargar carteras</a>
                                 </li>
-                             </ul>
+                                <li>
+                                    <a class="nav-link text-dark dropdown-item " asp-area="" asp-controller="AgendaClientes" asp-action="Index">Ver Agenda de Cobros</a>
+                                </li>
+                                
+                            </ul>
                         </li>
+
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle text-black " data-bs-toggle="dropdown">Reportes</a>
-                            <ul class="dropdown-menu">                               
+                            <ul class="dropdown-menu">
                                 <li>
-                                    <a class="nav-link text-dark dropdown-item " asp-area="" asp-controller="Codgestions" asp-action="Indexgestioncodes">Historico de Gestiones</a>
+                                    <a class="nav-link text-dark dropdown-item " asp-area="" asp-controller="Historico" asp-action="Index">Historico de Gestiones</a>
                                 </li>
                                 <li>
                                     <a class="nav-link text-dark dropdown-item " asp-area="" asp-controller="Codgestions" asp-action="Indexgestioncodes">Estado de Clientes</a>
                                 </li>
                             </ul>
                         </li>
-
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-   
-                    <div class="container bg-light c">
-                         <main role="main" class="pb-3">
-                            @RenderBody()
-                        </main>
-                    </div>
-               
+
+    <div class="container-fluid bg-light rounded-3 h-100" style="height:100vh;" >
+        <main role="main" class="pb-5">
+            @RenderBody()
+        </main>
+    </div>
+
 
     <footer class="border-top footer text-muted">
         <div class="container contain">
@@ -80,6 +90,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

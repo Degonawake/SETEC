@@ -17,194 +17,54 @@
         var modeloGestion = @Html.Raw(JsonConvert.SerializeObject(Model.Mastergestion));
  </script>    
 
- <!--
-        <script>
-            
-         </script>
 
-       <script>
-           document.addEventListener("DOMContentLoaded", function () {
-               let SearchList = document.getElementById("search");
-               let SearchNombre = document.getElementById("floatnombre");
-               let SearchContrato = document.getElementById("floatContrato");
-               var BuscarValor = document.getElementById("NewGestion");
-               var IdentidadValue = document.getElementById("IdeIngreso");
-               var NombreValue = document.getElementById("IdeName");
-               var contratoValue = document.getElementById("IdeContrato");
-               var NextValue = document.getElementById("NextContrato");
-               var BackValue = document.getElementById("BackContrato");
-               var NombRead = document.getElementById("floatnombre");
-               var ContRead = document.getElementById("floatContrato");
-               var AntRead = document.getElementById("floatAntiguedad"); 
-               var CanalRead = document.getElementById("floatCanal"); 
-               var ArtiRead = document.getElementById("floatArticulos"); 
-               var CartRead = document.getElementById("floatCartera"); 
-               var AtrRead = document.getElementById("floatAtraso"); 
-               var FactRead = document.getElementById("floatFactura"); 
-               var CreRead = document.getElementById("floatCredito"); 
-               var MorRead = document.getElementById("floatMora"); 
-               var DesRead = document.getElementById("floatDescuento"); 
-               var PagRead = document.getElementById("floatPagoDescuento"); 
-               var FacVRead = document.getElementById("floatVfactura");
-               var codigoGestionSelect = document.getElementById("SelectCod");
-               var codigoGestionInput = document.getElementById("SelectDes");
-               var Coordlat = document.getElementById("lat");         
-               var Coordlon = document.getElementById("lon");
-
-
-               function GetCoord() 
-                { 
-                   const options = {
-                       enableHighAccuracy: true,
-                       timeout: 5000,
-                       maximumAge: 0,
-                   };
-                    if(navigator.geolocation)
-                    {
-
-                        var success = function(position)
-                        {
-                            var latitud = position.coords.latitude,
-                                longitud = position.coords.longitude;
-                            console.log(latitud);
-                            console.log(longitud);
-                            Coordlat.value = latitud+", "+longitud;
-                            
-                        }
-                        navigator.geolocation.getCurrentPosition(success, function(msg)
-                        {
-                            console.error( msg );
-                        },options);
-                    }
-                }
-
-
-               codigoGestionSelect.addEventListener("change", function () {
-                        
-                        console.log("Entro Funcion")
-                        var selectedOption = codigoGestionSelect.options[codigoGestionSelect.selectedIndex];
-                        var index = codigoGestionSelect.selectedIndex;       
-                        console.log("El indice de la lista es: ",index)
-                        var selectedText = selectedOption.text;
-
-                        codigoGestionInput.value = modeloGestion[index].DescGestion;
-                });
-
-               BuscarValor.addEventListener("click", function () {
-                    event.preventDefault();
-                   IdentidadValue.value = SearchList.value;
-                    NombreValue.value = SearchNombre.value;
-                    
-                    contratoValue.value = SearchContrato.value;
-                    contratoValue.value = SearchContrato.value;
-                    GetCoord();
-                });
-
-               NextValue.addEventListener("click", function () {
-                  
-                   console.log("La cantidad de contratos es: ", NumContratos);
-                   console.log(modelo[0]);
-                   console.log(modeloGestion[0]);
-
-                   if (contador < NumContratos - 1) 
-                   {
-                        
-                       contador++;
-                       console.log("contador:", contador);
-                       console.log("Cantidad de Contratos",modelo[contador].Contrato);
-                       console.log("Antiguedad",modelo[contador].Antiguedad);
-                       console.log("Nombre",modelo[contador].Nombre);
-                       NombRead.value = modelo[contador].Nombre;
-                       ContRead.value = modelo[contador].Contrato;
-                       AntRead.value = modelo[contador].Antiguedad;
-                       CanalRead.value = modelo[contador].Canal_de_venta;
-                       ArtiRead.value = modelo[contador].Articulos;
-                       CartRead.value = modelo[contador].Tipo_de_cartera;
-                       AtrRead.value = modelo[contador].Dias_de_atraso;
-                       FactRead.value = modelo[contador].Vencimiento_factura;
-                       CreRead.value = modelo[contador].Saldo_total_credito;
-                       MorRead.value = modelo[contador].Saldo_en_Mora;
-                       DesRead.value = modelo[contador].Descuento;
-                       PagRead.value = modelo[contador].Pago_con_descuento;
-                       FacVRead.value = modelo[contador].Vencimiento_factura;
-                   }
-                   else 
-                   {
-                    alert("No hay mas contratos para el cliente")
-                   }
-                });
-            
-                BackValue.addEventListener("click", function () {
-                   //var NombRead = document.getElementById("floatNombre");
-                  
-                   console.log("La cantidad de contratos es: ", NumContratos);
-                   console.log(modelo[0]);
-
-
-                   if (contador > 0) 
-                   {
-                        
-                       contador--;
-                       console.log("contador:", contador);
-                       console.log("Cantidad de Contratos",modelo[contador].Contrato);
-                       console.log("Antiguedad",modelo[contador].Antiguedad);
-                       console.log("Nombre",modelo[contador].Nombre);
-
-                       NombRead.value = modelo[contador].Nombre;
-                       ContRead.value = modelo[contador].Contrato;
-                       AntRead.value = modelo[contador].Antiguedad;
-                       CanalRead.value = modelo[contador].Canal_de_venta;
-                       ArtiRead.value = modelo[contador].Articulos;
-                       CartRead.value = modelo[contador].Tipo_de_cartera;
-                       AtrRead.value = modelo[contador].Dias_de_atraso;
-                       FactRead.value = modelo[contador].Vencimiento_factura;
-                       CreRead.value = modelo[contador].Saldo_total_credito;
-                       MorRead.value = modelo[contador].Saldo_en_Mora;
-                       DesRead.value = modelo[contador].Descuento;
-                       PagRead.value = modelo[contador].Pago_con_descuento;
-                       FacVRead.value = modelo[contador].Vencimiento_factura;
-                   }
-                   else 
-                   {
-                    alert("No hay mas contratos para el cliente")
-                   }
-                    
-                   
-                    
-                    
-                    
-          
-
-
-                });
-     
-        });
-
-
-    </script>
-    <script>  
-       
-    </script>
-       --> 
 </head>
 <p><br/></p>
 <div class="col-md-6 offset-md-3" >
     <div class="container-fluid text-center bg-dark text-light rounded "> 
         <h1 >
-        ACTUALIDAD DE CLIENTES
+        VISITAS DE COBRO
         </h1>
     </div>
-    <form asp-controller="Actual" asp-action="Inforoute1" method="get" class="form-floating">
+    <form asp-controller="Actual" asp-action="Inforoute1" method="get" class="form-floating" id="form" name="form">
+
+        <div>
+        <label class="text-primary text fw-bold">GESTOR DE COBROS</label>
+        @Html.DropDownList("searchGestor",new SelectList(Model.ActualClientesListDropDown.Select (u => new SelectListItem            
+            {
+                Value=  u.Gestor?.ToString(),
+                Text=  u.Gestor?.ToString() 
+            }).GroupBy(item => item.Value).Select(group => group.First()),"Value", "Text"),
+            "Seleccione Gestor/Seleccionar Todo",
+        new {@class = "form-control", @name="buscarGestor", onchange="getForm(event)"})
+        
+        </div>
+      
+        <div>
+            <label class="text-primary text fw-bold">FECHA DE AGENDA</label>
+        @Html.DropDownList("searchDate",new SelectList(Model.ActualClientesListDropDown.Select (u => new SelectListItem            
+            {
+                Value=  u.Fecha_Agenda.ToString(),
+                Text=  u.Fecha_Agenda.ToString() 
+            }).GroupBy(item => item.Value).Select(group => group.First()),"Value", "Text"),
+            "Seleccione fecha de visita/Seleccionar Todo",
+        new {@class = "form-control", @name="buscarFecha", onchange="getForm(event)"})
+        </div>
+        <div >
+        <label class="text-primary text fw-bold">IDENTIFICACION DEL CLIENTE</label>
         @Html.DropDownList("search",new SelectList(Model.ActualClientesListDropDown.Select (u => new SelectListItem            
             {
                 Value= u.Identidad,
                 Text=  u.Identidad + " - " + u.Nombre 
             }).GroupBy(item => item.Value).Select(group => group.First()),"Value", "Text"),
-            "Selecciones el numero de identificacion del cliente",
-        new {@class = "form-control", @name="buscar"})
+            "Selecciones el numero de identificacion del cliente/Seleccionar Todo",
+        new {@class = "form-control", @name="buscar", onchange="getForm(event)"})
         <input form-floating id="buscar" type="submit" value="buscar" class="btn btn-primary" name="busqueda" />
-        <label for="buscar" class="text-primary text fw-bold">IDENTIFICACION DEL CLIENTE</label>
+        </div>
         
+        
+       
+
         <p>Cantidad de Contratos @numcontratos</p>
          @if(numcontratos>1)
           { 
@@ -303,13 +163,13 @@
                 {
                     <option value="@item.idgestion">@item.idgestion</option>
                 }
-
+                <option selected disabled value="0">Elija la el codigo de gestion</option>
             </select>
             <span asp-validation-for="@Model.HistoricoClientesContrato.Codigo_Gestion" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="control-label"></label>
-            <input asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="form-control form-floating"  id="SelectDes" />
+            <input asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="form-control form-floating" readonly id="SelectDes" />
             <span asp-validation-for="@Model.HistoricoClientesContrato.Desc_gestion" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -323,8 +183,17 @@
             <span asp-validation-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="text-danger"></span>
         </div>
          <div class="form-group">
-            <label  asp-for="@Model.HistoricoClientesContrato.Latitud" class="control-label"></label>
-            <input asp-for="@Model.HistoricoClientesContrato.Latitud" class="form-control form-floating" id="lat"/>
+            <label  asp-for="@Model.HistoricoClientesContrato.Fecha_NuevaVisita" class="control-label">Nueva Visita</label>
+            <input asp-for="@Model.HistoricoClientesContrato.Fecha_NuevaVisita" class="form-control form-floating" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Fecha_NuevaVisita" class="text-danger"></span>
+        </div>
+         <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Comentario" class="control-label">Comentarios</label>
+            <textarea asp-for="@Model.HistoricoClientesContrato.Comentario" class="form-control form-floating"></textarea>
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Comentario" class="text-danger"></span>
+         </div>
+            <div class="form-group">  
+            <input hidden asp-for="@Model.HistoricoClientesContrato.Latitud" class="form-control form-floating" id="lat"/>
             <span asp-validation-for="@Model.HistoricoClientesContrato.Latitud" class="text-danger"></span>
         </div>
         
@@ -333,3 +202,21 @@
         </div>
     </form>
 </div>
+
+            @section scripts
+    {
+
+    <script>
+
+
+
+        function getForm(e) {
+            e.preventDefault();
+            form.submit();
+                         
+        }
+
+
+    </script>
+
+}

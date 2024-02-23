@@ -1,0 +1,166 @@
+﻿@model IEnumerable<SETEC.Data.Entities.ActualidadCliente>
+
+@{
+    ViewData["Title"] = "Index";
+    int marca = 1;
+}
+
+
+<h1>Base de clientes a cobrar</h1>
+
+<p>
+    <a class="btn btn-outline-secondary" asp-action="Create">Crear nuevo registro para cobro</a>
+</p>
+
+
+<form asp-action="IndexSearch" method="get">
+    <div class="form-group">
+        <label for="searchString">Buscar por nombre:</label>
+        <input type="text" class="form-control" id="searchString" name="searchString">
+    </div>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
+
+<div class="table-container h-100">
+    <table class="table text small h-10 table-striped">
+        <thead class="bg-dark text-light    ">
+            <tr>
+                <th>
+                    Acción
+                </th>
+                <th>
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fecha_Agenda)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Contrato)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Identidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gestor)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Numero_telefono)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Antiguedad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Canal_de_venta)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Articulos)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tipo_de_cartera)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dias_de_atraso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Monto_mensual_Factura)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Saldo_total_credito)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Saldo_en_Mora)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descuento)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pago_con_descuento)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Vencimiento_factura)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class=" h-10 w-100  @((item.Gestionado) ? "bg-success bg-opacity-25" : "text-dark")">
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.id" class="btn btn-outline-primary"><i class="bi-alarm" style="font-size:small;"></i></a> |
+                    </td>
+                    <td class="center-block text-lg-center @((item.Gestionado) ? "bg-success bg-opacity-25" : "text-danger")">
+
+                        @if (item.Gestionado == true)
+                        {
+                            @Html.DisplayFor(modelItem => item.Gestionado)  
+                        }
+                            else
+                        {
+                            @Html.DisplayFor(modelItem => item.Gestionado)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha_Agenda)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrato)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Identidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gestor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Numero_telefono)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Antiguedad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Canal_de_venta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Articulos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tipo_de_cartera)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dias_de_atraso)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Monto_mensual_Factura)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Saldo_total_credito)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Saldo_en_Mora)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descuento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pago_con_descuento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Vencimiento_factura)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -9,8 +9,7 @@ using SETEC.Data.Entities;
 using SETEC.Models;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
-
-
+using System.Linq.Expressions;
 
 namespace SETEC.Controllers
 {
@@ -24,60 +23,51 @@ namespace SETEC.Controllers
             _context = context;
         }
 
-       
+
         // GET: ActualController
-        public async Task<ActionResult> Inforoute1(string search)
+        public async Task<ActionResult> Inforoute1(string search, string searchDate, string searchGestor)
         {
-            var viewModel = new ActualViewModel();
+            Console.WriteLine($"Valor de Identidad: {search} Fecha: {searchDate} Gestor: {searchGestor}");
             var allactual = from ActualidadCliente in _context.ActualidadClientes select ActualidadCliente;
             var allactualDropDown = from ActualidadCliente in _context.ActualidadClientes select ActualidadCliente;
             var dropdownItems = from ActualidadCliente in _context.ActualidadClientes select ActualidadCliente.Identidad;
-            var listado = _context.ActualidadClientes.Select(u => u.Identidad).ToList();
-            var milista = _context.ActualidadClientes.Select(u => u.Identidad).ToList();
-            var milista2 = _context.ActualidadClientes.Select(u => new { u.Identidad, u.Nombre
-        }).ToList();
-            var codgestion = from Codgestion in _context.Mastergestion select Codgestion;
+            var viewModel = new ActualViewModel();
 
-            if (!String.IsNullOrEmpty(search))
+            if (!String.IsNullOrEmpty(search) || !String.IsNullOrEmpty(searchDate) || !String.IsNullOrEmpty(searchGestor))
             {
-                allactual = allactual.Where(s => s.Identidad!.Contains(search));
-                dropdownItems = dropdownItems.Where(Identidad => Identidad!.Contains(search));
+                allactual = allactual.Where(s =>
+                    (String.IsNullOrEmpty(search) || s.Identidad!.Contains(search)) &&
+                    (String.IsNullOrEmpty(searchDate) || s.Fecha_Agenda == DateTime.Parse(searchDate)) &&
+                    (String.IsNullOrEmpty(searchGestor) || s.Gestor == searchGestor)
+                );
 
-
+                dropdownItems = dropdownItems.Where(Identidad =>
+                    (String.IsNullOrEmpty(search) || Identidad!.Contains(search)) &&
+                    (String.IsNullOrEmpty(searchDate) || Identidad!.Contains(searchDate)) &&
+                    (String.IsNullOrEmpty(searchGestor) || Identidad!.Contains(searchGestor))
+                );
             }
-            var codGestionList = await codgestion.ToListAsync();
+          
             var actualClientesList = await allactual.ToListAsync();
-            var actualClientesDropDown = await allactualDropDown.ToListAsync();
-            var dropdownItemsUnique = await dropdownItems
-            .Distinct()
-            .Select(Identidad => new SelectListItem
-            {
-                Value = Identidad,
-                Text = Identidad
-            }).ToListAsync();
-
-
+            var codgestion = from Codgestion in _context.Mastergestion select Codgestion;
+            var codGestionList = await codgestion.ToListAsync();
 
             viewModel = new ActualViewModel
             {
                 ActualClientesList = actualClientesList,
-                ActualClientesListDropDown = actualClientesDropDown,
-                DropdownItems = dropdownItemsUnique,  
-                milista = milista,
-                
+                ActualClientesListDropDown = actualClientesList,            
                 Mastergestion = codGestionList,
                 HistoricoClientesContrato = new HistoricoClientesContrato(),
             };
+
             return View(viewModel);
         }
 
 
         public IActionResult UploadActual()
-        {
+        {   
             var modelo = new ActualidadCliente(); // Crea una instancia del modelo
             return View(modelo);
-
-            //return View();
         }
 
 
@@ -97,27 +87,48 @@ namespace SETEC.Controllers
 
 
         [HttpPost]
-        public IActionResult InsertarDatos(string datos)
+        public IActionResult InsertarDatos(string datos, bool eliminar)
         {
+            Console.WriteLine(datos);
+            Console.WriteLine(eliminar);
 
-            if (datos != null)
+            try
             {
 
+            
+            
+            if (datos != null)
 
-                List<ActualidadCliente> actualidadClientes = JsonConvert.DeserializeObject<List<ActualidadCliente>>(datos);
-                Console.WriteLine(actualidadClientes);
-                _context.ActualidadClientes.AddRange(actualidadClientes);
-                _context.SaveChanges();
+                {
+                    if (eliminar == true)
+                    {
 
-                // Redirige a una vista de éxito o cualquier otra acción que desees
-                return RedirectToAction("UploadActual");
+                        _context.ActualidadClientes.RemoveRange(_context.ActualidadClientes);
+                        _context.SaveChanges();
 
+                    }
+
+                    List<ActualidadCliente> actualidadClientes = JsonConvert.DeserializeObject<List<ActualidadCliente>>(datos);
+                    Console.WriteLine(actualidadClientes);
+                    _context.ActualidadClientes.AddRange(actualidadClientes);
+                    _context.SaveChanges();
+
+
+                    return RedirectToAction("UploadActual");
+
+                }
+
+
+                return RedirectToAction("Error");
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
-            // Datos es nulo, puedes manejarlo de acuerdo a tus requerimientos
-            return RedirectToAction("Error");
-        }
 
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

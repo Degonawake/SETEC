@@ -1,0 +1,307 @@
+﻿@model SETEC.Data.Entities.ActualViewModelCall
+@inject IJsonHelper Json;
+@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Details";
+}
+
+<head>
+    <script>
+        var modeloGestion = @Html.Raw(JsonConvert.SerializeObject(Model.masterGestion));
+    </script>
+</head>
+
+
+<div class="row bg-white" style="height:100%;width:100%">
+    <h3 class="text-center rounded-3" style="padding:30px 0 30px 0;">GESTION DE CLIENTES - CALL CENTER</h3>
+
+    <div style="height:100%;width:50%;">
+        <div class=" container-fluid bg-light rounded-3">
+            <div class="container-fluid text-center rounded" style="height:50%;">
+                <h6>
+                    INFORMACION DEL CLIENTE
+                </h6>
+            </div>
+            <dl class="row align-self-center bg-white border form-control">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Fecha_Agenda)
+                </dt>
+                <dd class="col-sm-10 form-control" id="agenda">
+                    @Html.DisplayFor(model => model.actualCliente.Fecha_Agenda)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Gestor)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Gestor)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Identidad)
+                </dt>
+                <dd class="col-sm-10 form-control" id="identidad">
+                    @Html.DisplayFor(model => model.actualCliente.Identidad)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Nombre)
+                </dt>
+                <dd class="col-sm-10 form-control" id="nombre">
+                    @Html.DisplayFor(model => model.actualCliente.Nombre)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Numero_telefono)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Numero_telefono)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Contrato)
+                </dt>
+                <dd class="col-sm-10 form-control" id="contrato">
+                    @Html.DisplayFor(model => model.actualCliente.Contrato)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Antiguedad)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Antiguedad)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Canal_de_venta)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Canal_de_venta)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Articulos)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Articulos)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Tipo_de_cartera)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Tipo_de_cartera)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Dias_de_atraso)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Dias_de_atraso)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Monto_mensual_Factura)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Monto_mensual_Factura)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Saldo_total_credito)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Saldo_total_credito)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Saldo_en_Mora)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Saldo_en_Mora)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Descuento)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Descuento)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Pago_con_descuento)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Pago_con_descuento)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.actualCliente.Vencimiento_factura)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.actualCliente.Vencimiento_factura)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model?.actualCliente.id">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+    <div class="bg-light" style="height:100%;width:50%;">
+        <div class="container-fluid text-center rounded" style="height:50%;">
+            <h6>
+                INFORMACION PARA INGRESO
+            </h6>
+
+        </div>
+        <div>
+            <form asp-controller="Historico" asp-action="Create" method="post" onsubmit="dataValidation(event)" class="form-control" id="ingresosCall">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div>
+                    <div class="form-group">
+                        <label asp-for="@Model.HistoricoClientesContrato.Fecha_Agenda" class="control-label"></label>
+                        <input asp-for="@Model.HistoricoClientesContrato.Fecha_Agenda" id="IdeAgenda" class="form-control" />
+                        <span asp-validation-for="@Model.HistoricoClientesContrato.Fecha_Agenda" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.HistoricoClientesContrato.Fechagestion" class="control-label"></label>
+                        <input asp-for="@Model.HistoricoClientesContrato.Fechagestion" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" readonly />
+                        <span asp-validation-for="@Model.HistoricoClientesContrato.Fechagestion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.HistoricoClientesContrato.Identidad" class="control-label"></label>
+                        <input asp-for="@Model.HistoricoClientesContrato.Identidad" class="form-control" id="IdeIngreso" readonly />
+                        <span asp-validation-for="@Model.HistoricoClientesContrato.Identidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.HistoricoClientesContrato.Nombre" class="control-label"></label>
+                        <input asp-for="@Model.HistoricoClientesContrato.Nombre" class="form-control" id="IdeName" readonly />
+                        <span asp-validation-for="@Model.HistoricoClientesContrato.Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.HistoricoClientesContrato.Contrato" class="control-label"></label>
+                        <input asp-for="@Model.HistoricoClientesContrato.Contrato" class="form-control" id="IdeContrato" readonly />
+                        <span asp-validation-for="@Model.HistoricoClientesContrato.Contrato" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group" onload="asignarDatos">
+                    <label asp-for="@Model.HistoricoClientesContrato.Codigo_Gestion" class="control-label"></label>
+                    <select asp-for="@Model.HistoricoClientesContrato.Codigo_Gestion" class="form-control" id="SelectCod" required>
+                        @foreach (var item in Model.masterGestion)
+                        {
+                            <option value="@item.idgestion">@item.idgestion</option>
+                        }
+                        <option selected disabled value="0">Elija la el codigo de gestion</option>
+                    </select>
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Codigo_Gestion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="control-label"></label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="form-control form-floating" id="SelectDes" readonly/>
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Desc_gestion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.HistoricoClientesContrato.Monto_promesa" class="control-label"></label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Monto_promesa" class="form-control form-floating" required />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Monto_promesa" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="control-label"></label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="form-control form-floating" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.HistoricoClientesContrato.Fecha_NuevaVisita" class="control-label">Nueva Llamada</label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Fecha_NuevaVisita" class="form-control form-floating" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Fecha_NuevaVisita" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.HistoricoClientesContrato.Comentario" class="control-label">Comentarios</label>
+                    <textarea asp-for="@Model.HistoricoClientesContrato.Comentario" class="form-control form-floating" rows="10" required></textarea>
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Comentario" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="@Model.HistoricoClientesContrato.Latitud" class="form-control form-floating" id="lat2" />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Latitud" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" style="padding:20px 0 0 0;">
+                    <input type="submit"  value="Grabar gestion" class="btn btn-primary form-control" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+    {
+
+    <script>
+        var coordLat2 = document.getElementById("lat2");
+        function asignarDatos() {
+
+            alert("Entro a la funcion");
+
+            document.getElementById("IdeName").value = (document.getElementById("nombre").textContent).trim();
+            document.getElementById("IdeContrato").value = (document.getElementById("contrato").textContent).trim();
+            document.getElementById("IdeIngreso").value = (document.getElementById("identidad").textContent).trim();
+
+            var fechaAgendaFormato = (document.getElementById("agenda").textContent).trim();
+
+            function convertirFormato(fechaAgendaFormato) {
+
+                var partesFecha = fechaAgendaFormato.split(" ");
+                var partesFechaNumerica = partesFecha[0].split("/");
+                var partesHora = partesFecha[1].split(":");
+                var fecha = new Date(
+                    parseInt(partesFechaNumerica[2]),   
+                    parseInt(partesFechaNumerica[1]) - 1, 
+                    parseInt(partesFechaNumerica[0])    
+                         
+                );    
+                var fechaFormateada = fecha.toISOString().slice(0, 16).replace('T', ' ');
+
+                return fechaFormateada;
+            }
+            var fechaEnFormato = convertirFormato(fechaAgendaFormato);
+
+            console.log(fechaEnFormato);
+
+        
+
+            document.getElementById("IdeAgenda").value = fechaEnFormato;
+        }
+
+        asignarDatos();
+
+        function GetCoord() {
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0,
+            };
+            if (navigator.geolocation) {
+
+                var success = function (position) {
+                    var latitud = position.coords.latitude,
+                        longitud = position.coords.longitude;
+                    console.log(latitud);
+                    console.log(longitud);
+                    coordLat2.value = latitud + ", " + longitud;
+
+                }
+                navigator.geolocation.getCurrentPosition(success, function (msg) {
+                    console.error(msg);
+                }, options);
+            }
+        }
+        GetCoord();
+
+        function dataValidation(e) {
+            
+
+            if (document.getElementById("SelectDes").value === '') {
+                Swal.fire('Mensaje','El valor de Descripcion de gestion esta vacio, debe llenarlo seleccionando un codigo','warning');
+                e.preventDefault();
+            }
+            else 
+            {
+                Swal.fire('Mensaje', 'Se ingresaron los datos', 'success');
+                ingresosCall.submit;
+                
+            }
+
+        }
+
+    </script>
+
+}
+

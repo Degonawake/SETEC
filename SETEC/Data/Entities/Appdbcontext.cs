@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace SETEC.Data.Entities
 {
-   public class Appdbcontext : IdentityDbContext<Users>
+   public class Appdbcontext : DbContext
 
     {
         public Appdbcontext()

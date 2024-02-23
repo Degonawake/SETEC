@@ -30,22 +30,6 @@ body {
 
 }
 
-.prueba {
-    background-color: aquamarine;
-    outline-color: blueviolet;
-    outline-width: 10px;
-    position: relative;
-    width: 100px;
-    height: 100px;
-}
-
-.pruebahijo {
-    background-color: maroon;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
 
 .button  {
     --color: #00A97F;
@@ -204,7 +188,7 @@ table.dataTable thead .sorting_desc_disabled:before {
 }
 
 .table-container {
-    max-height: 300px; /* Define la altura máxima del contenedor */
+    max-height: 800px; /* Define la altura máxima del contenedor */
     overflow-y: scroll; /* Activa la barra de desplazamiento vertical */
     border: 1px solid #ccc; /* Agrega un borde para mejorar la apariencia */
 }
@@ -212,4 +196,133 @@ table.dataTable thead .sorting_desc_disabled:before {
 #data-table {
     position: sticky; /* Fijar al desplazarse */
     top: 0; /* Fijar en la parte superior */
+}
+
+
+@import url(https://fonts.googleapis.com/css?family=Exo:100,200,400);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);
+
+
+
+.body {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -40px;
+    bottom: -40px;
+    width: auto;
+    height: auto;
+    background-image: url(https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg?w=1800&t=st=1708633396~exp=1708633996~hmac=e57526841ff480b94877294d1f3ac20f5a389d39731f1dfe2fd0dd91847b541b);
+    background-size: cover;
+    -webkit-filter: blur(5px);
+    z-index: -1;
+}
+
+
+.header {
+    position: absolute;
+    top: calc(50% - 35px);
+    left: calc(50% - 255px);
+    z-index: 2;
+}
+
+    .header div {
+        float: left;
+        color: #fff;
+        font-family: 'Exo', sans-serif;
+        font-size: 35px;
+        font-weight: 200;
+    }
+
+        .header div span {
+            color: #5379fa !important;
+        }
+
+.login {
+    position: absolute;
+    background: transparent;
+    top: calc(50% - 75px);
+    left: calc(50% - 50px);
+    height: 300px;
+    width: 350px;
+    padding: 10px 10px 10px 10px;
+    z-index: 2;
+    border-radius: 20px;
+    border: solid;
+    border-width: 1px;
+    border-color: white;
+}
+
+    .login input[type=text] {
+        width: 260px;
+        height: 30px;
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.6);
+        border-radius: 2px;
+        color: #fff;
+        font-family: 'Exo', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        padding: 10px;
+        margin: 10px 0 0 0;
+        border-radius: 5px;
+    }
+
+    .login input[type=password] {
+        width: 260px;
+        height: 30px;
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.6);
+        border-radius: 5px;
+        color: #fff;
+        font-family: 'Exo', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        padding: 4px;
+        margin-top: 10px;
+    }
+
+    .login input[type=button] {
+        width: 260px;
+        height: 35px;
+        background-color:mediumblue;
+        
+        cursor: pointer;
+        color: white;
+        font-family: 'Exo', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        padding: 6px;
+        margin-top: 10px;
+        border-radius:5px;
+    }
+
+        .login input[type=button]:hover {
+            opacity: 0.8;
+        }
+
+        .login input[type=button]:active {
+            opacity: 0.6;
+        }
+
+    .login input[type=text]:focus {
+        outline: none;
+        border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .login input[type=password]:focus {
+        outline: none;
+        border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .login input[type=button]:focus {
+        outline: none;
+    }
+
+::-webkit-input-placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+::-moz-input-placeholder {
+    color: rgba(255,255,255,0.6);
 }

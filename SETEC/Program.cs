@@ -15,9 +15,9 @@ namespace SETEC
             builder.Services.AddControllersWithViews();
          
             builder.Services.AddDbContext<Appdbcontext>(options =>
-                options.UseNpgsql(builder.Configuration.GetConnectionString("conexion")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
 
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);//para especificar que se utilizaran campos de fecha
+            //AppContext.SetSwitch("SQLServer.EnableLegacyTimestampBehavior", true);//para especificar que se utilizaran campos de fecha
 
             var app = builder.Build();
 
