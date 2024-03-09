@@ -5,11 +5,11 @@
     int marca = 1;
 }
 
-
-<h1>Base de clientes a cobrar</h1>
+<div class="bg-white rounded-3" style="padding: 0 20px 0 20px; ">
+<h1 class="text-primary">Base de clientes a cobrar</h1>
 
 <p>
-    <a class="btn btn-outline-secondary" asp-action="Create">Crear nuevo registro para cobro</a>
+    <a class="btn btnB text-white" asp-action="Create">Crear nuevo registro para cobro</a>
 </p>
 
 
@@ -19,12 +19,13 @@
         <input type="text" class="form-control" id="searchString" name="searchString">
     </div>
     <button type="submit" class="btn btn-primary">Buscar</button>
+    <br></br>
 </form>
 
 
 <div class="table-container h-100">
     <table class="table text small h-10 table-striped">
-        <thead class="bg-dark text-light    ">
+        <thead class="btnB text-light    ">
             <tr>
                 <th>
                     Acción
@@ -91,11 +92,16 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class=" h-10 w-100  @((item.Gestionado) ? "bg-success bg-opacity-25" : "text-dark")">
+                    <tr class=" h-10 w-100  @((item.Gestionado) ? "ReadRecord bg-opacity-100" : "text-dark")">
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.id" class="btn btn-outline-primary"><i class="bi-alarm" style="font-size:small;"></i></a> |
+                        <a asp-action="Details" asp-route-id="@item.id" class="btn btnB"><i class="bi-search text-white" style="font-size:small;"></i></a>
+                            @if (User.IsInRole("ADMINISTRADOR"))
+                            {
+                            <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-outline-primary"><i class="bi-pen" style="font-size:small;"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-outline-danger"><i class="bi-x-lg " style="font-size:small;"></i></a>
+                            }
                     </td>
-                    <td class="center-block text-lg-center @((item.Gestionado) ? "bg-success bg-opacity-25" : "text-danger")">
+                    <td class="center-block text-lg-center @((item.Gestionado) ? "btnB" : "text-danger")">
 
                         @if (item.Gestionado == true)
                         {
@@ -163,4 +169,5 @@
             }
         </tbody>
     </table>
+</div>
 </div>

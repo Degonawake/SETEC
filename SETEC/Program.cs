@@ -1,8 +1,9 @@
-
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SETEC.Data.Entities;
+
 namespace SETEC
 {
     public class Program
@@ -13,6 +14,13 @@ namespace SETEC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    option.LoginPath = "/Acceso/Acceso";
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                    option.AccessDeniedPath = "/Acceso/Acceso";  
+                });
          
             builder.Services.AddDbContext<Appdbcontext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
@@ -34,11 +42,12 @@ namespace SETEC
             app.UseStaticFiles(); //Para poder usar archivos directos de la raiz
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Acceso}/{action=Acceso}/{id?}");
 
             app.Run();
         }

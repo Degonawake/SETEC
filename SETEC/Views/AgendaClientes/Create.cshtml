@@ -3,10 +3,10 @@
 @{
     ViewData["Title"] = "Create";
 }
+<div class=" bg-white" style="padding:20px 20px 20px 20px">
+<h1 class="text-primary">Crear nuevo registro</h1>
 
-<h1>Create</h1>
-
-<h4>ActualidadCliente</h4>
+<h4>Registros para Gestiones</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -102,7 +102,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

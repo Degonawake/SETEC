@@ -20,8 +20,8 @@
 
 </head>
 <p><br/></p>
-<div class="col-md-6 offset-md-3" >
-    <div class="container-fluid text-center bg-dark text-light rounded "> 
+<div class="col-md-6 offset-md-3 bg-white rounded-3" style="padding: 0 10px 0 10px;" >
+    <div class=" text-center text-light rounded btnB"> 
         <h1 >
         VISITAS DE COBRO
         </h1>
@@ -128,13 +128,13 @@
         </div> 
     </form>
     
-    <div class="container-fluid text-center bg-dark text-light rounded ">
+    <div class="container-fluid text-center btnB text-light rounded ">
         <h1 >
         INGRESO DE GESTIONES
         </h1>
-        <button id="NewGestion" class=btn-light>CREAR NUEVA GESTION</Button>
+        <button id="NewGestion" class="btn-outline-primary rounded-3">CREAR NUEVA GESTION</Button>
     </div>
-    <form asp-controller="Historico" asp-action="Create" method="post" class="form-control">
+    <form asp-controller="Historico" asp-action="Create" method="post" class="form-control" name="ingresoVisita">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="@Model.HistoricoClientesContrato.Fechagestion" class="control-label"></label>
@@ -196,9 +196,9 @@
             <input hidden asp-for="@Model.HistoricoClientesContrato.Latitud" class="form-control form-floating" id="lat"/>
             <span asp-validation-for="@Model.HistoricoClientesContrato.Latitud" class="text-danger"></span>
         </div>
-        
+            <input hidden name="tipoIngreso" id="tipoIngreso" value="Visita"/>
         <div class="form-group">
-            <input type="submit" value="Grabar gestion" class="btn btn-primary form-control" />
+            <input type="submit" value="Grabar gestion" class="btn btn-primary form-control btnB" onclick="dataValidation(event)" />
         </div>
     </form>
 </div>
@@ -214,6 +214,22 @@
             e.preventDefault();
             form.submit();
                          
+        }
+
+        function dataValidation(e) {
+            
+
+            if (document.getElementById("SelectDes").value === '') {
+                Swal.fire('Mensaje','El valor de Descripcion de gestion esta vacio, debe llenarlo seleccionando un codigo','warning');
+                e.preventDefault();
+            }
+            else 
+            {
+                Swal.fire('Mensaje', 'Se ingresaron los datos', 'success');
+                ingresosVisita.submit;
+                
+            }
+
         }
 
 

@@ -1,22 +1,21 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+	ViewData["Title"] = "Home Page";
 }
 
-<div class="body"></div>
-<div class="grad"></div>
-<div class="header">
-	<div>SofTech<span>HN</span></div>
-</div>
-<br>
+
 <div class="login">
 	<br>
 	<br>
-	<form>
-	<label>_<i class="bi-person text-white" style="font-size:small;"></i> _</label><input type="text" placeholder="Usuario" name="Usuario"><br>
-	<label>_<i class="bi-key text-white" style="font-size:small;"></i> _</label><input type="password" placeholder="Password" name="Password"><br>
-	<label>_<i class="bi-building text-white" style="font-size:small;"></i> _</label><input type="text" placeholder="Empresa" name="Empresa"><br>
-	<label>_<i class="bi-door-open text-white" style="font-size:small;"></i> _</label><input type="button" value="Login">
-	</form>
+	<h1 class="text-center text-white">Bienvenido<span style="color:darkviolet;"></span></h1>
+	<br>
+	<p>@ViewBag.User</p>
+	<br>
+	<br>
+
+	<h5 class="text-center text-white">SofTech<span style="color:darkviolet;">HN</span></h5>
+	
+
 </div>
 
 

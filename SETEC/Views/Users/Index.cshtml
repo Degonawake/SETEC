@@ -7,76 +7,76 @@
 
 
 
-<div class="container">
-<h1>Creacion y modificacion de usuarios</h1>
-<h2></h2>
+<div class="bg-white rounded-3" style="padding:0 20px 20px 20px;">
+    <h1 class="text-primary" style="color:darkslateblue">Creacion y modificacion de usuarios</h1>
+    <h2></h2>
 
 
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary">Crear Nuevo Usuario</a>
-</p>
-
-<form asp-controller="Users" asp-action="Index" method="get" class="bg-light">
     <p>
-   
+        <a asp-action="Create" class="btn text-white btnB">Crear Nuevo Usuario</a>
     </p>
-    @Html.DropDownList("buscar",new SelectList(listadousuarios),
-    "Selecciones el usuario",
-    new {@class = "form-control", @name="buscar"})
-    <input type="submit" value="buscar" class="btn btn-primary" />
-</form>
 
-<table class="table table-bordered table-striped table">
-    <thead class="table-dark">
-        <tr class="text-center text-capitalize">
-            <th>
-                @Html.DisplayNameFor(model => model.usuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.empresa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.rol)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.fecha)
-            </th>
-            <th>
-                Opciones
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.usuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.empresa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.rol)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fecha)
-            </td>
-            <td class="align-content-center">
-                <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-outline-primary btn-outline-primary" >Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.id" class="btn btn-outline-secondary">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-outline-danger">Eliminar</a>
-                
-            
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <form asp-controller="Users" asp-action="Index" method="get" class="bg-light">
+        <p>
+
+        </p>
+        @Html.DropDownList("buscar",new SelectList(listadousuarios),
+        "Selecciones el usuario",
+        new {@class = "form-control", @name="buscar"})
+        <input type="submit" value="buscar" class="btn btn-primary" />
+    </form>
+
+    <table class="table table-bordered table-striped table">
+        <thead class=" text-white btnB">
+            <tr class="text-center text-capitalize">
+                <th>
+                    Opciones
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.usuario)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.password)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.empresa)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.rol)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.fecha)
+                </th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-outline-primary btn-outline-primary bi-pen"></a> |
+                        <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-outline-danger bi-x-lg"></a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.usuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.password)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.empresa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.rol)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fecha)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

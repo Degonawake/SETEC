@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SETEC.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SETEC.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -30,15 +32,6 @@ namespace SETEC.Controllers
             return View();
         }
 
-        public IActionResult Usuarios() //mapear la vista y lograr retornarla
-        {
-            return View();
-        }
-
-        public IActionResult pruebaJs() //mapear la vista y lograr retornarla
-        {
-            return View();
-        }
 
         public IActionResult Privacy()
         {

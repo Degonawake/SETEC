@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using SETEC.Data.Entities;
 
 namespace SETEC.Controllers
 {
+    [Authorize]
     public class HistoricoController : Controller
     {
         private readonly Appdbcontext _context;
@@ -20,14 +22,14 @@ namespace SETEC.Controllers
 
         // GET: Historico
         public async Task<IActionResult> Index(string buscaridentidad)
-        {  
+        {
             var identidad = from HistoricoClientesContrato in _context.HistoricoClientes select HistoricoClientesContrato;
             if (!String.IsNullOrEmpty(buscaridentidad))
             {
                 identidad = identidad.Where(s => s.Identidad!.Contains(buscaridentidad));
             }
             Console.WriteLine("Buscar Identidad: " + buscaridentidad);
-            return View(await identidad.ToListAsync());  
+            return View(await identidad.ToListAsync());
         }
 
         // GET: Historico/Details/5
@@ -59,14 +61,24 @@ namespace SETEC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fechagestion,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Fecha_Promesa,Fecha_NuevaVisita,Comentario,Latitud,Fecha_Agenda")] HistoricoClientesContrato historicoClientesContrato)
+        public async Task<IActionResult> Create([Bind("Id,Fechagestion,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Fecha_Promesa,Fecha_NuevaVisita,Comentario,Latitud,Fecha_Agenda")] HistoricoClientesContrato historicoClientesContrato, string tipoIngreso)
         {
+
+
             if (ModelState.IsValid)
             {
+
                 _context.Add(historicoClientesContrato);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "AgendaClientes");
-                //return RedirectToAction(nameof(Index));
+
+                if (tipoIngreso == "Visita")
+                {
+                    return RedirectToAction("Inforoute1", "Actual");
+                }
+                else
+                {
+                   return RedirectToAction("Index", "AgendaClientes");
+                }
             }
             return View(historicoClientesContrato);
         }
@@ -154,14 +166,14 @@ namespace SETEC.Controllers
             {
                 _context.HistoricoClientes.Remove(historicoClientesContrato);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool HistoricoClientesContratoExists(int id)
         {
-          return (_context.HistoricoClientes?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.HistoricoClientes?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

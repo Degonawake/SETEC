@@ -1,0 +1,27 @@
+﻿@model SETEC.Data.Entities.User
+@{
+	ViewData["Title"] = "Login Page";
+}
+
+
+<div class="body" style="z-index:-1;"></div>
+<div class="grad"></div>
+<div class="LoginHeader">
+	
+</div>
+
+<div class="login">
+	<h1 class="text-center text-white">SofTech<span style="color:darkslateblue; text-shadow: 1px 1px 1px white;">HN</span></h1>
+	<br>
+
+	<form asp-action="Acceso" asp-controller="Acceso" method="post">
+		<label>_<i class="bi-person text-white" style="font-size:small;"></i> _</label><input asp-for="email" type="text" placeholder="Usuario" name="Email"><br>
+		<label>_<i class="bi-key text-white" style="font-size:small;"></i> _</label><input asp-for="password" type="password" placeholder="Password" name="Password"><br>
+		<label>_<i class="bi-building text-white" style="font-size:small;"></i> _</label><input asp-for="empresa" type="text" placeholder="Empresa" name="Empresa"><br>
+		<br />
+		<input class="btn text-white btnB form-control rounded-3" type="submit" style="padding: 10px 10px 10px 10px" value="Login">
+		<p class="text-light">@ViewBag.loginAccess</p>
+	</form>
+</div>
+
+

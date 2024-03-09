@@ -13,10 +13,10 @@
     <script src="https://git.sheetjs.com/sheetjs/sheetjs.git"></script>
 </head>
 
+<div class="bg-white rounded-3" style="padding: 0 20px 0 20px;">
+<h3 class="bg-white" style="color:darkslateblue;">Carga masiva de cartera actual</h3>
 
-<h3>Carga masiva de cartera actual</h3>
-
-<div>
+<div class="bg-white">
     <h6>Antes de cargar el archivo asegurese que la informacion sea la correcta: </h6>
     <form class="form-control">
         <input type="file" class="form-control" id="FileAddress" readonly>
@@ -24,7 +24,7 @@
 
     <form method="post" id="uploadForm" onsubmit="sendForm(event)" class="form-control" action="InsertarDatos">
         <input type="text" id="datos" name="datos">
-        <button class="btn btn-primary">Cargar Archivos</button>
+        <button class="btn btn-primary btnB">Cargar Archivos</button>
         <label for="eliminar">Desea eliminar los datos anteriores?</label>
         <input type="checkbox" value="true" id="eliminar" name="eliminar">
     </form>
@@ -39,7 +39,7 @@
 
             <!--<input type="submit" value="Insertar Datos" />-->
             <table class="table table-striped table-bordered table-sm" cellspacing="0" width="20%" id="data-table">
-                <thead class="table-dark">
+                <thead class="btnB">
                     <tr>
                         <th>Fecha_Agenda</th>
                         <th>Gestor</th>
@@ -69,6 +69,7 @@
         }
     </div>
 
+</div>
 </div>
 
 @section scripts

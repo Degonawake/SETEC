@@ -10,9 +10,11 @@ using SETEC.Models;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SETEC.Controllers
 {
+    [Authorize]
     public class ActualController : Controller
     {
 
@@ -23,7 +25,7 @@ namespace SETEC.Controllers
             _context = context;
         }
 
-
+        
         // GET: ActualController
         public async Task<ActionResult> Inforoute1(string search, string searchDate, string searchGestor)
         {
@@ -47,7 +49,7 @@ namespace SETEC.Controllers
                     (String.IsNullOrEmpty(searchGestor) || Identidad!.Contains(searchGestor))
                 );
             }
-          
+
             var actualClientesList = await allactual.ToListAsync();
             var codgestion = from Codgestion in _context.Mastergestion select Codgestion;
             var codGestionList = await codgestion.ToListAsync();
@@ -55,7 +57,7 @@ namespace SETEC.Controllers
             viewModel = new ActualViewModel
             {
                 ActualClientesList = actualClientesList,
-                ActualClientesListDropDown = actualClientesList,            
+                ActualClientesListDropDown = actualClientesList,
                 Mastergestion = codGestionList,
                 HistoricoClientesContrato = new HistoricoClientesContrato(),
             };
@@ -65,7 +67,7 @@ namespace SETEC.Controllers
 
 
         public IActionResult UploadActual()
-        {   
+        {
             var modelo = new ActualidadCliente(); // Crea una instancia del modelo
             return View(modelo);
         }
@@ -85,7 +87,7 @@ namespace SETEC.Controllers
         }
 
 
-
+      
         [HttpPost]
         public IActionResult InsertarDatos(string datos, bool eliminar)
         {

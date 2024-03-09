@@ -12,19 +12,19 @@
 </head>
 
 
-<div class="row bg-white" style="height:100%;width:100%">
-    <h3 class="text-center rounded-3" style="padding:30px 0 30px 0;">GESTION DE CLIENTES - CALL CENTER</h3>
+<div class="row bg-white rounded-3"  style="height:100%;width:100%">
+    <h3 class="text-center rounded-3 btnB" style="padding:30px 0 30px 0;">GESTION DE CLIENTES - CALL CENTER</h3>
 
     <div style="height:100%;width:50%;">
         <div class=" container-fluid bg-light rounded-3">
             <div class="container-fluid text-center rounded" style="height:50%;">
-                <h6>
+                <h6 class="rounded-3 btnB">
                     INFORMACION DEL CLIENTE
                 </h6>
             </div>
             <dl class="row align-self-center bg-white border form-control">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.actualCliente.Fecha_Agenda)
+                <dt class="col-sm-6">
+                    Fecha Agenda
                 </dt>
                 <dd class="col-sm-10 form-control" id="agenda">
                     @Html.DisplayFor(model => model.actualCliente.Fecha_Agenda)
@@ -47,8 +47,8 @@
                 <dd class="col-sm-10 form-control" id="nombre">
                     @Html.DisplayFor(model => model.actualCliente.Nombre)
                 </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.actualCliente.Numero_telefono)
+                <dt class="col-sm-6">
+                    Numero Telefono
                 </dt>
                 <dd class="col-sm-10 form-control">
                     @Html.DisplayFor(model => model.actualCliente.Numero_telefono)
@@ -134,7 +134,7 @@
     </div>
     <div class="bg-light" style="height:100%;width:50%;">
         <div class="container-fluid text-center rounded" style="height:50%;">
-            <h6>
+            <h6 class="rounded-3 btnB">
                 INFORMACION PARA INGRESO
             </h6>
 
@@ -210,8 +210,10 @@
                     <span asp-validation-for="@Model.HistoricoClientesContrato.Latitud" class="text-danger"></span>
                 </div>
 
+                <input hidden name="tipoIngreso" id="tipoIngreso" value="llamada" />
+
                 <div class="form-group" style="padding:20px 0 0 0;">
-                    <input type="submit"  value="Grabar gestion" class="btn btn-primary form-control" />
+                    <input type="submit" value="Grabar gestion" class="btn btn-primary form-control btnB" />
                 </div>
             </form>
         </div>
@@ -227,8 +229,6 @@
     <script>
         var coordLat2 = document.getElementById("lat2");
         function asignarDatos() {
-
-            alert("Entro a la funcion");
 
             document.getElementById("IdeName").value = (document.getElementById("nombre").textContent).trim();
             document.getElementById("IdeContrato").value = (document.getElementById("contrato").textContent).trim();

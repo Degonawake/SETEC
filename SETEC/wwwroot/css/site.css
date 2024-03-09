@@ -30,6 +30,49 @@ body {
 
 }
 
+.ReadRecord {
+    background-color: lightsteelblue;
+   
+}
+
+.btnC {
+    border: 2px solid darkslateblue; /* Borde outline color navy */
+    width: 250px;
+    padding: 2px 2px 10px 2px;
+    background-color: transparent; /* Fondo transparente */
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+    padding: 10px 20px; /* Espaciado interno */
+    cursor: pointer; /* Cursor de apuntar */
+    border-radius: 5px;
+}
+
+.btnA {
+    width: 200px;
+    padding: 2px 2px 10px 5px;
+    
+    background-color: transparent; /* Fondo transparente */
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+    padding: 10px 20px; /* Espaciado interno */
+    cursor: pointer; /* Cursor de apuntar */
+    border-radius: 5px;
+    
+}
+
+    .btnA:hover {
+     
+        border: 2px solid darkslateblue; /* Borde outline color navy */
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.5); /* Sombra azul al pasar el mouse */
+        
+    }
+
+    .btnA:active {
+        background-color: darkslateblue; /* Relleno completo al presionar */
+        color: white; /* Texto blanco al presionar */
+        box-shadow: none; /* Sin sombra al presionar */
+        
+    }
+
 
 .button  {
     --color: #00A97F;
@@ -203,6 +246,15 @@ table.dataTable thead .sorting_desc_disabled:before {
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);
 
 
+.btnB {
+    background-color: darkslateblue;
+    color:white;
+
+}
+
+.background {
+    background: linear-gradient(138deg, rgba(3,30,69,1) 0%, rgba(26,47,112,1) 53%, rgba(104,7,126,1) 100%);
+}
 
 .body {
     position: absolute;
@@ -212,10 +264,8 @@ table.dataTable thead .sorting_desc_disabled:before {
     bottom: -40px;
     width: auto;
     height: auto;
-    background-image: url(https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg?w=1800&t=st=1708633396~exp=1708633996~hmac=e57526841ff480b94877294d1f3ac20f5a389d39731f1dfe2fd0dd91847b541b);
-    background-size: cover;
-    -webkit-filter: blur(5px);
-    z-index: -1;
+    background: linear-gradient(138deg, rgba(3,30,69,1) 0%, rgba(26,47,112,1) 53%, rgba(104,7,126,1) 100%);
+
 }
 
 
@@ -223,7 +273,7 @@ table.dataTable thead .sorting_desc_disabled:before {
     position: absolute;
     top: calc(50% - 35px);
     left: calc(50% - 255px);
-    z-index: 2;
+ 
 }
 
     .header div {
@@ -238,15 +288,23 @@ table.dataTable thead .sorting_desc_disabled:before {
             color: #5379fa !important;
         }
 
+.LoginHeader {
+    position: absolute;
+    background: transparent;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .login {
     position: absolute;
     background: transparent;
-    top: calc(50% - 75px);
-    left: calc(50% - 50px);
-    height: 300px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 400px;
     width: 350px;
     padding: 10px 10px 10px 10px;
-    z-index: 2;
     border-radius: 20px;
     border: solid;
     border-width: 1px;
@@ -282,29 +340,10 @@ table.dataTable thead .sorting_desc_disabled:before {
         margin-top: 10px;
     }
 
-    .login input[type=button] {
-        width: 260px;
-        height: 35px;
-        background-color:mediumblue;
-        
-        cursor: pointer;
-        color: white;
-        font-family: 'Exo', sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        padding: 6px;
-        margin-top: 10px;
-        border-radius:5px;
-    }
+  
+  
 
-        .login input[type=button]:hover {
-            opacity: 0.8;
-        }
-
-        .login input[type=button]:active {
-            opacity: 0.6;
-        }
-
+  
     .login input[type=text]:focus {
         outline: none;
         border: 1px solid rgba(255,255,255,0.9);
@@ -315,14 +354,9 @@ table.dataTable thead .sorting_desc_disabled:before {
         border: 1px solid rgba(255,255,255,0.9);
     }
 
-    .login input[type=button]:focus {
-        outline: none;
-    }
+  
 
 ::-webkit-input-placeholder {
     color: rgba(255,255,255,0.6);
 }
 
-::-moz-input-placeholder {
-    color: rgba(255,255,255,0.6);
-}

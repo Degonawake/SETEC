@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
-<h1>Editar registros</h1>
+<div class="bg-white" style="padding: 0 20px 0 20px">
+<h1 class=" text-primary">Editar registros</h1>
 
 <h4>Usuarios</h4>
 <hr />
@@ -46,9 +46,9 @@
 </div>
 
 <div>
-    <a asp-action="Index">Volver</a>
+    <a class="btn btn-primary" asp-action="Index">Volver</a>
 </div>
-
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
