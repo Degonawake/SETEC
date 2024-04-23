@@ -34,19 +34,22 @@
                     Opciones
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.usuario)
+                   Correo Electronico
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.password)
+                    Usuario
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.empresa)
+                   Password
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.rol)
+                    Empresa
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.fecha)
+                    Rol
+                </th>
+                <th>
+                    Fecha
                 </th>
               
             </tr>
@@ -58,6 +61,9 @@
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-outline-primary btn-outline-primary bi-pen"></a> |
                         <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-outline-danger bi-x-lg"></a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.email)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.usuario)

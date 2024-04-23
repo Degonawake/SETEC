@@ -16,14 +16,35 @@ namespace SETEC.Data.Entities
         public string? Codigo_Gestion { get; set; }
 
         [Required(ErrorMessage = "El campo Descripcion de la gestion es obligatorio.")]
+    
         public string? Desc_gestion { get; set; }
+
         public double Monto_promesa { get; set; }
+
+        public double Saldo_mora { get; set; }
+
+        public double Saldo_Total { get; set; }
+
+        public double Descuento { get; set; }
+
         public DateTime Fecha_Promesa { get; set; }
 
         public DateTime Fecha_NuevaVisita { get; set; }
 
         public string? Comentario { get; set; }
+
         public string? Latitud { get; set; }
+
+        public string? Gestor { get; set;}
+
+        public string? Agente { get; set; }
+
+        public string? Cartera { get; set; }
+
+        public string? Tipo_Ingreso { get; set; }
+
+        public string? Agencia { get; set; }
+
 
     }
 }

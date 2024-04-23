@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SETEC.Data.Entities;
 
@@ -11,9 +12,11 @@ using SETEC.Data.Entities;
 namespace SETEC.Migrations
 {
     [DbContext(typeof(Appdbcontext))]
-    partial class AppdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20240414233653_changeFields2")]
+    partial class changeFields2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,9 +65,6 @@ namespace SETEC.Migrations
 
                     b.Property<int>("Dias_de_atraso")
                         .HasColumnType("int");
-
-                    b.Property<string>("Direccion")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Direccion_Empresa_Labor")
                         .HasColumnType("nvarchar(max)");

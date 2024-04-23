@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SETEC.Data.Entities;
+using System.Globalization;
 
 namespace SETEC
 {
@@ -26,6 +27,16 @@ namespace SETEC
                 options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
 
             //AppContext.SetSwitch("SQLServer.EnableLegacyTimestampBehavior", true);//para especificar que se utilizaran campos de fecha
+
+            var cultureInfo = new CultureInfo("es-ES");
+            cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
+            cultureInfo.NumberFormat.NumberGroupSeparator = ",";
+            cultureInfo.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+            cultureInfo.DateTimeFormat.LongTimePattern = "HH:mm:ss";
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
 
             var app = builder.Build();
 

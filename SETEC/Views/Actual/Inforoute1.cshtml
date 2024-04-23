@@ -19,6 +19,9 @@
 
 
 </head>
+<div id="loadingOverlay">
+    <div class="loader"></div>
+</div>
 <p><br/></p>
 <div class="col-md-6 offset-md-3 bg-white rounded-3" style="padding: 0 10px 0 10px;" >
     <div class=" text-center text-light rounded btnB"> 
@@ -50,20 +53,27 @@
             "Seleccione fecha de visita/Seleccionar Todo",
         new {@class = "form-control", @name="buscarFecha", onchange="getForm(event)"})
         </div>
-        <div >
-        <label class="text-primary text fw-bold">IDENTIFICACION DEL CLIENTE</label>
+
+
+            <div>
+    <label class="text-primary text fw-bold">BUSCAR IDENTIDAD/NOMBRE</label>
+    <input type="text" id="searchInput" class="form-control" placeholder="Buscar identificación del cliente" hidden>
+    </div>
+    
+    <div >
+     
         @Html.DropDownList("search",new SelectList(Model.ActualClientesListDropDown.Select (u => new SelectListItem            
             {
                 Value= u.Identidad,
                 Text=  u.Identidad + " - " + u.Nombre 
             }).GroupBy(item => item.Value).Select(group => group.First()),"Value", "Text"),
             "Selecciones el numero de identificacion del cliente/Seleccionar Todo",
-        new {@class = "form-control", @name="buscar", onchange="getForm(event)"})
+        new {@class = "select2 form-control", @name="buscar", onchange="getForm(event)"})
         <input form-floating id="buscar" type="submit" value="buscar" class="btn btn-primary" name="busqueda" />
         </div>
-        
-        
        
+
+
 
         <p>Cantidad de Contratos @numcontratos</p>
          @if(numcontratos>1)
@@ -71,12 +81,35 @@
         <div class="form-floating"> 
             <button id="BackContrato" type="button"  class=btn-outline-primary>Anterior</button>
             <button id="NextContrato" type="button"  class=btn-outline-primary>Siguiente</button>
-            <button type="submit" asp-controller="Actual" asp-action="Actualidad" name="buscaridentidad" value="@Model.ActualClientesList.First().Identidad"  class=btn-outline-primary>Ver todos</Button>   
+          @*  <button type="submit" asp-controller="Actual" asp-action="Actualidad" name="buscaridentidad" value="@Model.ActualClientesList.First().Identidad"  class=btn-outline-primary>Ver todos</Button>   *@
         </div>
         }
+          <div class="form-floatage">
+            <input id="floatage" value="@Model.ActualClientesList.First().Fecha_Agenda" class="form-control form-floating" readonly/>
+
+        </div>
+          <div class="form-floating">
+            <input id="floatgestor" value="@Model.ActualClientesList.First().Gestor" class="form-control form-floating"  readonly/>
+            <label for="floatgestor" class="text-primary text fw-bold">GESTOR:</label>
+        </div>
+
+                  <div class="form-floating">
+            <input id="floatagente" value="@Model.ActualClientesList.First().Agente" class="form-control form-floating"  readonly/>
+            <label for="floatagente" class="text-primary text fw-bold">AGENTE:</label>
+        </div>
+      
+      
+          <div class="form-floating">
+            <input id="floatide" value="@Model.ActualClientesList.First().Identidad" class="form-control form-floating" readonly/>
+            <label for="floatide" class="text-primary text fw-bold">IDENTIDAD DEL CLIENTE:</label>
+        </div>
         <div class="form-floating">
             <input id="floatnombre" value="@Model.ActualClientesList.First().Nombre" class="form-control form-floating" readonly/>
             <label for="floatnombre" class="text-primary text fw-bold">NOMBRE DEL CLIENTE:</label>
+        </div>
+            <div class="form-floating">
+            <input id="floatide" value="@Model.ActualClientesList.First().Numero_telefono" class="form-control form-floating" readonly/>
+            <label for="floatide" class="text-primary text fw-bold">TELEFONO:</label>
         </div>
         <div class="form-floating">
             <input value="@Model.ActualClientesList.First().Contrato" class="form-control form-floating" id="floatContrato" readonly>
@@ -94,6 +127,61 @@
             <input value="@Model.ActualClientesList.First().Articulos" class="form-control form-floating" id="floatArticulos" readonly>
             <label for="floatArticulos" class="text-primary text fw-bold">ARTICULOS:</label>
         </div>
+
+
+         <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Empresa_Labor" class="form-control form-floating" id="floatEmpresa_Labor" readonly>
+            <label for="floatEmpresa_Labor" class="text-primary text fw-bold">EMPRESA EN QUE LABORA:</label>
+        </div>
+
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Tel_Empresa_Labor" class="form-control form-floating" id="floatTel_Empresa_Labor" readonly>
+            <label for="floatTel_Empresa_Labor" class="text-primary text fw-bold">TELEFONO DE LA EMPRESA:</label>
+        </div>
+
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Direccion_Empresa_Labor" class="form-control form-floating" id="floatDireccion_Empresa_Labor" readonly>
+            <label for="Direccion_Empresa_Labor" class="text-primary text fw-bold">DIRECCION DE LA EMPRESA:</label>
+        </div>
+
+       
+
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Consolidado_BD" class="form-control form-floating" id="floatConsolidado_BD" readonly>
+            <label for="floatConsolidado_BD" class="text-primary text fw-bold">DETALLES CONSOLIDADOS:</label>
+        </div>
+
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Ciudad" class="form-control form-floating" id="floatCiudad" readonly>
+            <label for="floatCiudad" class="text-primary text fw-bold">CIUDAD:</label>
+        </div>
+
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Cartera" class="form-control form-floating" id="floatCartera2" readonly>
+            <label for="floatCartera2" class="text-primary text fw-bold">CARTERA:</label>
+        </div>
+
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Agencia" class="form-control form-floating" id="floatAgencia" readonly>
+            <label for="floatArticulos" class="text-primary text fw-bold">AGENCIA:</label>
+        </div>
+
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Gen1" class="form-control form-floating" id="floatGen1" readonly>
+            <label for="floatArticulos" class="text-primary text fw-bold">GEN1:</label>
+        </div>
+
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Gen2" class="form-control form-floating" id="floatGen2" readonly>
+            <label for="floatGen2" class="text-primary text fw-bold">GEN2:</label>
+        </div>
+
+        <div class="form-floating">
+            <input value="@Model.ActualClientesList.First().Gen3" class="form-control form-floating" id="floatGen3" readonly>
+            <label for="floatGen3" class="text-primary text fw-bold">GEN3:</label>
+        </div>
+
+
         <div class="form-floating">
             <input value="@Model.ActualClientesList.First().Tipo_de_cartera" class="form-control form-floating" id="floatCartera" readonly>
             <label for="floatCartera" class="text-primary text fw-bold">TIPO DE CARTERA:</label>
@@ -136,6 +224,11 @@
     </div>
     <form asp-controller="Historico" asp-action="Create" method="post" class="form-control" name="ingresoVisita">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+         <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Fecha_Agenda" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Fecha_Agenda" class="form-control" id="IdeAgen" readonly/> 
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Fecha_Agenda" class="text-danger"></span>
+        </div>
         <div class="form-group">
             <label asp-for="@Model.HistoricoClientesContrato.Fechagestion" class="control-label"></label>
             <input asp-for="@Model.HistoricoClientesContrato.Fechagestion" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" readonly/>
@@ -172,6 +265,65 @@
             <input asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="form-control form-floating" readonly id="SelectDes" />
             <span asp-validation-for="@Model.HistoricoClientesContrato.Desc_gestion" class="text-danger"></span>
         </div>
+
+           <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Saldo_mora" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Saldo_mora" class="form-control form-floating" readonly id="IdeSaldoMora" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Saldo_mora" class="text-danger"></span>
+        </div>
+
+
+           <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Saldo_Total" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Saldo_Total" class="form-control form-floating" readonly id="IdeSaldoTotal" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Saldo_Total" class="text-danger"></span>
+        </div>
+
+
+           <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Descuento" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Descuento" class="form-control form-floating" readonly id="IdeDescuento" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Descuento" class="text-danger"></span>
+        </div>
+
+
+           <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Gestor" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Gestor" class="form-control form-floating" readonly id="IdeGestor" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Gestor" class="text-danger"></span>
+        </div>
+
+
+           <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Agente" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Agente" class="form-control form-floating" readonly id="IdeAgente" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Agente" class="text-danger"></span>
+        </div>
+
+           <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Cartera" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Cartera" class="form-control form-floating" readonly id="IdeCartera" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Cartera" class="text-danger"></span>
+        </div>
+
+               <div class="form-group">
+            <label asp-for="@Model.HistoricoClientesContrato.Agencia" class="control-label"></label>
+            <input asp-for="@Model.HistoricoClientesContrato.Agencia" class="form-control form-floating" readonly id="IdeAgencia" />
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Agencia" class="text-danger"></span>
+        </div>
+
+
+      
+        <div class="form-group">  
+            <input hidden asp-for="@Model.HistoricoClientesContrato.Tipo_Ingreso" class="form-control form-floating" id="TI" value="Visita"/>
+            <span asp-validation-for="@Model.HistoricoClientesContrato.Tipo_Ingreso" class="text-danger"></span>
+        </div>
+
+        
+
+
+
+
         <div class="form-group">
             <label asp-for="@Model.HistoricoClientesContrato.Monto_promesa" class="control-label"></label>
             <input asp-for="@Model.HistoricoClientesContrato.Monto_promesa" class="form-control form-floating" />
@@ -189,7 +341,7 @@
         </div>
          <div class="form-group">
             <label asp-for="@Model.HistoricoClientesContrato.Comentario" class="control-label">Comentarios</label>
-            <textarea asp-for="@Model.HistoricoClientesContrato.Comentario" class="form-control form-floating"></textarea>
+            <textarea asp-for="@Model.HistoricoClientesContrato.Comentario" class="form-control form-floating" id="comentario"></textarea>
             <span asp-validation-for="@Model.HistoricoClientesContrato.Comentario" class="text-danger"></span>
          </div>
             <div class="form-group">  
@@ -197,31 +349,53 @@
             <span asp-validation-for="@Model.HistoricoClientesContrato.Latitud" class="text-danger"></span>
         </div>
             <input hidden name="tipoIngreso" id="tipoIngreso" value="Visita"/>
+
+   <!--
+        <div class="form-group">
+        <button id="takePhotoBtn" class="btn btn-primary form-control btnB">Tomar Fotografía</button>
+        </div>
+     
+        <div class="form-group">
+            <label for="photoPreview">Vista Previa de la Foto:</label>
+            <img id="photoPreview" class="img-fluid" src="#" alt="Vista previa de la foto" style="display: none;">
+        </div>
+        -->
+
+
+
         <div class="form-group">
             <input type="submit" value="Grabar gestion" class="btn btn-primary form-control btnB" onclick="dataValidation(event)" />
         </div>
     </form>
 </div>
 
-            @section scripts
+
+@section scripts
     {
 
     <script>
 
-
-
-        function getForm(e) {
-            e.preventDefault();
-            form.submit();
-                         
-        }
-
+    
         function dataValidation(e) {
-            
 
-            if (document.getElementById("SelectDes").value === '') {
-                Swal.fire('Mensaje','El valor de Descripcion de gestion esta vacio, debe llenarlo seleccionando un codigo','warning');
+
+            if (document.getElementById("SelectDes").value === '' || document.getElementById("comentario").value === '' || document.getElementById("IdeIngreso").value === '' || document.getElementById("IdeName").value === '' || document.getElementById("IdeContrato").value === '') {
                 e.preventDefault();
+                if (document.getElementById("SelectDes").value === '') {
+                Swal.fire('Mensaje','El valor de Descripcion de gestion esta vacio, debe llenarlo seleccionando un codigo','warning');
+                }
+
+                if (document.getElementById("comentario").value === '') {
+                    Swal.fire('Mensaje', 'El valor de la casilla comentario esta vacio', 'warning');
+                }
+                 
+                if (document.getElementById("IdeIngreso").value === '') {
+                    Swal.fire('Mensaje', 'El valor de la casilla Identidad esta vacio, Utilice Boton Crear Nueva Gestión', 'warning');
+                }
+
+                if (document.getElementById("IdeName").value === '') {
+                    Swal.fire('Mensaje', 'El valor de la casilla Nombre esta vacio, Utilice Boton Crear Nueva Gestión', 'warning');
+                }
             }
             else 
             {
@@ -231,8 +405,21 @@
             }
 
         }
+        function getForm(e) {
+            e.preventDefault();
+            form.submit();
+                         
+        }
+
+            $(document).ready(function () {
+            $('.select2').select2();
+        });
 
 
-    </script>
+    
+</script>
+
+
+
 
 }

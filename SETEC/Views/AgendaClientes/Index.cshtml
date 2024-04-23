@@ -3,171 +3,239 @@
 @{
     ViewData["Title"] = "Index";
     int marca = 1;
+
 }
-
+<div id="loadingOverlay">
+    <div class="loader"></div>
+</div>
 <div class="bg-white rounded-3" style="padding: 0 20px 0 20px; ">
-<h1 class="text-primary">Base de clientes a cobrar</h1>
+    <h1 class="text-primary">Base de clientes a cobrar</h1>
 
-<p>
-    <a class="btn btnB text-white" asp-action="Create">Crear nuevo registro para cobro</a>
-</p>
-
-
-<form asp-action="IndexSearch" method="get">
-    <div class="form-group">
-        <label for="searchString">Buscar por nombre:</label>
-        <input type="text" class="form-control" id="searchString" name="searchString">
-    </div>
-    <button type="submit" class="btn btn-primary">Buscar</button>
-    <br></br>
-</form>
+    <p>
+        <a class="btn btnB text-white" asp-action="Create">Crear nuevo registro para cobro</a>
+    </p>
 
 
-<div class="table-container h-100">
-    <table class="table text small h-10 table-striped">
-        <thead class="btnB text-light    ">
-            <tr>
-                <th>
-                    Acción
-                </th>
-                <th>
 
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Fecha_Agenda)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Contrato)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Identidad)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nombre)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Gestor)
-                </th>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Numero_telefono)
-                </th>
+    <form asp-action="Index" method="get" id="searchForm">
+        <div class="form-group">
+            <label for="searchStringAgente">Buscar Agente:</label>
+            <input placeholder="Ingrese el gestor a buscar" type="text" class="form-control" id="searchStringAgente" name="searchStringAgente" value="@ViewBag.SearchStringAgente">
+        </div>
+        <div class="form-group">
+            <label for="searchString">Buscar por nombre:</label>
+            <input placeholder="Ingrese el nombre a buscar" type="text" class="form-control" id="searchString" name="searchString" value="@ViewBag.SearchString">
+        </div>
+        <div class="form-group">
+            <label for="searchDateString">Buscar por fecha:</label>
+            <select class="form-control" id="searchDateString" name="searchDateString" placeholder="YYYY-MM-DD" onchange="submitForm()">
+                @if (@ViewBag.SearchDateString !=null)
+                {
+                    Console.WriteLine($"{@ViewBag.SearchDateString}");
+                    <option selected>Seleccione una Fecha / Quitar Filtro</option>
+                    <option selected>@ViewBag.SearchDateString</option>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Antiguedad)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Canal_de_venta)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Articulos)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Tipo_de_cartera)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Dias_de_atraso)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Monto_mensual_Factura)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Saldo_total_credito)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Saldo_en_Mora)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Descuento)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Pago_con_descuento)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Vencimiento_factura)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+                }else
+                {
+                    <option value="0" selected>Seleccione una Fecha / Quitar Filtro</option>
+                }
+
+                @foreach (var item in Model.Select(m => m.Fecha_Agenda).Distinct())
+                {
+                    string[] partesFecha = item.ToString().Split("/");
+                    int anio = int.Parse(partesFecha[2].Substring(0, 4));
+                    int mes = int.Parse(partesFecha[1]);
+                    int dia = int.Parse(partesFecha[0]);
+                    DateTime fecha = new DateTime(anio, mes, dia);
+                    string fechaFormateada = fecha.ToString("yyyy-MM-dd");
+                    <option>@fechaFormateada</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-primary">Buscar Fecha</button>
+            <br>
+        </div>
+    </form>
+
+
+    <div class="table-container h-100">
+        <table class="table text small h-10 table-striped">
+            <thead class="btnB text-light    ">
+                <tr>
+                    <th>
+                        Acción
+                    </th>
+                    <th>
+
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Estado_Gest)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fecha_Agenda)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Contrato)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Identidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Gestor)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Agente)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Numero_telefono)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Antiguedad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Canal_de_venta)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Articulos)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tipo_de_cartera)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Dias_de_atraso)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Monto_mensual_Factura)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Saldo_total_credito)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Saldo_en_Mora)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Descuento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Pago_con_descuento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Vencimiento_factura)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
                     <tr class=" h-10 w-100  @((item.Gestionado) ? "ReadRecord bg-opacity-100" : "text-dark")">
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.id" class="btn btnB"><i class="bi-search text-white" style="font-size:small;"></i></a>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.id" class="btn btnB"><i class="bi-search text-white" style="font-size:small;"></i></a>
                             @if (User.IsInRole("ADMINISTRADOR"))
                             {
-                            <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-outline-primary"><i class="bi-pen" style="font-size:small;"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-outline-danger"><i class="bi-x-lg " style="font-size:small;"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-outline-primary"><i class="bi-pen" style="font-size:small;"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-outline-danger"><i class="bi-x-lg " style="font-size:small;"></i></a>
                             }
-                    </td>
-                    <td class="center-block text-lg-center @((item.Gestionado) ? "btnB" : "text-danger")">
+                        </td>
+                        <td class="center-block text-lg-center @((item.Gestionado) ? "btnB" : "text-danger")">
 
-                        @if (item.Gestionado == true)
-                        {
-                            @Html.DisplayFor(modelItem => item.Gestionado)  
-                        }
+                            @if (item.Gestionado == true)
+                            {
+                                @Html.DisplayFor(modelItem => item.Gestionado)
+                            }
                             else
-                        {
-                            @Html.DisplayFor(modelItem => item.Gestionado)
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Fecha_Agenda)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Contrato)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Identidad)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Gestor)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Numero_telefono)
-                    </td>
+                            {
+                                @Html.DisplayFor(modelItem => item.Gestionado)
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Estado_Gest)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha_Agenda)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Contrato)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Identidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gestor)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Agente)
+                        </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Antiguedad)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Canal_de_venta)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Articulos)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Tipo_de_cartera)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Dias_de_atraso)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Monto_mensual_Factura)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Saldo_total_credito)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Saldo_en_Mora)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Descuento)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Pago_con_descuento)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Vencimiento_factura)
-                    </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Numero_telefono)
+                        </td>
 
-                </tr>
-            }
-        </tbody>
-    </table>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Antiguedad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Canal_de_venta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Articulos)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tipo_de_cartera)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Dias_de_atraso)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Monto_mensual_Factura)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Saldo_total_credito)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Saldo_en_Mora)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descuento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pago_con_descuento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Vencimiento_factura)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
-</div>
+
+
+
+@section scripts
+    {
+
+    <script>
+
+        function submitForm() {
+            document.getElementById("searchForm").submit();
+
+        }
+
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+
+
+    </script>
+
+}

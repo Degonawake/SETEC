@@ -192,27 +192,54 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="control-label"></label>
-                    <input asp-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="form-control form-floating" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    <input asp-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="form-control form-floating" value="@DateTime.Now.Date.ToString("yyyy-MM-ddTHH:mm")" />
                     <span asp-validation-for="@Model.HistoricoClientesContrato.Fecha_Promesa" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="@Model.HistoricoClientesContrato.Fecha_NuevaVisita" class="control-label">Nueva Llamada</label>
-                    <input asp-for="@Model.HistoricoClientesContrato.Fecha_NuevaVisita" class="form-control form-floating" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    <input asp-for="@Model.HistoricoClientesContrato.Fecha_NuevaVisita" class="form-control form-floating" value="@DateTime.Now.Date.ToString("yyyy-MM-ddTHH:mm")" />
                     <span asp-validation-for="@Model.HistoricoClientesContrato.Fecha_NuevaVisita" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.HistoricoClientesContrato.Comentario" class="control-label">Comentarios</label>
+                    <label asp-for="@Model.HistoricoClientesContrato.Comentario" class="control-label" id="comentario">Comentarios</label>
                     <textarea asp-for="@Model.HistoricoClientesContrato.Comentario" class="form-control form-floating" rows="10" required></textarea>
                     <span asp-validation-for="@Model.HistoricoClientesContrato.Comentario" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input asp-for="@Model.HistoricoClientesContrato.Latitud" class="form-control form-floating" id="lat2" />
+                    <input asp-for="@Model.HistoricoClientesContrato.Latitud" class="form-control form-floating" id="lat2" hidden />
                     <span asp-validation-for="@Model.HistoricoClientesContrato.Latitud" class="text-danger"></span>
                 </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.HistoricoClientesContrato.Agencia" class="control-label"></label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Agencia" class="form-control form-floating" value="@Model.actualCliente.Agencia" />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Agencia" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.HistoricoClientesContrato.Tipo_Ingreso" class="control-label"></label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Tipo_Ingreso" class="form-control form-floating" value="Llamada"  />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Tipo_Ingreso" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.HistoricoClientesContrato.Gestor" class="control-label"></label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Gestor" class="form-control form-floating" value="@Model.actualCliente.Gestor" />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Gestor" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.HistoricoClientesContrato.Agente" class="control-label"></label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Agente" class="form-control form-floating" value="@Model.actualCliente.Agente" />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Agente" class="text-danger"></span>
+                </div>
+
+
 
                 <input hidden name="tipoIngreso" id="tipoIngreso" value="llamada" />
 
                 <div class="form-group" style="padding:20px 0 0 0;">
+                    <input type="checkbox">Crear registro de agenda a partir de la proxima visita</>
                     <input type="submit" value="Grabar gestion" class="btn btn-primary form-control btnB" />
                 </div>
             </form>
@@ -246,8 +273,8 @@
                     parseInt(partesFechaNumerica[1]) - 1, 
                     parseInt(partesFechaNumerica[0])    
                          
-                );    
-                var fechaFormateada = fecha.toISOString().slice(0, 16).replace('T', ' ');
+                );
+                var fechaFormateada = fecha.toISOString().slice(0, 10) + " 00:00:00"
 
                 return fechaFormateada;
             }
@@ -286,10 +313,17 @@
         GetCoord();
 
         function dataValidation(e) {
-            
 
-            if (document.getElementById("SelectDes").value === '') {
+
+            if (document.getElementById("SelectDes").value === '' || document.getElementById("comentario").value === '') {
+                if (document.getElementById("SelectDes").value === '') {
                 Swal.fire('Mensaje','El valor de Descripcion de gestion esta vacio, debe llenarlo seleccionando un codigo','warning');
+                }
+
+                if (document.getElementById("comentario").value === '') {
+                    Swal.fire('Mensaje', 'El valor de la casilla comentario esta vacio', 'warning');
+                }
+
                 e.preventDefault();
             }
             else 

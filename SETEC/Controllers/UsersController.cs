@@ -20,9 +20,6 @@ namespace SETEC.Controllers
             _context = context;
         }
 
-       
-
-        
         public async Task<IActionResult> Index(string buscar)
         {
    
@@ -106,7 +103,7 @@ namespace SETEC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,usuario,password,empresa,rol,fecha")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("id,email,usuario,password,empresa,rol,fecha")] User user)
         {
             if (id != user.id)
             {

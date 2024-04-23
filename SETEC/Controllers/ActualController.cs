@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace SETEC.Controllers
 {
@@ -69,6 +70,8 @@ namespace SETEC.Controllers
         public IActionResult UploadActual()
         {
             var modelo = new ActualidadCliente(); // Crea una instancia del modelo
+            ViewBag.Gestores = _context.ActualidadClientes.Select(c => c.Gestor).Distinct().ToList().OrderBy(c => c);
+            ViewBag.FechaAgenda = _context.ActualidadClientes.Select(c => c.Fecha_Agenda).Distinct().ToList().OrderBy(c => c);
             return View(modelo);
         }
 
@@ -91,45 +94,45 @@ namespace SETEC.Controllers
         [HttpPost]
         public IActionResult InsertarDatos(string datos, bool eliminar)
         {
-            Console.WriteLine(datos);
-            Console.WriteLine(eliminar);
-
             try
             {
-
-            
-            
-            if (datos != null)
-
+                // Verifica si hay datos para procesar
+                if (!string.IsNullOrEmpty(datos))
                 {
-                    if (eliminar == true)
+                    // Si se solicita eliminar los datos actuales
+                    if (eliminar)
                     {
-
+                        // Elimina todos los registros de ActualidadClientes
                         _context.ActualidadClientes.RemoveRange(_context.ActualidadClientes);
-                        _context.SaveChanges();
-
+                        _context.SaveChanges(); // Guarda los cambios
                     }
 
+                    // Deserializa los datos recibidos a una lista de ActualidadCliente
                     List<ActualidadCliente> actualidadClientes = JsonConvert.DeserializeObject<List<ActualidadCliente>>(datos);
-                    Console.WriteLine(actualidadClientes);
-                    _context.ActualidadClientes.AddRange(actualidadClientes);
-                    _context.SaveChanges();
 
+                    // Asegúrate de verificar si la deserialización fue exitosa
+                    if (actualidadClientes != null)
+                    {
+                        // Añade los nuevos registros a la base de datos
+                        _context.ActualidadClientes.AddRange(actualidadClientes);
+                        _context.SaveChanges(); // Guarda los cambios
 
-                    return RedirectToAction("UploadActual");
-
+                        // Redirige a la vista de UploadActual después de una operación exitosa
+                        return RedirectToAction("UploadActual");
+                    }
                 }
 
-
+                // Si no hay datos, redirige a una página de error o muestra un mensaje
                 return RedirectToAction("Error");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                // Puedes registrar el error para analizarlo más adelante
+                Console.WriteLine($"Error al insertar datos: {ex.Message}");
 
-                throw;
+                // Redirige a la página de error o muestra un mensaje de error
+                return RedirectToAction("Error");
             }
-
-
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

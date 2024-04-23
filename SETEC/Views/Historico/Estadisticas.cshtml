@@ -1,0 +1,214 @@
+﻿@using System.Globalization
+@model IEnumerable<SETEC.Data.Entities.HistoricoClientesContrato>
+
+@{
+    ViewData["Title"] = "Estadisticas";
+
+    // Agrupar la cantidad de gestiones por día
+    var cantidadGestionesPorDia = Model
+        .GroupBy(h => h.Fechagestion.Date)
+        .Select(g => new { Dia = g.Key.ToString("yyyy-MM-dd"), Cantidad = g.Count() })
+        .OrderBy(x => x.Dia)
+        .ToList();
+
+    // Convertir datos a formato JSON
+    var jsonCantidadGestionesPorDia = Newtonsoft.Json.JsonConvert.SerializeObject(cantidadGestionesPorDia);
+
+    // Agrupar la cantidad de clientes por código de gestión
+    var cantidadClientesPorCodigoGestion = Model
+        .GroupBy(h => h.Codigo_Gestion)
+        .Select(g => new { Codigo = g.Key, Cantidad = g.Count() })
+        .ToList();
+
+    var jsonCantidadClientesPorCodigoGestion = Newtonsoft.Json.JsonConvert.SerializeObject(cantidadClientesPorCodigoGestion);
+
+
+    var sumaGestionespordia = Model
+                .GroupBy(h => h.Fechagestion.Date)
+                .Select(g => new
+                {
+                    Dia = g.Key.ToString("yyyy-MM-dd"),
+                    Cantidad = g.Sum(h => h.Monto_promesa)
+                })
+                .OrderBy(x => x.Dia)
+                .ToList();
+
+    var jsonsumaGestionespordia = Newtonsoft.Json.JsonConvert.SerializeObject(sumaGestionespordia);
+
+    // Convertir datos a formato JSON
+    
+}
+
+
+
+<div class="container bg-dark">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <h1 class="text-center text-white">Avance de Cobros por Día</h1>
+        </div>
+    </div>
+
+    <div class="container row">
+        @using (Html.BeginForm("Estadisticas", "Historico", FormMethod.Get))
+        {
+            <div style="width:50%;">
+                <h6 class="text-white">Filtrar por Mes y Año</h6>
+                <select name="mes" class="select2 form-control">
+                    <option value="">Seleccionar Mes</option>
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i">@CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+                    }
+                </select>
+            </div>
+            <div style="width:50%;">
+                <select name="año" class="select2 form-control">
+                    <option value="">Seleccionar Año</option>
+                    @for (int i = DateTime.Now.Year; i >= 1900; i--)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Otros filtros si los tienes -->
+
+            <button class="btn btn-info" type="submit">Filtrar</button>
+        }
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="text-center">
+                <h2 class="text-white">Cantidad de Gestiones por Día</h2>
+                <canvas id="barChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="text-center">
+                <h2 class="text-white">Monto en promesas de Pago</h2>
+                <canvas id="barChartM" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="text-center">
+                <h2 class="text-white">Distribución de Clientes por Código de Gestión</h2>
+                <canvas id="pieChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Datos para el gráfico de barras
+        var jsonCantidadGestionesPorDia = @Html.Raw(jsonCantidadGestionesPorDia);
+        var jsonsumaGestionespordia = @Html.Raw(jsonsumaGestionespordia);
+
+        // Convertir datos JSON en arrays separados
+        var labelsGestionesPorDia = jsonCantidadGestionesPorDia.map(x => x.Dia);
+        var dataGestionesPorDia = jsonCantidadGestionesPorDia.map(x => x.Cantidad);
+
+        // Convertir datos JSON en arrays separados
+        var labelsMontosPorDia = jsonsumaGestionespordia.map(x => x.Dia);
+        var dataMontosPorDia = jsonsumaGestionespordia.map(x => x.Cantidad);
+
+        // Datos para el gráfico de pastel
+        var jsonCantidadClientesPorCodigoGestion = @Html.Raw(jsonCantidadClientesPorCodigoGestion);
+
+        // Convertir datos JSON en arrays separados
+        var labelsClientesPorCodigoGestion = jsonCantidadClientesPorCodigoGestion.map(x => x.Codigo);
+        var dataClientesPorCodigoGestion = jsonCantidadClientesPorCodigoGestion.map(x => x.Cantidad);
+
+        // Generar gráfico de barras
+        var ctxBar = document.getElementById('barChart').getContext('2d');
+        var barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labelsGestionesPorDia,
+                datasets: [{
+                    label: 'Cantidad de Gestiones por Día',
+                    data: dataGestionesPorDia,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+
+        var ctxBar = document.getElementById('barChartM').getContext('2d');
+        var barChartM = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labelsGestionesPorDia,
+                datasets: [{
+                    label: 'Cantidad de Gestiones por Día',
+                    data: dataMontosPorDia,
+                    backgroundColor: 'rgba(190, 37, 80, 1)',
+                    borderColor: 'rgba(190, 37, 80, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+
+        // Generar gráfico de pastel
+        var ctxPie = document.getElementById('pieChart').getContext('2d');
+        var pieChart = new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: labelsClientesPorCodigoGestion,
+                datasets: [{
+                    label: 'Distribución de Clientes por Código de Gestión',
+                    data: dataClientesPorCodigoGestion,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+    </script>
+}

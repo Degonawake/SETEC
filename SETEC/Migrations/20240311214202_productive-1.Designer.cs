@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SETEC.Data.Entities;
 
@@ -11,9 +12,11 @@ using SETEC.Data.Entities;
 namespace SETEC.Migrations
 {
     [DbContext(typeof(Appdbcontext))]
-    partial class AppdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20240311214202_productive-1")]
+    partial class productive1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +33,6 @@ namespace SETEC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Agencia")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Agente")
                         .HasColumnType("nvarchar(max)");
 
@@ -45,15 +45,6 @@ namespace SETEC.Migrations
                     b.Property<string>("Canal_de_venta")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Cartera")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ciudad")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Consolidado_BD")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Contrato")
                         .HasColumnType("nvarchar(max)");
 
@@ -63,29 +54,11 @@ namespace SETEC.Migrations
                     b.Property<int>("Dias_de_atraso")
                         .HasColumnType("int");
 
-                    b.Property<string>("Direccion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Direccion_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Estado_Gest")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Fecha_Agenda")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Gen1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gen2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gen3")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Gestionado")
                         .HasColumnType("bit");
@@ -113,9 +86,6 @@ namespace SETEC.Migrations
 
                     b.Property<double>("Saldo_total_credito")
                         .HasColumnType("float");
-
-                    b.Property<string>("Tel_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TipoGestion")
                         .HasColumnType("nvarchar(max)");
@@ -177,15 +147,6 @@ namespace SETEC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Agencia")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Agente")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Cartera")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Codigo_Gestion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -200,9 +161,6 @@ namespace SETEC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Descuento")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("Fecha_Agenda")
                         .HasColumnType("datetime2");
 
@@ -215,9 +173,6 @@ namespace SETEC.Migrations
                     b.Property<DateTime>("Fechagestion")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Gestor")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Identidad")
                         .HasColumnType("nvarchar(max)");
 
@@ -228,15 +183,6 @@ namespace SETEC.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Saldo_Total")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Saldo_mora")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Tipo_Ingreso")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

@@ -21,16 +21,66 @@ namespace SETEC.Controllers
         }
 
         // GET: Historico
-        public async Task<IActionResult> Index(string buscaridentidad)
+        public async Task<IActionResult> Index(string buscaridentidad, string agencia, string nombre, string mesAnio)
         {
-            var identidad = from HistoricoClientesContrato in _context.HistoricoClientes select HistoricoClientesContrato;
-            if (!String.IsNullOrEmpty(buscaridentidad))
+            IQueryable<HistoricoClientesContrato> query = _context.HistoricoClientes.OrderByDescending(g => g.Fechagestion);
+
+            // Filtro por identidad
+            Console.WriteLine(agencia);
+            Console.WriteLine(nombre);
+            Console.WriteLine(mesAnio);
+            
+            // Filtro por agencia
+            if (!string.IsNullOrEmpty(agencia))
             {
-                identidad = identidad.Where(s => s.Identidad!.Contains(buscaridentidad));
+                query = query.Where(h => h.Agencia.Contains(agencia));
             }
-            Console.WriteLine("Buscar Identidad: " + buscaridentidad);
-            return View(await identidad.ToListAsync());
+
+            // Filtro por nombre
+            if (!string.IsNullOrEmpty(nombre))
+            {
+                query = query.Where(h => h.Nombre.Contains(nombre));
+            }
+
+            // Filtro por mes y año combinados
+            if (!string.IsNullOrEmpty(mesAnio))
+            {
+                var split = mesAnio.Split('-');
+                int mes = int.Parse(split[0]);
+                int anio = int.Parse(split[1]);
+
+                query = query.Where(h => h.Fechagestion.Month == mes && h.Fechagestion.Year == anio);
+            }
+
+            // Obtener la lista de agencias distintas de la base de datos
+            var agencias = await _context.HistoricoClientes
+                .Select(h => h.Agencia)
+                .Distinct()
+                .ToListAsync();
+
+            // Asignar la lista de agencias a ViewBag
+            ViewBag.Agencias = new SelectList(agencias);
+
+            // Obtener la lista de combinaciones de mes y año distintas
+            var mesesAnios = await _context.HistoricoClientes
+                .GroupBy(h => new { h.Fechagestion.Month, h.Fechagestion.Year })
+                .Select(g => new {
+                    Value = $"{g.Key.Month}-{g.Key.Year}",
+                    Text = $"{new DateTime(g.Key.Year, g.Key.Month, 1).ToString("MMMM yyyy")}"
+                })
+                .Distinct()
+                .ToListAsync();
+
+  
+            ViewBag.MesesAnios = new SelectList(mesesAnios, "Value", "Text");
+
+            // Obtener los datos filtrados
+            var historicoClientes = await query.ToListAsync();
+
+        
+            return View(historicoClientes);
         }
+
 
         // GET: Historico/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -50,6 +100,59 @@ namespace SETEC.Controllers
             return View(historicoClientesContrato);
         }
 
+
+        public async Task<IActionResult> Estadisticas(int? mes, int? año, string nombre)
+        {
+            IQueryable<HistoricoClientesContrato> query = _context.HistoricoClientes;
+
+            if (mes.HasValue)
+            {
+                query = query.Where(h => h.Fechagestion.Month == mes);
+            }
+
+            if (año.HasValue)
+            {
+                query = query.Where(h => h.Fechagestion.Year == año);
+            }
+
+            if (!string.IsNullOrEmpty(nombre))
+            {
+                query = query.Where(h => h.Nombre.Contains(nombre));
+            }
+
+            var historicoClientes = await query.ToListAsync();
+
+            // Obtener la cantidad de gestiones por día
+            var cantidadGestionesPorDia = historicoClientes
+                .GroupBy(h => h.Fecha_Agenda.Date)
+                .Select(g => new { Dia = g.Key.ToString("yyyy-MM-dd"), Cantidad = g.Count() })
+                .OrderBy(x => x.Dia)
+                .ToList();
+
+            // Obtener la cantidad de clientes por código de gestión
+            var cantidadClientesPorCodigoGestion = historicoClientes
+                .GroupBy(h => h.Codigo_Gestion)
+                .Select(g => new { Codigo = g.Key, Cantidad = g.Count() })
+                .ToList();
+
+            var sumaGestionespordia = historicoClientes
+            .GroupBy(h => h.Fecha_Agenda.Date)
+            .Select(g => new
+            {
+                Dia = g.Key.ToString("yyyy-MM-dd"),
+                Cantidad = g.Sum(h => h.Monto_promesa)
+            })
+            .OrderBy(x => x.Dia)
+            .ToList();
+
+            ViewBag.CantidadGestionesPorDia = cantidadGestionesPorDia;
+            ViewBag.CantidadClientesPorCodigoGestion = cantidadClientesPorCodigoGestion;
+            ViewBag.sumaGestionespordia = sumaGestionespordia;
+
+            return View(historicoClientes);
+        }
+
+
         // GET: Historico/Create
         public IActionResult Create()
         {
@@ -61,7 +164,7 @@ namespace SETEC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fechagestion,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Fecha_Promesa,Fecha_NuevaVisita,Comentario,Latitud,Fecha_Agenda")] HistoricoClientesContrato historicoClientesContrato, string tipoIngreso)
+        public async Task<IActionResult> Create([Bind("Id,Fechagestion,Tipo_Ingreso,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Saldo_mora,Saldo_Total,Descuento,Gestor,Agente,Agencia,Fecha_Promesa,Fecha_NuevaVisita,Comentario,Latitud,Fecha_Agenda")] HistoricoClientesContrato historicoClientesContrato, string tipoIngreso)
         {
 
 
@@ -71,13 +174,44 @@ namespace SETEC.Controllers
                 _context.Add(historicoClientesContrato);
                 await _context.SaveChangesAsync();
 
+                var actualCliente = await _context.ActualidadClientes.FirstOrDefaultAsync(c => c.Identidad == historicoClientesContrato.Identidad && c.Contrato == historicoClientesContrato.Contrato && c.Fecha_Agenda == historicoClientesContrato.Fecha_Agenda);
+                var actualClienteIngreso = _context.ActualidadClientes.FirstOrDefault(c => c.Identidad == historicoClientesContrato.Identidad && c.Contrato == historicoClientesContrato.Contrato);
+                if (actualCliente != null)
+                {
+                    Console.WriteLine(actualCliente.Identidad?.ToString());
+                    Console.WriteLine(historicoClientesContrato.Identidad?.ToString());
+                    Console.WriteLine(actualCliente.Contrato);
+                    Console.WriteLine(historicoClientesContrato.Contrato);
+                    Console.WriteLine(actualCliente.Fecha_Agenda);
+                    Console.WriteLine(historicoClientesContrato.Fecha_Agenda);
+                    Console.WriteLine(historicoClientesContrato.Tipo_Ingreso);
+
+                    actualCliente.Estado_Gest = historicoClientesContrato.Codigo_Gestion;
+                    actualCliente.Gestionado = true;
+                    _context.Update(actualCliente);
+
+                    await _context.SaveChangesAsync();
+                    Console.WriteLine("Se guardaron los cambios");
+
+                    actualClienteIngreso.Fecha_Agenda = historicoClientesContrato.Fecha_NuevaVisita;
+                    actualClienteIngreso.id = 0;
+                    actualClienteIngreso.Estado_Gest = "";
+                    actualClienteIngreso.Gestionado = false;
+
+
+                    _context.Add(actualClienteIngreso);
+                    await _context.SaveChangesAsync();
+
+                }
+
+
                 if (tipoIngreso == "Visita")
                 {
                     return RedirectToAction("Inforoute1", "Actual");
                 }
                 else
                 {
-                   return RedirectToAction("Index", "AgendaClientes");
+                    return RedirectToAction("Index", "AgendaClientes");
                 }
             }
             return View(historicoClientesContrato);
@@ -104,7 +238,7 @@ namespace SETEC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Fechagestion,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Fecha_Promesa")] HistoricoClientesContrato historicoClientesContrato)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Fechagestion,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Comentario,Fecha_Promesa")] HistoricoClientesContrato historicoClientesContrato)
         {
             if (id != historicoClientesContrato.Id)
             {
