@@ -1,0 +1,95 @@
+﻿@model IEnumerable<SETEC.Data.Entities.Verificacion>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="bg-white" style="padding: 0 20px 20px 20px;">
+    <h1 style="color:darkslateblue;">Crear Orden de Verificación</h1>
+
+    <a asp-action="Create" class="btn btn-outline-warning btnB tooltipC">
+        <h3>
+            <i class="bi bi-file-earmark-plus"></i>
+        </h3>
+        <span class="tooltiptext">Crear un nuevo registro</span>
+    </a>
+    <div class="table-container bg-white">
+        <table class="table table-bordered table-striped" id="Historico">
+            <thead>
+                <tr class="btnB text-center text-capitalize">
+                    <th>
+                        Fecha de Creacion de Orden
+                    </th>
+                    <th>
+                        Fecha Planeada de Verificación
+                    </th>
+                    <th>
+                        Empresa Encargada
+                    </th>
+                    <th>
+                        Identidad del Cliente a Verificar
+                    </th>
+                    <th>
+                        Nombre del Cliente a Verificar
+                    </th>
+                    <th>
+                        Tienda que Envia la Verificación
+                    </th>
+                    <th>
+                        Comentario Referente a la Verificación
+                    </th>
+                    <th>
+                        Estado de la Verificación
+                    </th>
+                    <th>
+                        Encargado de Verificación
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha_Creacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha_Verificacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Empresa_Verificacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Identidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre_Cliente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tienda)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comentario)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gestor)
+                        </td>
+
+
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

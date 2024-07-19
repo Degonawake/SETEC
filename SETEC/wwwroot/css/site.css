@@ -35,6 +35,8 @@ body {
    
 }
 
+
+
 .btnC {
     border: 2px solid darkslateblue; /* Borde outline color navy */
     width: 250px;
@@ -394,3 +396,54 @@ table.dataTable thead .sorting_desc_disabled:before {
         transform: rotate(360deg);
     }
 }
+
+
+thead {
+    position: sticky;
+    top: 0;
+}
+
+
+
+.tooltipC {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+
+    .tooltipC .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 1;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -60px;
+        /* Fade in tooltip */
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+.tooltipC .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+
+    .tooltipC:hover .tooltiptext {
+        visibility: visible;
+        opacity: .8;
+    }
+

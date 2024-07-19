@@ -55,41 +55,55 @@
                                     }
                                 </ul>
                             </li>
-                            @if (User.IsInRole("ADMINISTRADOR"))
+                            @if (User.IsInRole("ADMINISTRADOR") || User.IsInRole("SUPERVISOR_VERIFICACION"))
+                            {
+                               
+                                    <li class="nav-item dropdown">
+                                        <a href="#" class="nav-link dropdown-toggle text-black btnA" data-bs-toggle="dropdown"><i class="bi bi-sliders2"></i> Administracion</a>
+                                        <ul class="dropdown-menu">
+                                        @if (!User.IsInRole("SUPERVISOR_VERIFICACION"))
+                                        {
+                                            <li>
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Usuarios</a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Codgestions" asp-action="Indexgestioncodes">Codigos Gestión</a>
+                                            </li>
+
+                                            <li>
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Actual" asp-action="UploadActual">Cargar carteras</a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="AgendaClientes" asp-action="Index">Ver Agenda de Cobros</a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Verificacion" asp-action="IndexAsignacion">Asignar Verificación</a>
+                                            </li>
+                                            
+                                        }
+
+                                            <li>
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Verificacion" asp-action="Index">Solicitud de Verificacion</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                }
+                            @if (!User.IsInRole("SUPERVISOR_VERIFICACION"))
                             {
                                 <li class="nav-item dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle text-black btnA" data-bs-toggle="dropdown"><i class="bi bi-sliders2"></i> Administracion</a>
+                                    <a href="#" class="nav-link dropdown-toggle text-black btnA" data-bs-toggle="dropdown"><i class="bi bi-bar-chart-line"></i> Reportes</a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Usuarios</a>
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Historico" asp-action="Index">Historico de Gestiones</a>
                                         </li>
                                         <li>
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Codgestions" asp-action="Indexgestioncodes">Codigos Gestión</a>
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Historico" asp-action="Estadisticas">Estadisticas de Gestión</a>
                                         </li>
-
-                                        <li>
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Actual" asp-action="UploadActual">Cargar carteras</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="AgendaClientes" asp-action="Index">Ver Agenda de Cobros</a>
-                                        </li>
-
                                     </ul>
                                 </li>
                             }
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle text-black btnA" data-bs-toggle="dropdown"><i class="bi bi-bar-chart-line"></i> Reportes</a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Historico" asp-action="Index">Historico de Gestiones</a>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Historico" asp-action="Estadisticas">Estadisticas de Gestión</a>
-                                    </li>
-                                </ul>
-                            </li>
                             <li>
-                                <a class="nav-link text-dark dropdown-item btnA" asp-area="" asp-controller="Acceso" asp-action="exit"> <span class="bi-person"></span> Logout</a>
+                                <a class="nav-link text-dark dropdown-item btnA" asp-area="" asp-controller="Acceso" asp-action="exit"> <span class="bi-person"></span> Cerrar Sesión (@User.Identity.Name)</a>
                             </li>
                         </ul>
                     </div>

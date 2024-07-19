@@ -41,6 +41,7 @@ namespace SETEC.Data.Entities
         public DbSet<HistoricoClientesContrato> HistoricoClientes { get; set; }
         public DbSet<User> Usuarios { get; set; }
         public DbSet<Codgestion> Mastergestion { get; set; }
+        public DbSet<SETEC.Data.Entities.Verificacion>? Verificacion { get; set; }
     }
 
 }

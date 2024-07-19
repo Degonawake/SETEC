@@ -171,7 +171,7 @@
                 </div>
                 <div class="form-group" onload="asignarDatos">
                     <label asp-for="@Model.HistoricoClientesContrato.Codigo_Gestion" class="control-label"></label>
-                    <select asp-for="@Model.HistoricoClientesContrato.Codigo_Gestion" class="form-control" id="SelectCod" required>
+                    <select asp-for="@Model.HistoricoClientesContrato.Codigo_Gestion" class="form-control" id="SelectCod2" onchange="AsignarDes()" required>
                         @foreach (var item in Model.masterGestion)
                         {
                             <option value="@item.idgestion">@item.idgestion</option>
@@ -182,7 +182,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="control-label"></label>
-                    <input asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="form-control form-floating" id="SelectDes" readonly/>
+                    <input asp-for="@Model.HistoricoClientesContrato.Desc_gestion" class="form-control form-floating" id="SelectDes2" readonly/>
                     <span asp-validation-for="@Model.HistoricoClientesContrato.Desc_gestion" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -216,30 +216,49 @@
                     <span asp-validation-for="@Model.HistoricoClientesContrato.Agencia" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" hidden>
                     <label asp-for="@Model.HistoricoClientesContrato.Tipo_Ingreso" class="control-label"></label>
                     <input asp-for="@Model.HistoricoClientesContrato.Tipo_Ingreso" class="form-control form-floating" value="Llamada"  />
                     <span asp-validation-for="@Model.HistoricoClientesContrato.Tipo_Ingreso" class="text-danger"></span>
-                </div>
+                </div>  
 
-                <div class="form-group">
+                <div class="form-group" hidden>
                     <label asp-for="@Model.HistoricoClientesContrato.Gestor" class="control-label"></label>
                     <input asp-for="@Model.HistoricoClientesContrato.Gestor" class="form-control form-floating" value="@Model.actualCliente.Gestor" />
                     <span asp-validation-for="@Model.HistoricoClientesContrato.Gestor" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" >
                     <label asp-for="@Model.HistoricoClientesContrato.Agente" class="control-label"></label>
                     <input asp-for="@Model.HistoricoClientesContrato.Agente" class="form-control form-floating" value="@Model.actualCliente.Agente" />
                     <span asp-validation-for="@Model.HistoricoClientesContrato.Agente" class="text-danger"></span>
                 </div>
 
+                <div class="form-group" >
+                    <label asp-for="@Model.HistoricoClientesContrato.Saldo_Total" class="control-label" hidden></label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Saldo_Total" class="form-control form-floating" value="@Model.actualCliente.Saldo_total_credito" hidden />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Saldo_Total" class="text-danger" hidden></span>
+                </div>
+
+                <div class="form-group" >
+                    <label asp-for="@Model.HistoricoClientesContrato.Saldo_mora" class="control-label" hidden></label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Saldo_mora" class="form-control form-floating" value="@Model.actualCliente.Saldo_en_Mora" hidden />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Saldo_mora" class="text-danger" hidden></span>
+                </div>
+
+                <div class="form-group" >
+                    <label asp-for="@Model.HistoricoClientesContrato.Descuento" class="control-label" hidden></label>
+                    <input asp-for="@Model.HistoricoClientesContrato.Descuento" class="form-control form-floating" value="@Model.actualCliente.Descuento" hidden />
+                    <span asp-validation-for="@Model.HistoricoClientesContrato.Descuento" class="text-danger" hidden></span>
+                </div>
 
 
-                <input hidden name="tipoIngreso" id="tipoIngreso" value="llamada" />
+
+
+                <input name="tipoIngreso" id="tipoIngreso" value="llamada" hidden />
 
                 <div class="form-group" style="padding:20px 0 0 0;">
-                    <input type="checkbox">Crear registro de agenda a partir de la proxima visita</>
+                    <!--<input type="checkbox">Crear registro de agenda a partir de la proxima visita</>-->
                     <input type="submit" value="Grabar gestion" class="btn btn-primary form-control btnB" />
                 </div>
             </form>
@@ -335,10 +354,15 @@
 
         }
 
-       
-
-
-
+        function AsignarDes() {
+            var codGes = document.getElementById("SelectCod2");
+            var codigoGestionInput2 = document.getElementById("SelectDes2");
+            var selectedIndex = codGes.selectedIndex;
+            console.log(selectedIndex);
+            console.log(modeloGestion[selectedIndex].DescGestion);
+            codigoGestionInput2.value = modeloGestion[selectedIndex].DescGestion;
+           
+        }
 
     </script>
 

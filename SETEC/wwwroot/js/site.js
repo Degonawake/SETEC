@@ -25,15 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var AntRead = document.getElementById("floatAntiguedad");
     var CanalRead = document.getElementById("floatCanal");
     var ArtiRead = document.getElementById("floatArticulos");
-
-    var Cart2Read = document.getElementById("floatCartera2");
-    var CarGestor = document.getElementById("floatGestor");
-    var CartAgente = document.getElementById("floatAgente");
-    var CartAgencia = document.getElementById("floatAgencia");
-    
-
-
-
     var CartRead = document.getElementById("floatCartera");
     var AtrRead = document.getElementById("floatAtraso");
     var FactRead = document.getElementById("floatFactura");
@@ -44,11 +35,154 @@ document.addEventListener("DOMContentLoaded", function () {
     var FacVRead = document.getElementById("floatVfactura");
     var codigoGestionSelect = document.getElementById("SelectCod");
     var codigoGestionInput = document.getElementById("SelectDes");
+
+    var codigoGestionSelect2 = document.getElementById("SelectCod2");
+    var codigoGestionInput2 = document.getElementById("SelectDes2");
+
+
     var Coordlat = document.getElementById("lat");
     var Coordlon = document.getElementById("lon");
+    var Cart2Read = document.getElementById("floatCartera2");
+    var GestorRead = document.getElementById("floatGestor");
+    var AgenteRead = document.getElementById("floatagente");
+    var AgenciaRead = document.getElementById("floatAgencia");
+    var EmpresaLRead = document.getElementById("floatEmpresa_Labor");
+    var EmpresaLTRead = document.getElementById("floatTel_Empresa_Labor");
+    var EmpresaLDRead = document.getElementById("floatDireccion_Empresa_Labor");
+    var ConsolidadoRead = document.getElementById("floatConsolidado_BD");
+    var CiudadRead = document.getElementById("floatCiudad");
+    var Gen1Read = document.getElementById("floatGen1");
+    var Gen2Read = document.getElementById("floatGen2");
+    var Gen3Read = document.getElementById("floatGen3");
 
+
+    function actualizarCampos() {
+        IdeRead.value = modelo[contador].Identidad;
+        NombRead.value = modelo[contador].Nombre;
+        ContRead.value = modelo[contador].Contrato;
+        AntRead.value = modelo[contador].Antiguedad;
+        CanalRead.value = modelo[contador].Canal_de_venta;
+        ArtiRead.value = modelo[contador].Articulos;
+        CartRead.value = modelo[contador].Tipo_de_cartera;
+        AtrRead.value = modelo[contador].Dias_de_atraso;
+        FactRead.value = modelo[contador].Vencimiento_factura;
+        CreRead.value = modelo[contador].Saldo_total_credito;
+        MorRead.value = modelo[contador].Saldo_en_Mora;
+        DesRead.value = modelo[contador].Descuento;
+        PagRead.value = modelo[contador].Pago_con_descuento;
+        FacVRead.value = modelo[contador].Vencimiento_factura;
+        Cart2Read.value = modelo[contador].Cartera;
+        AgenciaRead.value = modelo[contador].Agencia;
+        EmpresaLRead.value = modelo[contador].Empresa_Labor;
+        EmpresaLTRead.value = modelo[contador].Tel_Empresa_Labor;
+        EmpresaLDRead.value = modelo[contador].Direccion_Empresa_Labor;
+        ConsolidadoRead.value = modelo[contador].Consolidado_BD;
+        CiudadRead.value = modelo[contador].Ciudad;
+        Gen1Read.value = modelo[contador].Gen1;
+        Gen2Read.value = modelo[contador].Gen2;
+        Gen3Read.value = modelo[contador].Gen3;
+        AgenteRead.value = modelo[contador].Agente;
+    }
+
+
+
+
+    NextValue.addEventListener("click", function () {
+
+        console.log("La cantidad de contratos es: ", NumContratos);
+        console.log(modelo[0]);
+        console.log(modeloGestion[0]);
+
+        if (contador < NumContratos - 1) {
+
+            console.log("Agente: ", modelo[contador].Agente);
+            console.log("Agencia: ", modelo[contador].Agencia);
+            console.log("Empresa Labor: ", modelo[contador].Empresa_Labor);
+
+            contador++;
+            IdeRead.value = modelo[contador].Identidad;
+            NombRead.value = modelo[contador].Nombre;
+            ContRead.value = modelo[contador].Contrato;
+            AntRead.value = modelo[contador].Antiguedad;
+            CanalRead.value = modelo[contador].Canal_de_venta;
+            ArtiRead.value = modelo[contador].Articulos;
+            CartRead.value = modelo[contador].Tipo_de_cartera;
+            AtrRead.value = modelo[contador].Dias_de_atraso;
+            FactRead.value = modelo[contador].Vencimiento_factura;
+            CreRead.value = modelo[contador].Saldo_total_credito;
+            MorRead.value = modelo[contador].Saldo_en_Mora;
+            DesRead.value = modelo[contador].Descuento;
+            PagRead.value = modelo[contador].Pago_con_descuento;
+            FacVRead.value = modelo[contador].Vencimiento_factura;
+            Cart2Read.value = modelo[contador].Cartera;
+            AgenciaRead.value = modelo[contador].Agencia;
+            EmpresaLRead.value = modelo[contador].Empresa_Labor;
+            EmpresaLTRead.value = modelo[contador].Tel_Empresa_Labor;
+            EmpresaLDRead.value = modelo[contador].Direccion_Empresa_Labor;
+            ConsolidadoRead.value = modelo[contador].Consolidado_BD;
+            CiudadRead.value = modelo[contador].Ciudad;
+            Gen1Read.value = modelo[contador].Gen1;
+            Gen2Read.value = modelo[contador].Gen2;
+            Gen3Read.value = modelo[contador].Gen3;
+            AgenteRead.value = modelo[contador].Agente;
+        }
+        else {
+            swal.fire('Mensaje', 'No hay mas contatos cargados para este cliente', 'warning')
+        }
+    });
+
+ 
+    BackValue.addEventListener("click", function () {
+        //var NombRead = document.getElementById("floatNombre");
+
+        console.log("La cantidad de contratos es: ", NumContratos);
+        console.log(modelo[0]);
+
+
+        if (contador > 0) {
+
+            contador--;
+            console.log("contador:", contador);
+            console.log("Cantidad de Contratos", modelo[contador].Contrato);
+            console.log("Antiguedad", modelo[contador].Antiguedad);
+            console.log("Nombre", modelo[contador].Nombre);
+            IdeRead.value = modelo[contador].Identidad;
+            NombRead.value = modelo[contador].Nombre;
+            ContRead.value = modelo[contador].Contrato;
+            AntRead.value = modelo[contador].Antiguedad;
+            CanalRead.value = modelo[contador].Canal_de_venta;
+            ArtiRead.value = modelo[contador].Articulos;
+            CartRead.value = modelo[contador].Tipo_de_cartera;
+            AtrRead.value = modelo[contador].Dias_de_atraso;
+            FactRead.value = modelo[contador].Vencimiento_factura;
+            CreRead.value = modelo[contador].Saldo_total_credito;
+            MorRead.value = modelo[contador].Saldo_en_Mora;
+            DesRead.value = modelo[contador].Descuento;
+            PagRead.value = modelo[contador].Pago_con_descuento;
+            FacVRead.value = modelo[contador].Vencimiento_factura;
+
+           
+            AgenciaRead.value = modelo[contador].Agencia;
+            EmpresaLRead.value = modelo[contador].Empresa_Labor;
+            EmpresaLTRead.value = modelo[contador].Tel_Empresa_Labor;
+            EmpresaLDRead.value = modelo[contador].Direccion_Empresa_Labor;
+            ConsolidadoRead.value = modelo[contador].Consolidado_BD;
+            CiudadRead.value = modelo[contador].Ciudad;
+            Gen1Read.value = modelo[contador].Gen1;
+            Gen2Read.value = modelo[contador].Gen2;
+            Gen3Read.value = modelo[contador].Gen3;
+            AgenteRead.value = modelo[contador].Agente;
+        }
+        else {
+            swal.fire('Mensaje', 'Ya este en el primer contrato registrado', 'warning')
+        }
+
+    });
    
 
+
+
+    /*
     function GetCoord() {
         const options = {
             enableHighAccuracy: true,
@@ -70,18 +204,54 @@ document.addEventListener("DOMContentLoaded", function () {
             }, options);
         }
     }
+    */
 
+
+    function GetCoord() {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+        };
+
+        function success(position) {
+            var latitud = position.coords.latitude,
+                longitud = position.coords.longitude;
+            console.log(latitud);
+            console.log(longitud);
+            Coordlat.value = latitud + ", " + longitud;
+        }
+
+        function error(err) {
+            console.error(err);
+            // Si se deniega el permiso, intenta forzar la obtención de la ubicación
+            if (err.code === 1 || err.code === 2 || err.code === 3) {
+                navigator.geolocation.getCurrentPosition(success, error, options);
+            }
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error, options);
+        } else {
+            console.error("Geolocalización no está soportada en este navegador");
+        }
+    }
 
     codigoGestionSelect.addEventListener("change", function () {
 
        
         var selectedOption = codigoGestionSelect.options[codigoGestionSelect.selectedIndex];
         var index = codigoGestionSelect.selectedIndex;
-        console.log("El indice de la lista es: ", index)
+        console.log("El indice de la lista es: ", index);
         var selectedText = selectedOption.text;
 
         codigoGestionInput.value = modeloGestion[index].DescGestion;
-    });
+
+    }
+
+    );
+
+   
 
     BuscarValor.addEventListener("click", function () {
         event.preventDefault();
@@ -95,6 +265,13 @@ document.addEventListener("DOMContentLoaded", function () {
         IdeSaldoMora.value = document.getElementById("floatMora").value;
         IdeSaldoTotal.value = document.getElementById("floatCredito").value;
         
+
+
+
+
+
+
+
 
 
        
@@ -111,7 +288,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }); 
 
-    
+  
+
 
     function convertirFormato(fechaAgendaFormatoV) {
 
@@ -137,73 +315,9 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
 
-    NextValue.addEventListener("click", function () {
+   
 
-        console.log("La cantidad de contratos es: ", NumContratos);
-        console.log(modelo[0]);
-        console.log(modeloGestion[0]);
-
-        if (contador < NumContratos - 1) {
-
-            contador++;
-            console.log("contador:", contador);
-            console.log("Cantidad de Contratos", modelo[contador].Contrato);
-            console.log("Antiguedad", modelo[contador].Antiguedad);
-            console.log("Nombre", modelo[contador].Nombre);
-            IdeRead.value = modelo[contador].Id;
-            NombRead.value = modelo[contador].Nombre;
-            ContRead.value = modelo[contador].Contrato;
-            AntRead.value = modelo[contador].Antiguedad;
-            CanalRead.value = modelo[contador].Canal_de_venta;
-            ArtiRead.value = modelo[contador].Articulos;
-            CartRead.value = modelo[contador].Tipo_de_cartera;
-            AtrRead.value = modelo[contador].Dias_de_atraso;
-            FactRead.value = modelo[contador].Vencimiento_factura;
-            CreRead.value = modelo[contador].Saldo_total_credito;
-            MorRead.value = modelo[contador].Saldo_en_Mora;
-            DesRead.value = modelo[contador].Descuento;
-            PagRead.value = modelo[contador].Pago_con_descuento;
-            FacVRead.value = modelo[contador].Vencimiento_factura;
-        }
-        else {
-            swal.fire('Mensaje','No hay mas contatos cargados para este cliente','warning')
-        }
-    });
-
-    BackValue.addEventListener("click", function () {
-        //var NombRead = document.getElementById("floatNombre");
-
-        console.log("La cantidad de contratos es: ", NumContratos);
-        console.log(modelo[0]);
-
-
-        if (contador > 0) {
-
-            contador--;
-            console.log("contador:", contador);
-            console.log("Cantidad de Contratos", modelo[contador].Contrato);
-            console.log("Antiguedad", modelo[contador].Antiguedad);
-            console.log("Nombre", modelo[contador].Nombre);
-            IdeRead.value = modelo[contador].Id;
-            NombRead.value = modelo[contador].Nombre;
-            ContRead.value = modelo[contador].Contrato;
-            AntRead.value = modelo[contador].Antiguedad;
-            CanalRead.value = modelo[contador].Canal_de_venta;
-            ArtiRead.value = modelo[contador].Articulos;
-            CartRead.value = modelo[contador].Tipo_de_cartera;
-            AtrRead.value = modelo[contador].Dias_de_atraso;
-            FactRead.value = modelo[contador].Vencimiento_factura;
-            CreRead.value = modelo[contador].Saldo_total_credito;
-            MorRead.value = modelo[contador].Saldo_en_Mora;
-            DesRead.value = modelo[contador].Descuento;
-            PagRead.value = modelo[contador].Pago_con_descuento;
-            FacVRead.value = modelo[contador].Vencimiento_factura;
-        }
-        else {
-            swal.fire('Mensaje', 'Ya este en el primer contrato registrado', 'warning')
-        }
-
-    });
+    
 
 });
 

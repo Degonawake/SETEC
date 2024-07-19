@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SETEC.Data.Entities;
-using SETEC.Models;
+using SETEC.Models; 
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq.Expressions;
@@ -30,6 +30,8 @@ namespace SETEC.Controllers
         // GET: ActualController
         public async Task<ActionResult> Inforoute1(string search, string searchDate, string searchGestor)
         {
+
+
             Console.WriteLine($"Valor de Identidad: {search} Fecha: {searchDate} Gestor: {searchGestor}");
             var allactual = from ActualidadCliente in _context.ActualidadClientes select ActualidadCliente;
             var allactualDropDown = from ActualidadCliente in _context.ActualidadClientes select ActualidadCliente;
@@ -69,7 +71,7 @@ namespace SETEC.Controllers
 
         public IActionResult UploadActual()
         {
-            var modelo = new ActualidadCliente(); // Crea una instancia del modelo
+            var modelo = new ActualidadCliente(); 
             ViewBag.Gestores = _context.ActualidadClientes.Select(c => c.Gestor).Distinct().ToList().OrderBy(c => c);
             ViewBag.FechaAgenda = _context.ActualidadClientes.Select(c => c.Fecha_Agenda).Distinct().ToList().OrderBy(c => c);
             return View(modelo);

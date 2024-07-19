@@ -8,18 +8,41 @@
     <h1 style="color:darkslateblue;">Historico de Ingresos</h1>
 
 
-    <h5>Filtros de Consulta</h5>
-    <!-- Botón para mostrar/ocultar el formulario de filtros -->
-    <button id="toggleFilters" class="btn btn-secondary mb-3" onclick="ocultar()" style="display:inline">Ocultar</button>
 
+    <button id="toggleFilters" class="btn btn-primary btnB  tooltipC" onclick="ocultar()" style="display:inline">
+        <h3>
+            <i class="bi bi-funnel"></i>
+        </h3>
+        <span class="tooltiptext">Mostrar u ocultar filtro</span>
+    </button>
+    <a asp-action="Create" class="btn btn-outline-warning btnB tooltipC">
+        <h3>
+            <i class="bi bi-file-earmark-plus"></i>
+        </h3>
+        <span class="tooltiptext">Crear un nuevo registro</span>
+    </a>
+    <button id="exportToExcel" class="btn btn btn-success btnB tooltipC">
+        <h3>
+            <i class="bi bi-filetype-xls"></i>
+        </h3>
+        <span class="tooltiptext">Exportar a Excel</span>
+    </button>
     <div>
-        <div id="Filters" style="display: block;">
-            <form asp-action="Index" method="get" id="Filters">
+        <div id="Filters" class="bg-light" style="display: block; outline:thin; outline-color:gray;padding: 20px 20px 20px 20px; margin: 10px 10px 10px 0">
+            <form asp-action="Index" method="get" id="filtros">
                 <div class="form-group">
                     <label for="agencia">Agencia:</label>
-                    <select name="agencia" id="agencia" class="form-control">
-                        <option value="">-- Seleccionar Agencia --</option>
-                        @foreach (var item in ViewBag.Agencias) 
+                    <select name="agencia" id="agencia" class="form-control" onchange="getForm(event)">
+                        @if (ViewBag.Agencia is null)
+                        {
+                            <option value="">Seleccionar Agencia</option>
+                        }
+                        else
+                        {
+                            <option selected value=@ViewBag.Agencia>@ViewBag.Agencia</option>
+                            <option value="">***Quitar Filtros***</option>
+                        }
+                        @foreach (var item in ViewBag.Agencias)
                         {
 
                             <option value="@item.Text">
@@ -32,13 +55,13 @@
 
                 <div class="form-group">
                     <label for="nombre">Nombre del cliente:</label>
-                    <input type="text" name="nombre" id="nombre" class="form-control" value="@ViewBag.Nombre">
+                    <input type="text" name="nombre" id="nombre" class="form-control" value="@ViewBag.Nombre" onchange="getForm(event)">
                 </div>
 
 
                 <div class="form-group">
                     <label for="mesAnio">Mes y Año:</label>
-                    <select name="mesAnio" id="mesAnio" class="form-control">
+                    <select name="mesAnio" id="mesAnio" class="form-control" onchange="getForm(event)">
                         <option value="">-- Seleccionar Mes y Año --</option>
                         @foreach (var item in ViewBag.MesesAnios)
                         {
@@ -48,19 +71,15 @@
                         }
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <button type="submit" class="btn btn-primary btnB" style="margin:10px 0 0 0;"><i class="bi bi-search"></i></button>
             </form>
         </div>
 
 
-        <p>
-            <a asp-action="Create" class="btn btnB">Crear Nuevo Registro</a>
-
-        </p>
         <div class="table-container bg-white">
-            <table class="table table-bordered table-striped table">
-                <thead class="btnB">
-                    <tr class="text-center text-capitalize">
+            <table class="table table-bordered table-striped" id="Historico">
+                <thead>
+                    <tr class="btnB text-center text-capitalize">
                         <th>
                             Opciones
                         </th>
@@ -97,7 +116,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Saldo_mora)
                         </th>
-                        <th>
+                        <th class="align-content-end">
                             @Html.DisplayNameFor(model => model.Saldo_Total)
                         </th>
                         <th>
@@ -169,26 +188,21 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Saldo_mora)
                             </td>
-                            <td>
+                            <td class="text-end">
                                 @Html.DisplayFor(modelItem => item.Saldo_Total)
                             </td>
-                            <td>
+                            <td class="text-end">
                                 @Html.DisplayFor(modelItem => item.Descuento)
                             </td>
-                            <td>
+                            <td class="text-end">
                                 @Html.DisplayFor(modelItem => item.Monto_promesa)
                             </td>
                             <td>
-
                                 @Html.DisplayFor(modelItem => item.Fecha_Promesa)
                             </td>
                             <td>
-
                                 @Html.DisplayFor(modelItem => item.Fecha_Agenda)
                             </td>
-
-
-
                             <td>
                                 @Html.DisplayFor(modelItem => item.Latitud)
                             </td>
@@ -215,18 +229,63 @@
 @section scripts
     {
     <script>
-        function ocultar() { 
+        function ocultar() {
             var boton = document.getElementById("toggleFilters")
             var filterForm = document.getElementById("Filters");
             // Alterna la visibilidad del formulario de filtros
             if (filterForm.style.display === "none") {
                 filterForm.style.display = "block";
-                boton.innerText = "Ocultar";
-                
+
             } else {
                 filterForm.style.display = "none";
-                boton.innerText = "Mostrar";
             }
-        }                
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("exportToExcel").addEventListener("click", function () {
+                const table = document.getElementById("Historico");
+                const headers = Array.from(table.querySelectorAll("thead th")).map(th => '"' + th.textContent.trim() + '"');
+                const rows = table.querySelectorAll("tbody tr");
+                let csvContent = headers.join(",") + "\n";
+
+                rows.forEach((row) => {
+                    const rowData = [];
+                    row.querySelectorAll("td").forEach((cell) => {
+                        rowData.push('"' + cell.textContent.trim() + '"');
+                    });
+                    csvContent += rowData.join(",") + "\n";
+                });
+
+                console.log("Final CSV Content: ", csvContent);  // Log the final CSV content
+
+                // Create a Blob from the CSV content
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+                // Create a link to download the Blob
+                const link = document.createElement("a");
+                if (link.download !== undefined) {  // Feature detection
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", "historico.csv");
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            });
+        });
+
+
+
+        function getForm(e) {
+            e.preventDefault();
+            filtros.submit();
+
+        }
+
+
     </script>
+
+
     }
