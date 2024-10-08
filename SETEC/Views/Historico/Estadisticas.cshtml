@@ -3,6 +3,13 @@
 
 @{
     ViewData["Title"] = "Estadisticas";
+    string nombreMes = "";
+    if (ViewBag.mes != null && ViewBag.mes is int)
+    {
+        int mesNumero = (int)ViewBag.mes;
+        nombreMes = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(mesNumero);
+    }
+
 
     // Agrupar la cantidad de gestiones por día
     var cantidadGestionesPorDia = Model
@@ -36,7 +43,7 @@
     var jsonsumaGestionespordia = Newtonsoft.Json.JsonConvert.SerializeObject(sumaGestionespordia);
 
     // Convertir datos a formato JSON
-    
+
 }
 
 
@@ -49,21 +56,41 @@
     </div>
 
     <div class="container row">
-        @using (Html.BeginForm("Estadisticas", "Historico", FormMethod.Get))
+        @using (Html.BeginForm("Estadisticas", "Historico", FormMethod.Get, new { id = "filtros"}))
         {
             <div style="width:50%;">
-                <h6 class="text-white">Filtrar por Mes y Año</h6>
-                <select name="mes" class="select2 form-control">
-                    <option value="">Seleccionar Mes</option>
-                    @for (int i = 1; i <= 12; i++)
+                <h6 class="text-white">Filtrar por Mes y Año @nombreMes</h6>
+                <select name="mes" class="select2 form-control" onchange="getForm(event)">
+                   
+                    @if (ViewBag.mes is null)
                     {
-                        <option value="@i">@CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+                        <option value="">Seleccionar Mes</option>
                     }
-                </select>
+                    else
+                    {
+                        <option selected value=@nombreMes>@nombreMes</option>
+                        <option value="">***Quitar Filtros***</option>
+                    }
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i">@CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+                        }
+                  
+                    </select>
+                    
             </div>
             <div style="width:50%;">
-                <select name="año" class="select2 form-control">
-                    <option value="">Seleccionar Año</option>
+                <select name="año" class="select2 form-control" onchange="getForm(event)">
+                    @if (ViewBag.anio is null)
+                    {
+                        <option value="">Seleccionar Año</option>
+
+                    }
+                    else
+                    {
+                        <option selected value=@ViewBag.anio>@ViewBag.anio</option>
+                        <option value="">***Quitar Filtros***</option>
+                    }
                     @for (int i = DateTime.Now.Year; i >= 1900; i--)
                     {
                         <option value="@i">@i</option>
@@ -71,21 +98,24 @@
                 </select>
             </div>
 
-            <!-- Otros filtros si los tienes -->
 
-            <button class="btn btn-info" type="submit">Filtrar</button>
+
+            <button class="bi bi-search btn btn-primary" type="submit" style="margin: 20px 0 0 0;"> Filtrar</button>
         }
-    </div>
 
+    </div>
+    <br>
+    <br>
     <div class="row justify-content-center">
         <div class="col-6">
             <div class="text-center">
                 <h2 class="text-white">Cantidad de Gestiones por Día</h2>
-                <canvas id="barChart" width="400" height="200"></canvas>
+                <canvas id="barChart" width="800" height="400"></canvas>
             </div>
         </div>
     </div>
-
+    <br>
+    <br>
     <div class="row justify-content-center">
         <div class="col-6">
             <div class="text-center">
@@ -111,6 +141,14 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+
+
+
+
+
+
+
+
         // Datos para el gráfico de barras
         var jsonCantidadGestionesPorDia = @Html.Raw(jsonCantidadGestionesPorDia);
         var jsonsumaGestionespordia = @Html.Raw(jsonsumaGestionespordia);
@@ -210,5 +248,14 @@
                 }]
             }
         });
+
+        function getForm(e) {
+            e.preventDefault();
+            filtros.submit();
+
+        }
+
+
+
     </script>
 }

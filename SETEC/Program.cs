@@ -26,6 +26,10 @@ namespace SETEC
             builder.Services.AddDbContext<Appdbcontext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
 
+        
+           
+         
+
             //AppContext.SetSwitch("SQLServer.EnableLegacyTimestampBehavior", true);//para especificar que se utilizaran campos de fecha
 
             var cultureInfo = new CultureInfo("es-ES");

@@ -1,0 +1,395 @@
+﻿@model IEnumerable<SETEC.Data.Entities.Verificacion>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha_Creacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha_Verificacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empresa_Verificacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Identidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre_Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tienda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tel_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Colonia_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bloque_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Peatonal_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ZonaEtapa_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Calle_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ave_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sector_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Casa_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Planta1_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Planta2_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Edificio_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sucursal_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DireccionSucursal_Empresa_Labor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Local)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TiempoLocal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TiempoLocalActual)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TiempoLocalAnterior)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ColoniaLocalAnterior)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClienteEmpresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermisoOperacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FotografiaPermisoOperacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CotizaRap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CotizaIHSS)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CotizaINJUPEMP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FormadePago)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TamEmpresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RubroEmpresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IngresoMensual)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HorasExtras)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Promedio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaIngreso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Puesto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Depto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JefeInmediato)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HorarioTrabajo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelefonoCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelefonoRRHH)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonaConfirma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PuestoPersonaConfirma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoviemientoClientes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mobiliario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estacionamiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FotoEstacionamiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusConformacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RazonNoConfirmacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeSugiereNuevaVisita)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RazonNuevaVisita)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SePudoRealizar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RazonNoRealizacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dictamen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gestor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UbicacionGPS)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_Creacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_Verificacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Empresa_Verificacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Identidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre_Cliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tienda)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tel_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Colonia_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bloque_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Peatonal_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZonaEtapa_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Calle_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ave_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sector_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Casa_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Planta1_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Planta2_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Edificio_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sucursal_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DireccionSucursal_Empresa_Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Local)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TiempoLocal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TiempoLocalActual)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TiempoLocalAnterior)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ColoniaLocalAnterior)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClienteEmpresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermisoOperacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FotografiaPermisoOperacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CotizaRap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CotizaIHSS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CotizaINJUPEMP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FormadePago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TamEmpresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RubroEmpresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IngresoMensual)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HorasExtras)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Promedio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngreso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Puesto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Depto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JefeInmediato)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HorarioTrabajo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelefonoCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelefonoRRHH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonaConfirma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PuestoPersonaConfirma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoviemientoClientes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobiliario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estacionamiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FotoEstacionamiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusConformacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazonNoConfirmacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SeSugiereNuevaVisita)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazonNuevaVisita)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SePudoRealizar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazonNoRealizacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dictamen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gestor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UbicacionGPS)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

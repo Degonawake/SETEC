@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SETEC.Data.Entities;
 
@@ -11,9 +12,11 @@ using SETEC.Data.Entities;
 namespace SETEC.Migrations
 {
     [DbContext(typeof(Appdbcontext))]
-    partial class AppdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20240716023442_inisecond")]
+    partial class inisecond
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -278,214 +281,6 @@ namespace SETEC.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("SETEC.Data.Entities.Verificacion", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<string>("Archivo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ave_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Bloque_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Calle_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Casa_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClienteEmpresa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ColoniaLocalAnterior")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Colonia_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Color_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Comentario")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("CotizaIHSS")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("CotizaINJUPEMP")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("CotizaRap")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Depto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Dictamen")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DireccionSucursal_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Edificio_Empresa_Labor")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Empresa_Verificacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Estacionamiento")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("FechaIngreso")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Fecha_Creacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Fecha_Verificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FormadePago")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FotoEstacionamiento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FotografiaPermisoOperacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gestor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HorarioTrabajo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("HorasExtras")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Identidad")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("IngresoMensual")
-                        .HasColumnType("float");
-
-                    b.Property<string>("JefeInmediato")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Local")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Mobiliario")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MoviemientoClientes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre_Cliente")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Peatonal_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("PermisoOperacion")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PersonaConfirma")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Planta1_Empresa_Labor")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("Planta2_Empresa_Labor")
-                        .HasColumnType("bit");
-
-                    b.Property<double?>("Promedio")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Puesto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PuestoPersonaConfirma")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RazonNoConfirmacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RazonNoRealizacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RazonNuevaVisita")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RubroEmpresa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("SePudoRealizar")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("SeSugiereNuevaVisita")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Sector_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StatusConformacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Sucursal_Empresa_Labor")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("TamEmpresa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tel_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TelefonoCliente")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TelefonoRRHH")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TiempoLocal")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TiempoLocalActual")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TiempoLocalAnterior")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tienda")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UbicacionGPS")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Usuario")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ZonaEtapa_Empresa_Labor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Verificacion");
                 });
 #pragma warning restore 612, 618
         }

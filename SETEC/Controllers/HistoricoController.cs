@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SETEC.Data.Entities;
+using System.IO;
+
+
+
+
 
 namespace SETEC.Controllers
 {
@@ -29,17 +35,36 @@ namespace SETEC.Controllers
             Console.WriteLine(agencia);
             Console.WriteLine(nombre);
             Console.WriteLine(mesAnio);
-            
+
+
+            IQueryable<Data.Entities.HistoricoClientesContrato> historicoClientesContratoQuery;
+
+            if (User.IsInRole("AGENTE"))
+            {
+                historicoClientesContratoQuery = _context.HistoricoClientes
+                    .Where(c => c.Agente == User.Identity.Name);
+            }
+            else
+            {
+                historicoClientesContratoQuery = _context.HistoricoClientes;
+            }
+
+
+
+
+
             // Filtro por agencia
             if (!string.IsNullOrEmpty(agencia))
             {
-                query = query.Where(h => h.Agencia.Contains(agencia));
+                historicoClientesContratoQuery = historicoClientesContratoQuery.Where(h => h.Agencia.Contains(agencia));
+                ViewBag.Agencia = agencia;
             }
 
             // Filtro por nombre
             if (!string.IsNullOrEmpty(nombre))
             {
-                query = query.Where(h => h.Nombre.Contains(nombre));
+                historicoClientesContratoQuery = historicoClientesContratoQuery.Where(h => h.Nombre.Contains(nombre));
+                ViewBag.Nombre = nombre;
             }
 
             // Filtro por mes y año combinados
@@ -49,7 +74,8 @@ namespace SETEC.Controllers
                 int mes = int.Parse(split[0]);
                 int anio = int.Parse(split[1]);
 
-                query = query.Where(h => h.Fechagestion.Month == mes && h.Fechagestion.Year == anio);
+                historicoClientesContratoQuery = historicoClientesContratoQuery.Where(h => h.Fechagestion.Month == mes && h.Fechagestion.Year == anio);
+                ViewBag.MesAnio = mesAnio;
             }
 
             // Obtener la lista de agencias distintas de la base de datos
@@ -75,10 +101,12 @@ namespace SETEC.Controllers
             ViewBag.MesesAnios = new SelectList(mesesAnios, "Value", "Text");
 
             // Obtener los datos filtrados
-            var historicoClientes = await query.ToListAsync();
+            var historicoClientes = await historicoClientesContratoQuery.ToListAsync();
+            
+            
 
-        
-            return View(historicoClientes);
+
+            return View(historicoClientes.OrderByDescending(c=> c.Fechagestion).Take(1000));
         }
 
 
@@ -101,26 +129,43 @@ namespace SETEC.Controllers
         }
 
 
+
         public async Task<IActionResult> Estadisticas(int? mes, int? año, string nombre)
         {
-            IQueryable<HistoricoClientesContrato> query = _context.HistoricoClientes;
+
+
+
+            IQueryable<Data.Entities.HistoricoClientesContrato> historicoClientesContratoQuery;
+
+            if (User.IsInRole("AGENTE"))
+            {
+                historicoClientesContratoQuery = _context.HistoricoClientes
+                    .Where(c => c.Agente == User.Identity.Name);
+            }
+            else
+            {
+                historicoClientesContratoQuery = _context.HistoricoClientes;
+            }
 
             if (mes.HasValue)
             {
-                query = query.Where(h => h.Fechagestion.Month == mes);
+                historicoClientesContratoQuery = historicoClientesContratoQuery.Where(h => h.Fechagestion.Month == mes);
+                ViewBag.mes = mes;
             }
 
             if (año.HasValue)
             {
-                query = query.Where(h => h.Fechagestion.Year == año);
+                historicoClientesContratoQuery = historicoClientesContratoQuery.Where(h => h.Fechagestion.Year == año);
+                ViewBag.anio = año;
             }
 
             if (!string.IsNullOrEmpty(nombre))
             {
-                query = query.Where(h => h.Nombre.Contains(nombre));
+                historicoClientesContratoQuery = historicoClientesContratoQuery.Where(h => h.Nombre.Contains(nombre));
+                ViewBag.nombre = nombre;
             }
 
-            var historicoClientes = await query.ToListAsync();
+            var historicoClientes = await historicoClientesContratoQuery.ToListAsync();
 
             // Obtener la cantidad de gestiones por día
             var cantidadGestionesPorDia = historicoClientes
@@ -238,7 +283,7 @@ namespace SETEC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Fechagestion,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Comentario,Fecha_Promesa")] HistoricoClientesContrato historicoClientesContrato)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Fechagestion,Tipo_Ingreso,Identidad,Nombre,Contrato,Codigo_Gestion,Desc_gestion,Monto_promesa,Saldo_mora,Saldo_Total,Descuento,Gestor,Agente,Agencia,Fecha_Promesa,Fecha_NuevaVisita,Comentario,Latitud,Fecha_Agenda")] HistoricoClientesContrato historicoClientesContrato)
         {
             if (id != historicoClientesContrato.Id)
             {

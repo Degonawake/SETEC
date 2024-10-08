@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
-using SQLitePCL;
-using SETEC.Data.Entities;
-using Npgsql;
-
-namespace SETEC.Controllers
+﻿namespace SETEC.Controllers
 {
-	public class AccesoController : Controller
+    using System.Security.Claims;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Mvc;
+    using SETEC.Data.Entities;
+
+    public class AccesoController : Controller
 	{
 		private readonly Appdbcontext _context;
 

@@ -1,0 +1,457 @@
+﻿@model IEnumerable<SETEC.Data.Entities.Verificacion>
+@inject IJsonHelper Json;
+@using Newtonsoft.Json;
+
+@{
+    var numcontratos = 0;
+    numcontratos = Model.Count();
+
+}
+<head>
+
+    <script>
+        var contador = 0;
+        var NumContratos = @numcontratos;
+        var modelo = @Html.Raw(JsonConvert.SerializeObject(Model));
+        var modeloGestion = @Html.Raw(JsonConvert.SerializeObject(Model));
+
+        console.log(modelo)
+
+    </script>
+
+
+</head>
+<div id="loadingOverlay">
+    <div class="loader"></div>
+</div>
+<p><br /></p>
+<div class="col-md-6 offset-md-3 bg-white rounded-3" style="padding: 0 10px 0 10px;">
+    <div class=" text-center text-light rounded btnB">
+        <a href="@Url.Action("GeneratePdf", "Verificacion", new { id = Model.First().id })" class="btn btn-success">
+        Generar PDF
+    </a>
+        <h1>
+            VISITAS DE VERIFICACIÓN
+        </h1>
+    </div>
+    <form asp-controller="Verificacion" asp-action="InfoVerificacion" method="get" class="form-floating" id="form" name="form">
+        <div style="padding: 20px 0 20px 0;">
+            <label class="text-primary text fw-bold">GESTOR DE VERIFICACIONES</label>
+            <select class="form-control" id="searchGestor" name="searchGestor" onchange="getForm(event)">
+                @if (Model.GroupBy(a => a.Gestor).Count() > 1)
+                {
+                    <option value="" selected>SELECCIONE GESTOR DE VERIFICACION</option>
+                }
+                @foreach (var item in Model.GroupBy(a => a.Gestor))
+                {
+                    <option value="@item.Key">@item.Key</option>
+
+                }
+                @if (Model.GroupBy(a => a.Gestor).Count() == 1)
+                {
+                    <option value="">SELECCIONAR TODOS</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label class="text-primary text fw-bold">CLIENTE A VERIFICAR</label>
+            <select class="form-control" id="search" name="search" onchange="getForm(event)">
+                @if (Model.GroupBy(a => a.Identidad, b => b.Nombre_Cliente).Count() > 1)
+                {
+                    <option value="" selected>SELECCIONE CLIENTE A VERIFICAR</option>
+                }
+                @foreach (var item in Model.GroupBy(a => a.Identidad, b => b.Nombre_Cliente))
+                {
+                    <option value="@item.Key">@item.Key - @item.First()</option>
+
+                }
+                @if (Model.GroupBy(a => a.Identidad).Count() == 1)
+                {
+                    <option value="">SELECCIONAR TODOS</option>
+                }
+            </select>
+        </div>
+        <br>
+        <p class="">CANTIDAD DE VERIFICACIONES PENDIENTES @numcontratos</p>
+        <div class="form-floating">
+            <input id="floatid" value="@Model.First().id" class="form-control form-floating" readonly />
+            <label for="floatFecha_Verificacion" class="text-primary text fw-bold">FECHA PLANEADA DE VERIFICACION:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatFechac" value="@Model.First().Fecha_Creacion" class="form-control form-floating" readonly />
+            <label for="Fecha_Creacion" class="text-primary text fw-bold">FECHA DE CREACION:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatFechav" value="@Model.First().Fecha_Verificacion" class="form-control form-floating" readonly />
+            <label for="floatFecha_Verificacion" class="text-primary text fw-bold">FECHA PLANEADA DE VERIFICACION:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatStatus" value="@Model.First().Status" class="form-control form-floating" readonly />
+            <label for="floatStatus" class="text-primary text fw-bold">ESTADO DE LA VERIFICACION:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatIdentidad" value="@Model.First().Identidad" class="form-control form-floating" readonly />
+            <label for="floatIdentidad" class="text-primary text fw-bold">IDENTIDAD DEL CLIENTE:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatNombre" value="@Model.First().Nombre_Cliente" class="form-control form-floating" readonly />
+            <label for="floatNombre" class="text-primary text fw-bold">NOMBRE DEL CLIENTE:</label>
+        </div>
+
+        <div class="form-floating">
+            <input id="floatGestor" value="@Model.First().Gestor" class="form-control form-floating" readonly />
+            <label for="floatGestor" class="text-primary text fw-bold">GESTOR:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatTienda" value="@Model.First().Tienda" class="form-control form-floating" readonly />
+            <label for="floatTienda" class="text-primary text fw-bold">TIENDA QUE LA SOLICITA:</label>
+        </div>
+
+        <div class="form-floating">
+            <textarea id="floatComentario" value="@Model.First().Comentario" class="form-control form-floating" rows="20" readonly></textarea>
+            <label for="floatComentario" class="text-primary text fw-bold">COMENTARIO DE PARA VERIFICACION:</label>
+        </div>
+    </form>
+    <br>
+    <h6 class="text-white text-center btnB">
+        DATOS DE LA EMPRESA EN LA QUE EL CLIENTE LABORA:
+    </h6>
+    <br>
+
+
+    <form asp-controller="Verificacion" asp-action="Verificacionupdate" method="post" class="form-floating" id="formPost" name="formPost">
+        <div class="form-floating">
+            <input id="id" name="id" value="@Model.First().id" readonly class="form-control form-floating" />
+            <label for="id" class="text-primary text fw-bold">ID:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatFecha_Creacion" value="@Model.First().Fecha_Creacion" readonly name="Fecha_Creacion" class="form-control form-floating" />
+            <label for="floatFecha_Creacion" class="text-primary text fw-bold">Fecha de Creación:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatFecha_Verificacion" value="@Model.First().Fecha_Verificacion" readonly name="Fecha_Verificacion" class="form-control form-floating" />
+            <label for="floatFecha_Verificacion" class="text-primary text fw-bold">Fecha de Verificación:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatEmpresa_Verificacion" value="@Model.First().Empresa_Verificacion" readonly name="Empresa_Verificacion" class="form-control form-floating" />
+            <label for="floatEmpresa_Verificacion" class="text-primary text fw-bold">Empresa de Verificación:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatIdentidad" value="@Model.First().Identidad" name="Identidad" readonly class="form-control form-floating" />
+            <label for="floatIdentidad" class="text-primary text fw-bold">Identidad:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatNombre_Cliente" value="@Model.First().Nombre_Cliente" name="Nombre_Cliente" readonly class="form-control form-floating" />
+            <label for="floatNombre_Cliente" class="text-primary text fw-bold">Nombre del Cliente:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatTienda" value="@Model.First().Tienda" name="Tienda" readonly class="form-control form-floating" />
+            <label for="floatTienda" class="text-primary text fw-bold">Tienda:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatGestor" value="@Model.First().Gestor" name="Gestor" readonly class="form-control form-floating" />
+            <label for="floatGestor" class="text-primary text fw-bold">Gestor:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatStatus" value="@Model.First().Status" name="Status" readonly class="form-control form-floating" />
+            <label for="floatStatus" class="text-primary text fw-bold">Status:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatTel_Empresa_Labor" name="Tel_Empresa_Labor" class="form-control form-floating" />
+            <label for="floatTel_Empresa_Labor" class="text-primary text fw-bold">Teléfono de la Empresa donde Labora:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatEmpresa_Labor" name="Empresa_Labor" class="form-control form-floating" />
+            <label for="floatEmpresa_Labor" class="text-primary text fw-bold">Nombre de la Empresa:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatColonia_Empresa_Labor" name="Colonia_Empresa_Labor" class="form-control form-floating" />
+            <label for="floatColonia_Empresa_Labor" class="text-primary text fw-bold">Colonia/Barrio de la Empresa:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatCalle_Empresa_Labor" name="Calle_Empresa_Labor" class="form-control form-floating" />
+            <label for="floatCalle_Empresa_Labor" class="text-primary text fw-bold">Calle de la Empresa:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatAve_Empresa_Labor" name="Ave_Empresa_Labor" class="form-control form-floating" />
+            <label for="floatAve_Empresa_Labor" class="text-primary text fw-bold">Avenida de la Empresa:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatBloque_Empresa_Labor" name="Bloque_Empresa_Labor" class="form-control form-floating" />
+            <label for="floatBloque_Empresa_Labor" class="text-primary text fw-bold">Bloque de la Empresa:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatPeatonal_Empresa_Labor" name="Peatonal_Empresa_Labor" class="form-control form-floating" />
+            <label for="floatPeatonal_Empresa_Labor" class="text-primary text fw-bold">Peatonal de la Empresa:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatZonaEtapa_Empresa_Labor" name="ZonaEtapa_Empresa_Labor" class="form-control form-floating" />
+            <label for="floatZonaEtapa_Empresa_Labor" class="text-primary text fw-bold">Zona/Etapa de la Empresa:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatSector_Empresa_Labor" name="Sector_Empresa_Labor" class="form-control form-floating" />
+            <label for="floatSector_Empresa_Labor" class="text-primary text fw-bold">Sector de la Empresa:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatCasa_Empresa_Labor" name="Casa_Empresa_Labor" class="form-control form-floating" />
+            <label for="floatCasa_Empresa_Labor" class="text-primary text fw-bold">Casa de la Empresa:</label>
+        </div>
+        <div>
+            <h6 class="text-white text-center bg-secondary">
+                Seleccione el tipo de edificio:
+            </h6>
+        </div>
+        <div style="display:flex;padding: 5px 0 5px 0">
+            <div style="width:50%;align-content:center;">
+                <label style="padding: 0 0 0 30px;" class="text-primary">1 Planta:</label>
+                <input type="radio" value="True" id="planta1"  onclick="verificaRadio1()" name="Planta1_Empresa_Labor" />
+            </div>
+            <div style="width:50%; align-content:center;">
+                <label style="padding: 0 0 0 30px;" class="text-primary">2 Plantas:</label>
+                <input type="radio" value="True" id="planta2"  onclick="verificaRadio2()" name="Planta2_Empresa_Labor" />
+            </div>
+        </div>
+        <div>
+            <h6 class="text-white text-center bg-secondary">
+                Seleccione a quienes cotiza:
+            </h6>
+        </div>
+        <div style="display:flex; padding: 30px 0 30px 0">
+            <div style="width:33%;align-content:center;">
+                <label style="padding: 0 0 0 30px;" class="text-primary">Cotiza IHSS:</label>
+                <input type="checkbox" id="floatCotizaIHSS" value="true" name="CotizaIHSS" />
+            </div>
+            <div style="width:33%; align-content:center;">
+                <label style="padding: 0 0 0 30px;" class="text-primary">Cotiza IMJUPEMP:</label>
+                <input type="checkbox" id="floatCotizaINJUPEMP" value="true" name="CotizaINJUPEMP" />
+            </div>
+            <div style="width:33%; align-content:center;">
+                <label style="padding: 0 0 0 30px;" class="text-primary">Cotiza RAP:</label>
+                <input type="checkbox" id="floatCotizaRap" value="true" name="CotizaRap" />
+            </div>
+        </div>
+        <div class="form-floating">
+            <input id="floatFormadePago" name="FormadePago" class="form-control form-floating" />
+            <label for="floatFormadePago" class="text-primary text fw-bold">Forma de Pago:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatTamEmpresa" name="TamEmpresa" class="form-control form-floating" />
+            <label for="floatTamEmpresa" class="text-primary text fw-bold">Tamaño de la Empresa:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatRubroEmpresa" name="RubroEmpresa" class="form-control form-floating" />
+            <label for="floatRubroEmpresa" class="text-primary text fw-bold">Rubro de la Empresa:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatIngresoMensual" name="IngresoMensual" type="number" step="0.01" class="form-control form-floating" />
+            <label for="floatIngresoMensual" class="text-primary text fw-bold">Ingreso Mensual:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatHorasExtras" name="HorasExtras" type="checkbox" class="form-check-input" />
+            <label for="floatHorasExtras" class="text-primary text fw-bold">Horas Extras:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatPromedio" name="Promedio" type="number" step="0.01" class="form-control form-floating" />
+            <label for="floatPromedio" class="text-primary text fw-bold">Promedio:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatFechaIngreso" name="FechaIngreso" type="date" class="form-control form-floating" />
+            <label for="floatFechaIngreso" class="text-primary text fw-bold">Fecha de Ingreso:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatPuesto" name="Puesto" class="form-control form-floating" />
+            <label for="floatPuesto" class="text-primary text fw-bold">Puesto:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatDepto" name="Depto" class="form-control form-floating" />
+            <label for="floatDepto" class="text-primary text fw-bold">Departamento:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatJefeInmediato" name="JefeInmediato" class="form-control form-floating" />
+            <label for="floatJefeInmediato" class="text-primary text fw-bold">Jefe Inmediato:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatHorarioTrabajo" name="HorarioTrabajo" class="form-control form-floating" />
+            <label for="floatHorarioTrabajo" class="text-primary text fw-bold">Horario de Trabajo:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatTelefonoCliente" name="TelefonoCliente" class="form-control form-floating" />
+            <label for="floatTelefonoCliente" class="text-primary text fw-bold">Teléfono del Cliente:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatTelefonoRRHH" name="TelefonoRRHH" class="form-control form-floating" />
+            <label for="floatTelefonoRRHH" class="text-primary text fw-bold">Teléfono RRHH:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatPersonaConfirma" name="PersonaConfirma" class="form-control form-floating" />
+            <label for="floatPersonaConfirma" class="text-primary text fw-bold">Persona que Confirma:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatPuestoPersonaConfirma" name="PuestoPersonaConfirma" class="form-control form-floating" />
+            <label for="floatPuestoPersonaConfirma" class="text-primary text fw-bold">Puesto de la Persona que Confirma:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatMoviemientoClientes" name="MoviemientoClientes" class="form-control form-floating" />
+            <label for="floatMoviemientoClientes" class="text-primary text fw-bold">Movimiento de Clientes:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatMobiliario" name="Mobiliario" class="form-control form-floating" />
+            <label for="floatMobiliario" class="text-primary text fw-bold">Mobiliario:</label>
+        </div>
+        <div class="form-floating">
+            <label value="checked" class="text-primary text fw-bold">Estacionamiento:</label>
+            <input id="floatEstacionamiento" name="Estacionamiento" type="checkbox" class="form-check-input" />
+           
+        </div>
+        <div class="form-floating">
+            <input id="floatFotoEstacionamiento" name="FotoEstacionamiento" class="form-control form-floating" />
+            <label for="floatFotoEstacionamiento" class="text-primary text fw-bold">Foto del Estacionamiento:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatStatusConformacion" name="StatusConformacion" class="form-control form-floating" />
+            <label for="floatStatusConformacion" class="text-primary text fw-bold">Status de Confirmación:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatRazonNoConfirmacion" name="RazonNoConfirmacion" class="form-control form-floating" />
+            <label for="floatRazonNoConfirmacion" class="text-primary text fw-bold">Razón de No Confirmación:</label>
+        </div>
+        <br>
+        <div>
+            <label value="checked" class="text-primary fw-bold" style="font-size:small; padding: 0 0 0 10px">Se Sugiere Nueva Visita:</label>
+            <input id="floatSeSugiereNuevaVisita" name="SeSugiereNuevaVisita" type="checkbox" class="form-check-input" /> 
+        </div>
+        <br>
+        <div class="form-floating">
+            <input id="floatRazonNuevaVisita" name="RazonNuevaVisita" class="form-control form-floating" />
+            <label for="floatRazonNuevaVisita" class="text-primary text fw-bold">Razón de Nueva Visita:</label>
+        </div>
+        <br>
+        <div >
+            <label value="checked" class="text-primary fw-bold" style="font-size:small; padding: 0 0 0 10px">Se pudo realizar la visita?</label>
+            <input id="floatSePudoRealizar" name="SePudoRealizar" type="checkbox" class="form-check-input" />
+        </div>
+        <br>
+        <div class="form-floating">
+            <input id="floatRazonNoRealizacion" name="RazonNoRealizacion" class="form-control form-floating" />
+            <label for="floatRazonNoRealizacion" class="text-primary text fw-bold">Razón de No Realización:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatDictamen" name="Dictamen" class="form-control form-floating" />
+            <label for="floatDictamen" class="text-primary text fw-bold">Dictamen:</label>
+        </div>
+
+        <div class="form-floating">
+            <input id="floatUbicacionGPS" name="UbicacionGPS" class="form-control form-floating" />
+            <label for="floatUbicacionGPS" class="text-primary text fw-bold">Ubicación GPS:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatStatus" name="Status" class="form-control form-floating" />
+            <label for="floatStatus" class="text-primary text fw-bold">Status:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatComentario" name="Comentario" class="form-control form-floating" />
+            <label for="floatComentario" class="text-primary text fw-bold">Comentario:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatUsuario" name="Usuario" class="form-control form-floating" />
+            <label for="floatUsuario" class="text-primary text fw-bold">Usuario:</label>
+        </div>
+        <div class="form-floating">
+            <input id="floatArchivo" name="file" class="form-control form-floating" />
+            <label for="floatArchivo" class="text-primary text fw-bold">Archivo:</label>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Grabar Cambios" class="btn btn-primary form-control btnB" />
+        </div>
+    </form>
+    </div>
+
+
+
+    @section scripts
+        {
+
+        <script>
+
+            function getForm(e) {
+                e.preventDefault();
+                form.submit();
+
+            }
+
+            function verificaRadio1() 
+            {
+                console.log("Entro a la funcion verificaRadio1");
+                var radio1 = document.getElementById("planta1");
+                var radio2 = document.getElementById("planta2");
+                radio1.checked=true;
+                radio2.checked=false;
+            }
+
+
+            function verificaRadio2() 
+            {
+                    console.log("Entro a la funcion verificaRadio2");
+                var radio1 = document.getElementById("planta1");
+                var radio2 = document.getElementById("planta2");
+                   radio1.checked=false;
+                    radio2.checked=true;
+            }
+            @*
+        document.addEventListener('DOMContentLoaded', function () {
+            // Transferir valor del campo floatid al campo id
+            var sourceValueId = document.getElementById('floatid').value;
+            document.getElementById('id').value = sourceValueId;
+
+            // Transferir valor del campo floatStatus al campo Status
+            var sourceValueStatus = document.getElementById('floatStatus').value;
+            document.getElementById('floatStatus').value = sourceValueStatus;
+
+            // Transferir valor del campo floatIdentidad al campo Identidad
+            var sourceValueIdentidad = document.getElementById('floatIdentidad').value;
+            document.getElementById('floatIdentidad').value = sourceValueIdentidad;
+
+            // Transferir valor del campo floatNombre al campo Nombre_Cliente
+            var sourceValueNombre = document.getElementById('floatNombre').value;
+            document.getElementById('floatNombre_Cliente').value = sourceValueNombre;
+
+            // Transferir valor del campo floatGestor al campo Gestor
+            var sourceValueGestor = document.getElementById('floatGestor').value;
+            document.getElementById('floatGestor').value = sourceValueGestor;
+
+            // Transferir valor del campo floatTienda al campo Tienda
+            var sourceValueTienda = document.getElementById('floatTienda').value;
+            document.getElementById('floatTienda').value = sourceValueTienda;
+
+            // Transferir valor del campo floatComentario al campo Comentario
+            var sourceValueComentario = document.getElementById('floatComentario').value;
+            document.getElementById('floatComentario').value = sourceValueComentario;
+
+
+            var fechaAgendaFormato = (document.getElementById("floatFechac").textContent).trim();
+
+            function convertirFormato(fechaAgendaFormato) {
+
+                var partesFecha = fechaAgendaFormato.split(" ");
+                var partesFechaNumerica = partesFecha[0].split("/");
+                var partesHora = partesFecha[1].split(":");
+                var fecha = new Date(
+                    parseInt(partesFechaNumerica[2]),
+                    parseInt(partesFechaNumerica[1]) - 1,
+                    parseInt(partesFechaNumerica[0])
+
+                );
+                var fechaFormateada = fecha.toISOString().slice(0, 10) + " 00:00:00"
+
+                return fechaFormateada;
+            }
+            var fechaEnFormato = convertirFormato(fechaAgendaFormato);
+            document.getElementById("floatFecha_Creacion").value = fechaEnFormato;
+        });*@
+        </script>
+
+    }
+
+
+
+

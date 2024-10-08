@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SETEC.Data.Entities;
 
@@ -11,9 +12,11 @@ using SETEC.Data.Entities;
 namespace SETEC.Migrations
 {
     [DbContext(typeof(Appdbcontext))]
-    partial class AppdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20240716044914_secondini")]
+    partial class secondini
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,9 +291,6 @@ namespace SETEC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Archivo")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Ave_Empresa_Labor")
                         .HasColumnType("nvarchar(max)");
 
@@ -315,16 +315,13 @@ namespace SETEC.Migrations
                     b.Property<string>("Color_Empresa_Labor")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Comentario")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("CotizaIHSS")
+                    b.Property<bool>("CotizaIHSS")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("CotizaINJUPEMP")
+                    b.Property<bool>("CotizaINJUPEMP")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("CotizaRap")
+                    b.Property<bool>("CotizaRap")
                         .HasColumnType("bit");
 
                     b.Property<string>("Depto")
@@ -336,7 +333,7 @@ namespace SETEC.Migrations
                     b.Property<string>("DireccionSucursal_Empresa_Labor")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Edificio_Empresa_Labor")
+                    b.Property<bool>("Edificio_Empresa_Labor")
                         .HasColumnType("bit");
 
                     b.Property<string>("Empresa_Labor")
@@ -345,10 +342,10 @@ namespace SETEC.Migrations
                     b.Property<string>("Empresa_Verificacion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Estacionamiento")
+                    b.Property<bool>("Estacionamiento")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("FechaIngreso")
+                    b.Property<DateTime>("FechaIngreso")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Fecha_Creacion")
@@ -372,13 +369,13 @@ namespace SETEC.Migrations
                     b.Property<string>("HorarioTrabajo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("HorasExtras")
+                    b.Property<bool>("HorasExtras")
                         .HasColumnType("bit");
 
                     b.Property<string>("Identidad")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("IngresoMensual")
+                    b.Property<double>("IngresoMensual")
                         .HasColumnType("float");
 
                     b.Property<string>("JefeInmediato")
@@ -399,19 +396,19 @@ namespace SETEC.Migrations
                     b.Property<string>("Peatonal_Empresa_Labor")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("PermisoOperacion")
+                    b.Property<bool>("PermisoOperacion")
                         .HasColumnType("bit");
 
                     b.Property<string>("PersonaConfirma")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Planta1_Empresa_Labor")
+                    b.Property<bool>("Planta1_Empresa_Labor")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("Planta2_Empresa_Labor")
+                    b.Property<bool>("Planta2_Empresa_Labor")
                         .HasColumnType("bit");
 
-                    b.Property<double?>("Promedio")
+                    b.Property<double>("Promedio")
                         .HasColumnType("float");
 
                     b.Property<string>("Puesto")
@@ -432,22 +429,19 @@ namespace SETEC.Migrations
                     b.Property<string>("RubroEmpresa")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("SePudoRealizar")
+                    b.Property<bool>("SePudoRealizar")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("SeSugiereNuevaVisita")
+                    b.Property<bool>("SeSugiereNuevaVisita")
                         .HasColumnType("bit");
 
                     b.Property<string>("Sector_Empresa_Labor")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("StatusConformacion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Sucursal_Empresa_Labor")
+                    b.Property<bool>("Sucursal_Empresa_Labor")
                         .HasColumnType("bit");
 
                     b.Property<string>("TamEmpresa")
@@ -475,9 +469,6 @@ namespace SETEC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UbicacionGPS")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Usuario")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ZonaEtapa_Empresa_Labor")

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -26,36 +27,51 @@ namespace SETEC.Controllers
 
         public async Task<IActionResult> Index(string searchString, string searchStringAgente, string searchDateString)
         {
-            // Inicializar la consulta para obtener todos los clientes
-            var clientes = _context.ActualidadClientes.AsQueryable();
+            var usuario = ViewBag.User;
+            Console.WriteLine("Identity.Name"+ User.Identity.Name);
+           
+            IQueryable<Data.Entities.ActualidadCliente> actualidadClienteQuery;
 
-            // Filtrar por searchString
+            if (User.IsInRole("AGENTE") || User.IsInRole("GESTOR") || User.IsInRole("SUPERVISOR AGENCIA") )
+            {
+                actualidadClienteQuery = _context.ActualidadClientes
+                    .Where(c => c.Agente == User.Identity.Name || c.Gestor == User.Identity.Name);
+
+             
+
+            }
+            else
+            {
+                actualidadClienteQuery = _context.ActualidadClientes;
+            }
+
+            // Aplicar filtros de búsqueda si se han proporcionado
             if (!string.IsNullOrEmpty(searchString))
             {
-                clientes = clientes.Where(c => c.Nombre.Contains(searchString));
-                ViewBag.SearchString = searchString;
+                actualidadClienteQuery = actualidadClienteQuery.Where(c => c.Nombre.Contains(searchString));
             }
 
-            // Filtrar por searchStringAgente (gestor) si se proporciona
             if (!string.IsNullOrEmpty(searchStringAgente))
             {
-                clientes = clientes.Where(c => c.Gestor == searchStringAgente);
-                ViewBag.SearchStringAgente = searchStringAgente;
+                actualidadClienteQuery = actualidadClienteQuery.Where(c => c.Agente.Contains(searchStringAgente));
             }
 
-            // Filtrar por searchDateString
-            if (DateTime.TryParse(searchDateString, out DateTime searchDate))
+            if (!string.IsNullOrEmpty(searchDateString) && searchDateString != "0")
             {
-                clientes = clientes.Where(c => c.Fecha_Agenda.Date == searchDate.Date);
-                ViewBag.SearchDateString = searchDateString;
+                actualidadClienteQuery = actualidadClienteQuery.Where(c => c.Fecha_Agenda == DateTime.Parse(searchDateString));
             }
 
-            // Limitar los resultados a los primeros 1000 registros
-            clientes = clientes.Take(1000);
+            ViewBag.SearchString = searchString;
+            ViewBag.SearchStringAgente = searchStringAgente;
+            ViewBag.SearchDateString = searchDateString;
 
-            // Retornar la vista con los resultados filtrados y limitados
-            return View(await clientes.ToListAsync());
+            actualidadClienteQuery = actualidadClienteQuery.OrderByDescending(c => c.Fecha_Agenda);
+            var model = await actualidadClienteQuery.ToListAsync();
+
+            return View(model.Take(600));
         }
+
+
 
 
         // GET: AgendaClientes/Details/5
@@ -137,7 +153,7 @@ namespace SETEC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,Gestor,Identidad,Nombre,Numero_telefono,Contrato,Antiguedad,Canal_de_venta,Articulos,Tipo_de_cartera,Dias_de_atraso,Monto_mensual_Factura,Saldo_total_credito,Saldo_en_Mora,Descuento,Pago_con_descuento,Vencimiento_factura")] ActualidadCliente actualidadCliente)
+        public async Task<IActionResult> Edit(int id, [Bind("id,Gestor,Identidad,Nombre,Numero_telefono,Contrato,Antiguedad,Canal_de_venta,Articulos,Tipo_de_cartera,Dias_de_atraso,Monto_mensual_Factura,Saldo_total_credito,Saldo_en_Mora,Descuento,Pago_con_descuento,Vencimiento_factura,Agente")] ActualidadCliente actualidadCliente)
         {
             if (id != actualidadCliente.id)
             {
